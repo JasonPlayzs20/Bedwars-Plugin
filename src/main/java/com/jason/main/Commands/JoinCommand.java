@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Spider;
 
 
+
 import java.util.Objects;
 
 import static com.jason.main.bedwars.getData;
@@ -33,10 +34,13 @@ public class JoinCommand implements CommandExecutor {
             Bukkit.createWorld(new WorldCreator("Playground"));
 
 
-            int yLevel = Integer.parseInt(getData("plugins/BedwarsInfo", args[0] + ".yml", "lobbySpawn/y"));
-            player.teleport(new Location(tpWorld, 0, yLevel + 1, 0));
+
+
+            int yLevel = Integer.parseInt(getData("plugins/BedwarsInfo",args[0]+".yml", "lobbySpawn/y"));
+            player.teleport(new Location(tpWorld, 0, yLevel+1, 0));
             return false;
-        } else {
+        }
+        else {
             player.sendMessage("Airshow \n" +
                     "apollo \n" +
                     "ashfire \n" +
