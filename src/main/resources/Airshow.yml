@@ -1,0 +1,217 @@
+lobbySpawn:
+  x: 0
+  y: 120
+  z: 0
+
+diamonds:
+  gen1:
+    x: 0
+    y: 0
+    z: 0
+  gen2:
+    x: 0
+    y: 0
+    z: 0
+  gen3:
+    x: 0
+    y: 0
+    z: 0
+  gen4:
+    x: 0
+    y: 0
+    z: 0
+
+emeralds:
+  gen1:
+    x: 0
+    y: 0
+    z: 0
+  gen2:
+    x: 0
+    y: 0
+    z: 0
+  gen3:
+    x: 0
+    y: 0
+    z: 0
+  gen4:
+    x: 0
+    y: 0
+    z: 0
+
+
+red:
+  bed: 1
+  spawn:
+    x: -40
+    y: 64
+    z: -83
+  gen:
+    x: -40
+    y: 62
+    z: -87
+    speed: 4
+  shop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0
+  diamondShop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0
+
+gray:
+  bed: 1
+  spawn:
+    x: -83
+    y: 64
+    z: -40
+  gen:
+    x: -87
+    y: 62
+    z: -40
+    speed: 4
+  shop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0
+  diamondShop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0
+
+pink:
+  bed: 1
+  spawn:
+    x: -83
+    y: 68
+    z: 40
+  gen:
+    x: -87
+    y: 66
+    z: 40
+    speed: 4
+  shop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0
+  diamondShop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0
+
+white:
+  bed: 1
+  spawn:
+    x: -40
+    y: 68
+    z: 83
+  gen:
+    x: -87
+    y: 66
+    z: 40
+    speed: 4
+  shop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0
+  diamondShop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0
+
+aqua:
+  bed: 1
+  spawn:
+    x: 40
+    y: 64
+    z: 83
+  gen:
+    x: -40
+    y: 62
+    z: -87
+    speed: 4
+  shop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0
+  diamondShop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0
+
+yellow:
+  bed: 1
+  spawn:
+    x: 83
+    y: 64
+    z: 40
+  gen:
+    x: -40
+    y: 62
+    z: -87
+    speed: 4
+  shop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0
+  diamondShop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0
+
+green:
+  bed: 1
+  spawn:
+    x: 83
+    y: 68
+    z: -40
+  gen:
+    x: -40
+    y: 62
+    z: -87
+    speed: 4
+  shop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0
+  diamondShop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0
+
+blue:
+  bed: 1
+  spawn:
+    x: 40
+    y: 68
+    z: -83
+  gen:
+    x: -40
+    y: 62
+    z: -87
+    speed: 4
+  shop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0
+  diamondShop:
+    x: 0
+    y: 0
+    z: 0
+    free: 0

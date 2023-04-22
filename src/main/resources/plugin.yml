@@ -1,0 +1,6 @@
+name: Bedwars
+version: '${project.version}'
+main: com.jason.main.bedwars
+commands:
+  join:
+    description: a
