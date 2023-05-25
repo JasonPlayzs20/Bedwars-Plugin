@@ -17,9 +17,9 @@ public class addGen implements CommandExecutor {
 
         String color = args[0];
 
-        bedwars.setData("plugins/BedwarsInfo", world + ".yml", color + "/gen/x", String.valueOf(playerLocation.getX()));
-        bedwars.setData("plugins/BedwarsInfo", world + ".yml", color + "/gen/y", String.valueOf(playerLocation.getY()));
-        bedwars.setData("plugins/BedwarsInfo", world + ".yml", color + "/gen/z", String.valueOf(playerLocation.getZ()));
+        bedwars.setData("plugins/BedwarsInfo", world + ".yml", color + ".gen.x", String.valueOf(playerLocation.getX()));
+        bedwars.setData("plugins/BedwarsInfo", world + ".yml", color + ".gen.y", String.valueOf(playerLocation.getY()));
+        bedwars.setData("plugins/BedwarsInfo", world + ".yml", color + ".gen.z", String.valueOf(playerLocation.getZ()));
 
         return false;
     }

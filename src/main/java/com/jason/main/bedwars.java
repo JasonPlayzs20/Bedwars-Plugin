@@ -17,16 +17,16 @@ public final class bedwars extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
+        System.out.println(getData("plugins/BedwarsInfo", "Airshow.yml", "red.spawn.x"));
         mainInstance = this;
 
         // Plugin startup logic
         this.getCommand("join").setExecutor(new JoinCommand());
         this.getCommand("addGen").setExecutor(new addGen());
         this.getCommand("addShop").setExecutor(new addShop());
-        this.getCommand("addShopDiamon").setExecutor(new addShopDiamond());
+        this.getCommand("addShopDiamond").setExecutor(new addShopDiamond());
         this.getCommand("addSpawnColor").setExecutor(new addSpawnColor());
-        this.getCommand("addSpawnTotoal").setExecutor(new addSpawnTotal());
+        this.getCommand("addSpawnTotal").setExecutor(new addSpawnTotal());
         this.getCommand("addDiamondGen").setExecutor(new addDiamondGen());
         this.getCommand("addEmeraldGen").setExecutor(new addEmeraldGen());
         this.getCommand("start").setExecutor(new startCommand());
@@ -49,7 +49,11 @@ public final class bedwars extends JavaPlugin {
             System.out.println("FILE NOT FOUND");
         }
         YamlConfiguration modifyFile = YamlConfiguration.loadConfiguration(file);
-        return modifyFile.get(path).toString();
+        try {
+            return modifyFile.get(path).toString();
+        }catch (NullPointerException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void setData(String dataFolder, String fileName, String path, String value) {

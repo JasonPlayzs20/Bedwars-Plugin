@@ -36,7 +36,7 @@ public class JoinCommand implements CommandExecutor {
 
 
 
-            int yLevel = Integer.parseInt(getData("plugins/BedwarsInfo",args[0]+".yml", "lobbySpawn/y"));
+            int yLevel = Integer.parseInt(getData("plugins/BedwarsInfo",args[0]+".yml", "lobbySpawn.y"));
             player.teleport(new Location(tpWorld, 0, yLevel+1, 0));
             return false;
         }

@@ -17,9 +17,9 @@ public class addSpawnTotal implements CommandExecutor {
         World world = player.getWorld();
         String color = args[0];
 
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", "lobbySpawn/x",String.valueOf(playerLocation.getX()));
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", "lobbySpawn/y",String.valueOf(playerLocation.getY()));
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", "lobbySpawn/z",String.valueOf(playerLocation.getZ()));
+        setData("plugins/BedwarsInfo", world.getName() + ".yml", "lobbySpawn.x",String.valueOf(playerLocation.getX()));
+        setData("plugins/BedwarsInfo", world.getName() + ".yml", "lobbySpawn.y",String.valueOf(playerLocation.getY()));
+        setData("plugins/BedwarsInfo", world.getName() + ".yml", "lobbySpawn.z",String.valueOf(playerLocation.getZ()));
         return false;
     }
 }
