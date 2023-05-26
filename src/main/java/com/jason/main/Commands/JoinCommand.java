@@ -1,9 +1,6 @@
 package com.jason.main.Commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,8 +33,16 @@ public class JoinCommand implements CommandExecutor {
 
 
 
+
             int yLevel = Integer.parseInt(getData("plugins/BedwarsInfo",args[0]+".yml", "lobbySpawn.y"));
             player.teleport(new Location(tpWorld, 0, yLevel+1, 0));
+            tpWorld.setAutoSave(false);
+            tpWorld.setMonsterSpawnLimit(1);
+            tpWorld.setDifficulty(Difficulty.EASY);
+            tpWorld.setAnimalSpawnLimit(0);
+            tpWorld.setAmbientSpawnLimit(0);
+            tpWorld.setPVP(true);
+
             return false;
         }
         else {
