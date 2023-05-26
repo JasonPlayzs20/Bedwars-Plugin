@@ -9,6 +9,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+
 import java.io.File;
 import java.io.IOException;
 
@@ -17,6 +18,7 @@ public final class bedwars extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
         System.out.println(getData("plugins/BedwarsInfo", "Airshow.yml", "red.spawn.x"));
         mainInstance = this;
 
