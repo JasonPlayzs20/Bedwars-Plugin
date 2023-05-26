@@ -2,9 +2,13 @@ package com.jason.main;
 
 
 import org.bukkit.entity.Player;
+import com.jason.main.Emums.BedwarsModes;
+
+import static com.jason.main.Emums.BedwarsModes.*;
 
 public class BedwarsMatch {
-    private final int mode = 1;
+    private BedwarsModes mode = SOLO;
+
     public void start(Player player) {
         player.sendMessage("Bedwars game started");
         generatorStart(player);
@@ -40,6 +44,14 @@ public class BedwarsMatch {
 
     public void generatorStop(Player player) {
         player.sendMessage("Generator stopped");
+    }
+
+    public void setMode(BedwarsModes bedwarsModes) {
+        mode = bedwarsModes;
+    }
+
+    public BedwarsModes getMode() {
+        return mode;
     }
 
 }
