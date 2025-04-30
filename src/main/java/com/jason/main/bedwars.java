@@ -5,17 +5,16 @@ import com.jason.main.Commands.JoinCommand;
 import com.jason.main.Commands.addCommands.Bases.*;
 import com.jason.main.Commands.addCommands.Others.addDiamondGen;
 import com.jason.main.Commands.addCommands.Others.addEmeraldGen;
-import com.jason.main.Emums.sample;
 import com.jason.main.Commands.startCommand;
 import com.jason.main.Listeners.BlockSelection;
 import org.bukkit.Bukkit;
+import org.bukkit.WorldCreator;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 public final class bedwars extends JavaPlugin {
@@ -50,6 +49,20 @@ public final class bedwars extends JavaPlugin {
         Bukkit.getPlayer("IamSorry_").sendMessage(getDataFolder().getParentFile().getAbsolutePath());
         System.out.println(getDataFolder().getParentFile().getAbsolutePath());
 
+
+        Bukkit.createWorld(new WorldCreator("Airshow"));
+        Bukkit.createWorld(new WorldCreator("Ashfire"));
+        Bukkit.createWorld(new WorldCreator("Babylon"));
+        Bukkit.createWorld(new WorldCreator("Cascade"));
+        Bukkit.createWorld(new WorldCreator("Dragonstar"));
+        Bukkit.createWorld(new WorldCreator("Gateway"));
+        Bukkit.createWorld(new WorldCreator("Hollow"));
+        Bukkit.createWorld(new WorldCreator("Lighthouse"));
+        Bukkit.createWorld(new WorldCreator("Orchestra"));
+        Bukkit.createWorld(new WorldCreator("Playground"));
+        Bukkit.createWorld(new WorldCreator("Fang"));
+
+
     }
 
 
@@ -65,19 +78,18 @@ public final class bedwars extends JavaPlugin {
         if (!file.exists()) {
             System.out.println("FILE NOT FOUND");
             try {
+                System.out.println("Creating a new file");
                 file.createNewFile();
 //                FileWriter writer = new FileWriter(file.getName());
 //                writer.write(sample.sample.toString()   );
-            }catch (IOException e) {
+            }catch (IOException ignored) {
 
             }
         }
         YamlConfiguration modifyFile = YamlConfiguration.loadConfiguration(file);
-        try {
-            return modifyFile.get(path).toString();
-        }catch (NullPointerException e) {
-            throw new RuntimeException(e);
-        }
+
+        return modifyFile.get(path).toString();
+
     }
 
     public static void setData(String dataFolder, String fileName, String path, double value) {

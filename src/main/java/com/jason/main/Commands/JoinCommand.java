@@ -26,16 +26,6 @@ public class JoinCommand implements CommandExecutor {
         }
         if (Objects.equals(args[0], "world")) {player.teleport(new Location(Bukkit.getWorld("world"), 0,100,0));}
         else if (!Objects.equals(args[0], "0")) {
-            Bukkit.createWorld(new WorldCreator("Airshow"));
-            Bukkit.createWorld(new WorldCreator("Ashfire"));
-            Bukkit.createWorld(new WorldCreator("Babylon"));
-            Bukkit.createWorld(new WorldCreator("Cascade"));
-            Bukkit.createWorld(new WorldCreator("Dragonstar"));
-            Bukkit.createWorld(new WorldCreator("Gateway"));
-            Bukkit.createWorld(new WorldCreator("Hollow"));
-            Bukkit.createWorld(new WorldCreator("Lighthouse"));
-            Bukkit.createWorld(new WorldCreator("Orchestra"));
-            Bukkit.createWorld(new WorldCreator("Playground"));
 
 
 
