@@ -17,9 +17,11 @@ public class addShop implements CommandExecutor {
         World world = player.getWorld();
         String color = args[0];
 
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", color + ".shop.x", String.valueOf(playerLocation.getX()));
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", color + ".shop.y", String.valueOf(playerLocation.getY()));
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", color + ".shop.z", String.valueOf(playerLocation.getZ()));
+        player.sendMessage("Added shop for team " + color + " at " + playerLocation.toVector().toString());
+
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", color + ".shop.x", playerLocation.getX());
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", color + ".shop.y", playerLocation.getY());
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", color + ".shop.z", playerLocation.getZ());
         return false;
     }
 }

@@ -18,9 +18,12 @@ public class addDiamondGen implements CommandExecutor {
         Location playerLocation = player.getLocation();
         World world = player.getWorld();
         String genNum = args[0];
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", "diamonds.gen" + genNum + "x", String.valueOf(playerLocation.getX()));
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", "diamonds.gen" + genNum + "y", String.valueOf(playerLocation.getY()));
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", "diamonds.gen" + genNum + "z", String.valueOf(playerLocation.getZ()));
+
+        player.sendMessage("Added diamond generator at " + playerLocation.toVector().toString());
+
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", "diamonds.gen" + genNum + ".x", playerLocation.getX());
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", "diamonds.gen" + genNum + ".y", playerLocation.getY()+1);
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", "diamonds.gen" + genNum + ".z", playerLocation.getZ());
         return false;
     }
 }

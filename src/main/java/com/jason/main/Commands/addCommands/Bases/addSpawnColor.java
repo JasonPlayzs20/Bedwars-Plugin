@@ -17,9 +17,11 @@ public class addSpawnColor implements CommandExecutor {
         World world = player.getWorld();
         String color = args[0];
 
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", color + ".spawn.x", String.valueOf(playerLocation.getX()));
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", color + ".spawn.y", String.valueOf(playerLocation.getY()));
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", color + ".spawn.z", String.valueOf(playerLocation.getZ()));
+        player.sendMessage("Added spawn for team " + color + " at " + playerLocation.toVector().toString());
+
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", color + ".spawn.x", playerLocation.getX());
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", color + ".spawn.y", playerLocation.getY() + 1);
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", color + ".spawn.z", playerLocation.getZ());
         return false;
     }
 }

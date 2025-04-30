@@ -17,9 +17,11 @@ public class addShopDiamond implements CommandExecutor {
         World world = player.getWorld();
         String color = args[0];
 
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", color + ".diamondShop.x", String.valueOf(playerLocation.getX()));
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", color + ".diamondShop.y", String.valueOf(playerLocation.getY()));
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", color + ".diamondShop.z", String.valueOf(playerLocation.getZ()));
+        player.sendMessage("Added diamond shop for team " + color + " at " + playerLocation.toVector().toString());
+
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", color + ".diamondShop.x", playerLocation.getX());
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", color + ".diamondShop.y", playerLocation.getY());
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", color + ".diamondShop.z", playerLocation.getZ());
         return false;
     }
 }

@@ -12,3 +12,5 @@ commands:
   addDiamondGen:
   addEmeraldGen:
   start:
+  addArea:
+  end:

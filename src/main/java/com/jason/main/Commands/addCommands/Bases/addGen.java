@@ -13,13 +13,15 @@ public class addGen implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
         Location playerLocation = player.getLocation();
-        World world = player.getWorld();
+        String world = player.getWorld().getName();
 
         String color = args[0];
 
-        bedwars.setData("plugins/BedwarsInfo", world + ".yml", color + ".gen.x", String.valueOf(playerLocation.getX()));
-        bedwars.setData("plugins/BedwarsInfo", world + ".yml", color + ".gen.y", String.valueOf(playerLocation.getY()));
-        bedwars.setData("plugins/BedwarsInfo", world + ".yml", color + ".gen.z", String.valueOf(playerLocation.getZ()));
+        player.sendMessage("Added generator for team " + color + " at " + playerLocation.toVector().toString());
+
+        bedwars.setData("plugins/BedwarsInfo", world.substring(1) + ".yml", color + ".gen.x", playerLocation.getX());
+        bedwars.setData("plugins/BedwarsInfo", world.substring(1) + ".yml", color + ".gen.y", playerLocation.getY() + 1);
+        bedwars.setData("plugins/BedwarsInfo", world.substring(1) + ".yml", color + ".gen.z", playerLocation.getZ());
 
         return false;
     }

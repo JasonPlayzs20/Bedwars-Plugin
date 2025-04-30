@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static com.jason.main.bedwars.setData;
+import static com.jason.main.bedwars.*;
 
 public class addSpawnTotal implements CommandExecutor {
     @Override
@@ -15,11 +15,12 @@ public class addSpawnTotal implements CommandExecutor {
         Player player = (Player) sender;
         Location playerLocation = player.getLocation();
         World world = player.getWorld();
-        String color = args[0];
 
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", "lobbySpawn.x",String.valueOf(playerLocation.getX()));
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", "lobbySpawn.y",String.valueOf(playerLocation.getY()));
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", "lobbySpawn.z",String.valueOf(playerLocation.getZ()));
+        player.sendMessage("Added total spawn at " + playerLocation.toVector().toString());
+
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", "lobbySpawn.x", playerLocation.getX());
+        setDataINT("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", "lobbySpawn.y", playerLocation.getBlockY() + 1);
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", "lobbySpawn.z", playerLocation.getZ());
         return false;
     }
 }

@@ -16,9 +16,12 @@ public class addEmeraldGen implements CommandExecutor {
         Location playerLocation = player.getLocation();
         World world = player.getWorld();
         String genNum = args[0];
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", "emeralds.gen" + genNum + "x", String.valueOf(playerLocation.getX()));
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", "emeralds.gen" + genNum + "y", String.valueOf(playerLocation.getY()));
-        setData("plugins/BedwarsInfo", world.getName() + ".yml", "emeralds.gen" + genNum + "z", String.valueOf(playerLocation.getZ()));
+
+        player.sendMessage("Added emerald generator at " + playerLocation.toVector().toString());
+
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", "emeralds.gen" + genNum + ".x", playerLocation.getX());
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", "emeralds.gen" + genNum + ".y", playerLocation.getY()+1);
+        setData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", "emeralds.gen" + genNum + ".z", playerLocation.getZ());
         return false;
     }
 }
