@@ -21,7 +21,7 @@ public class JoinCommand implements CommandExecutor {
         Player player = (Player) sender;
         player.sendMessage("yes");
         if (Objects.equals(args[0], "a")) {
-            player.teleport(new Location(Bukkit.getWorld("airshow"),0,100,0));
+            player.teleport(new Location(Bukkit.getWorld("fang"),0,100,0));
             return true;
         }
         if (Objects.equals(args[0], "world")) {player.teleport(new Location(Bukkit.getWorld("world"), 0,100,0));}

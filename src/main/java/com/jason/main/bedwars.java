@@ -5,6 +5,7 @@ import com.jason.main.Commands.JoinCommand;
 import com.jason.main.Commands.addCommands.Bases.*;
 import com.jason.main.Commands.addCommands.Others.addDiamondGen;
 import com.jason.main.Commands.addCommands.Others.addEmeraldGen;
+import com.jason.main.Commands.addCommands.ScanCommand;
 import com.jason.main.Commands.startCommand;
 import com.jason.main.Listeners.BlockSelection;
 import org.bukkit.Bukkit;
@@ -44,6 +45,7 @@ public final class bedwars extends JavaPlugin {
         this.getCommand("addArea").setExecutor(new BlockSelection(mainInstance));
         this.getCommand("start").setExecutor(new startCommand());
         this.getCommand("end").setExecutor(new EndCommand());
+        this.getCommand("scan").setExecutor(new ScanCommand());
 
         Bukkit.getPluginManager().registerEvents(new BlockSelection(mainInstance), this);
         Bukkit.getPlayer("IamSorry_").sendMessage(getDataFolder().getParentFile().getAbsolutePath());
@@ -99,7 +101,7 @@ public final class bedwars extends JavaPlugin {
             try {
                 file.createNewFile();
                 YamlConfiguration modifyFilein = YamlConfiguration.loadConfiguration(file);
-                modifyFilein.load("airshow.yml");
+                modifyFilein.load(fileName);
                 modifyFilein.save(dataFolder);
             } catch (IOException e) {
                 throw new RuntimeException(e);

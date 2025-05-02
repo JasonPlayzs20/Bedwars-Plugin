@@ -26,7 +26,7 @@ public class BlockSelection implements Listener, CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = ((Player) sender).getPlayer();
-            String worldName = player.getWorld().getName().substring(1);
+            String worldName = player.getWorld().getName();
             String locationName = args[0];
 
             setData("plugins/BedwarsInfo", worldName + ".yml", "blockBreakLimit." + locationName + ".x1", loc1.getX());
