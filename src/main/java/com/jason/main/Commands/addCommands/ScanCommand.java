@@ -65,8 +65,6 @@ public class ScanCommand implements CommandExecutor {
                         getSign(locations,player,world);
                     }
                 });
-
-
             }
         });
 
@@ -74,12 +72,16 @@ public class ScanCommand implements CommandExecutor {
 
     public void getSign(List<Location> locations, Player player, World world) {
         player.sendMessage("Done");
-        player.sendMessage(locations.toString());
+//        player.sendMessage(locations.toString());
         for (Location loc : locations) {
             Sign sign = (Sign) loc.getBlock().getState();
             String data = sign.getLine(0);
-            player.sendMessage(data);
-            setData("plugins/BedwarsInfo", "fang.yml","lobbySpawn.h",6);
+            player.sendMessage("test: ");
+            if (getData("plugins/BedwarsInfo", world.getName() + ".yml","test.x") == null) {
+                player.sendMessage("null");
+            }
+            player.sendMessage(getData("plugins/BedwarsInfo", world.getName() + ".yml","test.x"));
+            setData("plugins/BedwarsInfo", world.getName() + ".yml", data.charAt(1) + "." + ".speed", 1);
             setData("plugins/BedwarsInfo", world.getName() + ".yml", data.charAt(1) + "." + data.charAt(0) + ".x", sign.getX());
             setData("plugins/BedwarsInfo", world.getName() + ".yml", data.charAt(1) + "." + data.charAt(0) + ".y", sign.getY());
             setData("plugins/BedwarsInfo", world.getName() + ".yml", data.charAt(1) + "." + data.charAt(0) + ".z", sign.getZ());

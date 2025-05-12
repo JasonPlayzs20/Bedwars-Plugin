@@ -6,6 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Spider;
+import org.bukkit.util.Vector;
 
 
 import java.io.IOException;
@@ -21,10 +22,15 @@ public class JoinCommand implements CommandExecutor {
         Player player = (Player) sender;
         player.sendMessage("yes");
         if (Objects.equals(args[0], "a")) {
-            player.teleport(new Location(Bukkit.getWorld("fang"),0,100,0));
+            Location tpLoc = new Location(Bukkit.getWorld("fang"),0,100,0,3,0);
+            Vector vector = player.getEyeLocation().getDirection().setY(90);
+            tpLoc.setDirection(vector);
+
+            player.teleport(tpLoc);
+            player.getEyeLocation().setYaw((float)90);
             return true;
         }
-        if (Objects.equals(args[0], "world")) {player.teleport(new Location(Bukkit.getWorld("world"), 0,100,0));}
+        if (Objects.equals(args[0], "world")) {player.teleport(new Location(Bukkit.getWorld("world"), -41,73,0));}
         else if (!Objects.equals(args[0], "0")) {
 
 

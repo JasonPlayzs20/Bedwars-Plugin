@@ -89,8 +89,11 @@ public final class bedwars extends JavaPlugin {
             }
         }
         YamlConfiguration modifyFile = YamlConfiguration.loadConfiguration(file);
-
-        return modifyFile.get(path).toString();
+        String ans = null;
+        if (modifyFile.contains(path)) {
+            ans = modifyFile.getString(path);
+        }
+        return ans;
 
     }
 
