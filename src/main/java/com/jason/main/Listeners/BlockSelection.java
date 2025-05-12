@@ -74,7 +74,8 @@ public class BlockSelection implements Listener, CommandExecutor {
                             player.getWorld().spigot().playEffect(new Location(player.getWorld(), x, y, z), Effect.MOBSPAWNER_FLAMES, 1, 3, 0, 0, 0, 0, 1, 500);
 //                            player.sendMessage("yesed");
                         }
-                    },0, 5);
+                    },
+                            0, 5);
 
             }
         }

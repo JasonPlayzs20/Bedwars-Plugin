@@ -2,6 +2,7 @@ package com.jason.main;
 
 import com.jason.main.Commands.EndCommand;
 import com.jason.main.Commands.JoinCommand;
+import com.jason.main.Commands.LobbyJerry;
 import com.jason.main.Commands.addCommands.Bases.*;
 import com.jason.main.Commands.addCommands.Others.addDiamondGen;
 import com.jason.main.Commands.addCommands.Others.addEmeraldGen;
@@ -32,6 +33,8 @@ public final class bedwars extends JavaPlugin {
         setData("plugins/BedwarsInfo", "Airshow.yml", "red.spawn.x", -40);
         System.out.println(getData("plugins/BedwarsInfo", "Airshow.yml", "red.spawn.x"));
         mainInstance = this;
+//        LobbyJerry.registerInventory(this.getServer());
+
 
         // Plugin startup logic
         this.getCommand("join").setExecutor(new JoinCommand());
@@ -46,10 +49,12 @@ public final class bedwars extends JavaPlugin {
         this.getCommand("start").setExecutor(new startCommand());
         this.getCommand("end").setExecutor(new EndCommand());
         this.getCommand("scan").setExecutor(new ScanCommand());
+        this.getCommand("jerry").setExecutor(new LobbyJerry());
 
         Bukkit.getPluginManager().registerEvents(new BlockSelection(mainInstance), this);
         Bukkit.getPlayer("IamSorry_").sendMessage(getDataFolder().getParentFile().getAbsolutePath());
         System.out.println(getDataFolder().getParentFile().getAbsolutePath());
+        Bukkit.getPluginManager().registerEvents(new LobbyJerry(), this);
 
 
         Bukkit.createWorld(new WorldCreator("Airshow"));
