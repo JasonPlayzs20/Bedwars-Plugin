@@ -15,6 +15,7 @@ commands:
   addArea:
   end:
   scan:
+  npc:
   jerry:
   leave:
   l:
