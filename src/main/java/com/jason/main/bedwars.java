@@ -2,14 +2,15 @@ package com.jason.main;
 
 import com.jason.main.Commands.EndCommand;
 import com.jason.main.Commands.JoinCommand;
+import com.jason.main.Commands.NpcCommand;
 import com.jason.main.Commands.addCommands.Bases.*;
 import com.jason.main.Commands.addCommands.Others.addDiamondGen;
 import com.jason.main.Commands.addCommands.Others.addEmeraldGen;
 import com.jason.main.Commands.addCommands.ScanCommand;
 import com.jason.main.Commands.startCommand;
 import com.jason.main.Listeners.BlockSelection;
+import com.jason.main.invmenu.InventoryClickListener;
 import org.bukkit.Bukkit;
-import org.bukkit.WorldCreator;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -46,23 +47,25 @@ public final class bedwars extends JavaPlugin {
         this.getCommand("start").setExecutor(new startCommand());
         this.getCommand("end").setExecutor(new EndCommand());
         this.getCommand("scan").setExecutor(new ScanCommand());
+        this.getCommand("npc").setExecutor(new NpcCommand());
 
         Bukkit.getPluginManager().registerEvents(new BlockSelection(mainInstance), this);
-        Bukkit.getPlayer("IamSorry_").sendMessage(getDataFolder().getParentFile().getAbsolutePath());
-        System.out.println(getDataFolder().getParentFile().getAbsolutePath());
+        Bukkit.getPluginManager().registerEvents(new InventoryClickListener(), this);
+//        Bukkit.getPlayer("IamSorry_").sendMessage(getDataFolder().getParentFile().getAbsolutePath());
+//        System.out.println(getDataFolder().getParentFile().getAbsolutePath());
 
 
-        Bukkit.createWorld(new WorldCreator("Airshow"));
-        Bukkit.createWorld(new WorldCreator("Ashfire"));
-        Bukkit.createWorld(new WorldCreator("Babylon"));
-        Bukkit.createWorld(new WorldCreator("Cascade"));
-        Bukkit.createWorld(new WorldCreator("Dragonstar"));
-        Bukkit.createWorld(new WorldCreator("Gateway"));
-        Bukkit.createWorld(new WorldCreator("Hollow"));
-        Bukkit.createWorld(new WorldCreator("Lighthouse"));
-        Bukkit.createWorld(new WorldCreator("Orchestra"));
-        Bukkit.createWorld(new WorldCreator("Playground"));
-        Bukkit.createWorld(new WorldCreator("Fang"));
+//        Bukkit.createWorld(new WorldCreator("Airshow"));
+//        Bukkit.createWorld(new WorldCreator("Ashfire"));
+//        Bukkit.createWorld(new WorldCreator("Babylon"));
+//        Bukkit.createWorld(new WorldCreator("Cascade"));
+//        Bukkit.createWorld(new WorldCreator("Dragonstar"));
+//        Bukkit.createWorld(new WorldCreator("Gateway"));
+//        Bukkit.createWorld(new WorldCreator("Hollow"));
+//        Bukkit.createWorld(new WorldCreator("Lighthouse"));
+//        Bukkit.createWorld(new WorldCreator("Orchestra"));
+//        Bukkit.createWorld(new WorldCreator("Playground"));
+//        Bukkit.createWorld(new WorldCreator("Fang"));
 
 
     }
