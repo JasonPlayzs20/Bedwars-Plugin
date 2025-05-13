@@ -1,13 +1,10 @@
 package com.jason.main;
 
-import com.jason.main.Commands.EndCommand;
-import com.jason.main.Commands.JoinCommand;
-import com.jason.main.Commands.LobbyJerry;
+import com.jason.main.Commands.*;
 import com.jason.main.Commands.addCommands.Bases.*;
 import com.jason.main.Commands.addCommands.Others.addDiamondGen;
 import com.jason.main.Commands.addCommands.Others.addEmeraldGen;
 import com.jason.main.Commands.addCommands.ScanCommand;
-import com.jason.main.Commands.startCommand;
 import com.jason.main.Listeners.BlockSelection;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
@@ -50,6 +47,7 @@ public final class bedwars extends JavaPlugin {
         this.getCommand("end").setExecutor(new EndCommand());
         this.getCommand("scan").setExecutor(new ScanCommand());
         this.getCommand("jerry").setExecutor(new LobbyJerry());
+        this.getCommand("l").setExecutor(new LeaveCommand());
 
         Bukkit.getPluginManager().registerEvents(new BlockSelection(mainInstance), this);
         Bukkit.getPlayer("IamSorry_").sendMessage(getDataFolder().getParentFile().getAbsolutePath());

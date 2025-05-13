@@ -36,7 +36,8 @@ public class EndCommand implements CommandExecutor {
         if (Files.exists(Paths.get(path + args[0]))) {
             Bukkit.getServer().unloadWorld("." + args[0], false);
             player.sendMessage("Unloaded");
-            FileUtils.deleteDirectory(Paths.get("/Users/jason/Desktop/coding_stuffes/spigot_servers/SpigotServer1.8/." + args[0]).toFile());
+            deleteDirectory(Paths.get("/Users/jason/Desktop/coding_stuffes/spigot_servers/SpigotServer1.8/." + args[0]).toFile());
+//            FileUtils.deleteDirectory(Paths.get("/Users/jason/Desktop/coding_stuffes/spigot_servers/SpigotServer1.8/." + args[0]).toFile());
             player.sendMessage("Deleted");
 
         } else {
@@ -45,4 +46,18 @@ public class EndCommand implements CommandExecutor {
         }
         return false;
     }
+    static public boolean deleteDirectory(File path) {
+        if (path.exists()) {
+            File[] files = path.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].isDirectory()) {
+                    deleteDirectory(files[i]);
+                } else {
+                    files[i].delete();
+                }
+            }
+        }
+        return (path.delete());
+    }
+
 }

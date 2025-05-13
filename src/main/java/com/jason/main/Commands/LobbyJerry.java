@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -29,12 +30,12 @@ public class LobbyJerry implements CommandExecutor, Listener {
     public static Inventory jerry = createInventory(null,54,"Worlds");
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (Objects.equals(args[0], "a")) {
-            Player player = (Player) sender;
-            player.sendMessage("opened inv");
-            player.openInventory(jerry);
-            return true;
-        }
+//        if (Objects.equals(args[0], "a")) {
+//            Player player = (Player) sender;
+//            player.sendMessage("opened inv");
+//            player.openInventory(jerry);
+//            return true;
+//        }
         if (sender instanceof Player) {
             Player player = (Player) sender;
             player.sendMessage("yo");
@@ -59,15 +60,19 @@ public class LobbyJerry implements CommandExecutor, Listener {
         jerry.clear();
         List<World> loadedWorlds = server.getWorlds();
         for (World world : loadedWorlds) {
-            ItemStack itemStack = new ItemStack(Material.FIREWORK_CHARGE);
-            ItemMeta itemMeta = itemStack.getItemMeta();
-            itemMeta.setDisplayName(world.getName());
-            itemStack.setItemMeta(itemMeta);
-            jerry.addItem(itemStack);
+            if (world.getName().contains("world")) {continue;}
+            else if (world.getName().contains(".")) {continue;}
+            else {
+                ItemStack itemStack = new ItemStack(Material.FIREWORK_CHARGE);
+                ItemMeta itemMeta = itemStack.getItemMeta();
+                itemMeta.setDisplayName(world.getName());
+                itemStack.setItemMeta(itemMeta);
+                jerry.addItem(itemStack);
+            }
         }
-        Player player = server.getPlayer("IamSorry_");
-        player.sendMessage("loaded");
-        player.sendMessage(String.valueOf(jerry));
+//        Player player = server.getPlayer("IamSorry_");
+//        player.sendMessage("loaded");
+//        player.sendMessage(String.valueOf(jerry));
     }
 
 
@@ -81,20 +86,29 @@ public class LobbyJerry implements CommandExecutor, Listener {
                 villager.setHealth(2048);
                 Player player = e.getPlayer();
                 registerInventory(player.getServer());
+                player.sendMessage("registered");
                 e.setCancelled(true);
                 Bukkit.getScheduler().runTaskLater(bedwars.getMainInstance(), new Runnable() {
                     @Override
                     public void run() {
                         player.closeInventory();
-                        player.sendMessage("jerry");
+//                        player.sendMessage("jerry");
 //                player.closeInventory();
                         player.openInventory(jerry);
-                        player.sendMessage("Loaded inv");
+//                        player.sendMessage("Loaded inv");
                     }
                 },1);
 
             }
         }
 
+    }
+    @EventHandler
+    public void onInteract(InventoryClickEvent e) {
+        if (e.getInventory().getName().equals("Worlds")) {
+            e.setCancelled(true);
+
+            JoinCommand.joinWorld((Player) e.getWhoClicked(), e.getInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+        }
     }
 }
