@@ -18,6 +18,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Objects;
 
 import static com.jason.main.bedwars.getData;
+import static com.jason.main.bedwars.serverpath;
 
 public class JoinCommand implements CommandExecutor {
     @Override
@@ -132,8 +133,8 @@ public class JoinCommand implements CommandExecutor {
         if (Bukkit.getWorld(nameWorld) == null) {
             player.sendMessage("kirk");
         }
-        Path sourceFolderPath = Paths.get("/Users/jason/Desktop/coding_stuffes/spigot_servers/SpigotServer1.8/" + nameWorld);
-        Path newFolderPath = Paths.get("/Users/jason/Desktop/coding_stuffes/spigot_servers/SpigotServer1.8/", ("." + nameWorld));
+        Path sourceFolderPath = Paths.get(serverpath + nameWorld);
+        Path newFolderPath = Paths.get(serverpath, ("." + nameWorld));
         if (!Files.exists(newFolderPath)) {
             player.sendMessage("need to dupew");
             try {
@@ -145,7 +146,7 @@ public class JoinCommand implements CommandExecutor {
             } catch (IOException e) {
                 System.err.println("Error creating folder: " + e.getMessage());
             }
-            Path destinationFolderPath = Paths.get("/Users/jason/Desktop/coding_stuffes/spigot_servers/SpigotServer1.8/" + "." + nameWorld);
+            Path destinationFolderPath = Paths.get(serverpath + "." + nameWorld);
 
             try {
                 Files.walkFileTree(sourceFolderPath, new SimpleFileVisitor<Path>() {

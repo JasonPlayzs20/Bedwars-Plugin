@@ -15,13 +15,15 @@ import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
 
+import static com.jason.main.bedwars.serverpath;
+
 
 public class EndCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
         try {
-            removeFile(player, "/Users/jason/Desktop/coding_stuffes/spigot_servers/SpigotServer1.8/.", args[0]);
+            removeFile(player, serverpath + ".", args[0]);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -36,7 +38,7 @@ public class EndCommand implements CommandExecutor {
         if (Files.exists(Paths.get(path + args))) {
             Bukkit.getServer().unloadWorld("." + args, false);
             player.sendMessage("Unloaded");
-            deleteDirectory(Paths.get("/Users/jason/Desktop/coding_stuffes/spigot_servers/SpigotServer1.8/." + args).toFile());
+            deleteDirectory(Paths.get(serverpath + "." + args).toFile());
 //            FileUtils.deleteDirectory(Paths.get("/Users/jason/Desktop/coding_stuffes/spigot_servers/SpigotServer1.8/." + args[0]).toFile());
             player.sendMessage("Deleted");
 
