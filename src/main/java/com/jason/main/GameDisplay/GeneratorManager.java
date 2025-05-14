@@ -2,15 +2,14 @@ package com.jason.main.GameDisplay;
 
 import com.jason.main.bedwars;
 import jdk.nashorn.internal.objects.annotations.Getter;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.jason.main.bedwars.getData;
@@ -23,6 +22,9 @@ public class GeneratorManager {
     List<Location> emLoc;
     List<Location> shopLoc;
     List<Location> diaShopLoc;
+
+    List<ArmorStand> emArmorStands = new ArrayList<>();
+    List<ArmorStand> diamondArmorStands = new ArrayList<>();
 
     World world;
 
@@ -43,45 +45,64 @@ public class GeneratorManager {
         ironGen();
         goldGen();
     }
-
+    ArmorStand diamondArmor;
     void diamondGen() {
-//        Bukkit.getPlayer("IamSorry_").sendMessage(diamondLoc.toString());
-
+        final int[] diamondTimer = {30};
+        for (Location loc : diamondLoc) {
+            diamondArmor = world.spawn(loc.add(0,3,0), ArmorStand.class);
+            diamondArmor.setVisible(false);
+            diamondArmor.setHelmet(new ItemStack(Material.DIAMOND_BLOCK));
+            diamondArmor.setCustomNameVisible(true);
+            diamondArmor.setGravity(false);
+            loc.add(0,-3,0);
+        }
         new BukkitRunnable() {
-            int diamondTimer = 30;
 
             @Override
             public void run() {
-
-                for (Location location : diamondLoc) {
-                    ItemStack diamond = new ItemStack(Material.DIAMOND);
-                    Entity item = world.dropItem(location, diamond);
-                    item.setVelocity(new Vector(0, 0, 0));
+                if (diamondTimer[0] == 0) {
+                    for (Location location : diamondLoc) {
+                        ItemStack diamond = new ItemStack(Material.DIAMOND);
+                        Entity item = world.dropItem(location, diamond);
+                        item.setVelocity(new Vector(0, 0, 0));
+                    }
                 }
-                diamondTimer--;
+                diamondTimer[0]--;
+                diamondArmor.setCustomName(ChatColor.AQUA + ("Next Diamond In: " + diamondTimer[0]));
             }
-        }.runTaskTimer(getMainInstance(), 0, 20*30);
+        }.runTaskTimer(getMainInstance(), 0, 20);
 
 
     }
-
+    ArmorStand emeraldArmor;
     void emGen() {
+        final int[] diamondTimer = {30};
+        for (Location loc : emLoc) {
+            emeraldArmor = world.spawn(loc.add(0,3,0), ArmorStand.class);
+            emeraldArmor.setVisible(false);
+            emeraldArmor.setHelmet(new ItemStack(Material.EMERALD_BLOCK));
+            emeraldArmor.setCustomNameVisible(true);
+            emeraldArmor.setGravity(false);
+            loc.add(0,-3,0);
+        }
         new BukkitRunnable() {
-            int diamondTimer = 30;
+
 
             @Override
             public void run() {
+                if (diamondTimer[0] == 0) {
+                    for (Location loc : emLoc) {
+                        ItemStack em = new ItemStack(Material.EMERALD);
+                        Entity item = world.dropItem(loc, em);
+                        item.setVelocity(new Vector(0, 0, 0));
+                        diamondTimer[0] = 30;
 
-                for (Location loc : emLoc) {
-                    ItemStack em = new ItemStack(Material.EMERALD);
-                    Entity item = world.dropItem(loc, em);
-                    item.setVelocity(new Vector(0, 0, 0));
-
-
+                    }
                 }
-                diamondTimer--;
+                diamondTimer[0]--;
+                emeraldArmor.setCustomName(ChatColor.GREEN + ("Next Emerald In: " + diamondTimer[0]));
             }
-        }.runTaskTimer(getMainInstance(), 0, 20*30);
+        }.runTaskTimer(getMainInstance(), 0, 20);
 
 
     }
