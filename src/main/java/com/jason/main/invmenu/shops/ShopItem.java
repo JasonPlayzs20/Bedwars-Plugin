@@ -1,6 +1,7 @@
 package com.jason.main.invmenu.shops;
 
 import com.jason.main.items.BedbugItem;
+import com.jason.main.items.GolemItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -13,6 +14,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -27,6 +29,19 @@ public class ShopItem {
                 item.addUnsafeEnchantment(Enchantment.KNOCKBACK, 2);
                 return item;
             }, Material.IRON_INGOT, 1),
+
+            BOW_1 = new ShopItem(new ItemStack(Material.BOW), Material.IRON_INGOT, 1),
+            BOW_2 = new ShopItem(() -> {
+                ItemStack bow = new ItemStack(Material.BOW);
+                bow.addEnchantment(Enchantment.ARROW_DAMAGE, 1);
+                return bow;
+            }, Material.IRON_INGOT, 1),
+            BOW_3 = new ShopItem(() -> {
+                ItemStack bow = new ItemStack(Material.BOW);
+                bow.addUnsafeEnchantment(Enchantment.ARROW_KNOCKBACK, 5);
+                return bow;
+            }, Material.IRON_INGOT, 1),
+            ARROW = new ShopItem(new ItemStack(Material.ARROW, 8), Material.IRON_INGOT, 1),
 
             IRON_ARMOR = new ShopItem(new ItemStack(Material.IRON_BOOTS), Material.IRON_INGOT, 1),
             CHAINMAIL_ARMOR = new ShopItem(new ItemStack(Material.CHAINMAIL_BOOTS), Material.IRON_INGOT, 1),
@@ -57,6 +72,10 @@ public class ShopItem {
             ENDER_PEARL = new ShopItem(new ItemStack(Material.ENDER_PEARL), Material.IRON_INGOT, 1),
             GOLDEN_APPLE = new ShopItem(new ItemStack(Material.GOLDEN_APPLE), Material.IRON_INGOT, 1),
             WATER_BUCKET = new ShopItem(new ItemStack(Material.WATER_BUCKET), Material.IRON_INGOT, 1),
+            IRON_GOLEM = new ShopItem(new GolemItem().getItemStack(), Material.IRON_INGOT, 1),
+            MAGIC_MILK = new ShopItem(namedItemStack(new ItemStack(Material.MILK_BUCKET), "Magic \"Milk\""), Material.IRON_INGOT, 1),
+            SPONGE = new ShopItem(new ItemStack(Material.SPONGE, 4), Material.IRON_INGOT, 1),
+            POPUP_TOWER = new ShopItem(namedItemStack(new ItemStack(Material.CHEST), "Popup Tower"), Material.IRON_INGOT, 1),
 
             INVIS_POTION = new ShopItem(() -> {
                 ItemStack potion = namedItemStack(new ItemStack(Material.POTION), "Invisibility Potion (30s)");
@@ -69,6 +88,13 @@ public class ShopItem {
                 ItemStack potion = namedItemStack(new ItemStack(Material.POTION), "Jump Boost Potion (45s)");
                 PotionMeta meta = (PotionMeta) potion.getItemMeta();
                 meta.addCustomEffect(new PotionEffect(PotionEffectType.JUMP, 45 * 20, 5), true);
+                potion.setItemMeta(meta);
+                return potion;
+            }, Material.IRON_INGOT, 1),
+            SPEED_POTION = new ShopItem(() -> {
+                ItemStack potion = namedItemStack(new ItemStack(Material.POTION), "Speed Potion (45s)");
+                PotionMeta meta = (PotionMeta) potion.getItemMeta();
+                meta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 45 * 20, 2), true);
                 potion.setItemMeta(meta);
                 return potion;
             }, Material.IRON_INGOT, 1);
@@ -139,6 +165,9 @@ public class ShopItem {
     }
 
     public ItemStack getItemStack() {
+        ItemMeta meta = itemStack.getItemMeta();
+        meta.setLore(Collections.singletonList(ChatColor.GOLD.toString() + cost + " " + prettify(resourceType)));
+        itemStack.setItemMeta(meta);
         return itemStack;
     }
 
@@ -147,5 +176,11 @@ public class ShopItem {
             if (itemStack.getType().equals(materialTiers.get(currentTier - 1))) return false; // max tier already
             return handler.takeResource(new ItemStack(resourceType, cost), new ItemStack(materialTiers.get(currentTier - 1)));
         } else return false;
+    }
+
+    private static String prettify(Material m) {
+        String s = m.toString();
+        String firstWord = s.split("_")[0];
+        return firstWord.substring(0, 1).toUpperCase() + firstWord.substring(1).toLowerCase();
     }
 }

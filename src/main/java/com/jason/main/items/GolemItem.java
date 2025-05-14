@@ -1,6 +1,7 @@
 package com.jason.main.items;
 
 import com.jason.main.bedwars;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -20,14 +21,14 @@ public class GolemItem extends BedwarsItem {
 
         Block clickedBlock = event.getClickedBlock();
         if (clickedBlock != null) {
-            IronGolem golem = (IronGolem) event.getPlayer().getWorld().spawnEntity(clickedBlock.getLocation(), EntityType.IRON_GOLEM);
+            IronGolem golem = (IronGolem) event.getPlayer().getWorld().spawnEntity(clickedBlock.getLocation().add(0, 1, 0), EntityType.IRON_GOLEM);
 
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     if (golem.isDead()) this.cancel();
 
-                    golem.setCustomName(event.getPlayer().getDisplayName() + "'s Iron Golem ❤ " + (int) golem.getHealth());
+                    golem.setCustomName(event.getPlayer().getDisplayName() + "'s Iron Golem" + ChatColor.RED + " ❤ " + (int) golem.getHealth());
                     golem.setCustomNameVisible(true);
                     golem.setTicksLived(1);
 

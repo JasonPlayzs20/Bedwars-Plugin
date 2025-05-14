@@ -12,6 +12,7 @@ import java.util.List;
 
 public class QuickBuyShop extends InventoryMenu {
     private static final IShopItemGetter[][] PAGES = {
+            // quick
             { shopper -> ShopItem.BRIDGE_EGG,
                     shopper -> shopper.getToolUpgrade(Shopper.PICKAXES, shopper.pickaxeTier),
                     shopper -> ShopItem.FIREBALL,
@@ -34,6 +35,8 @@ public class QuickBuyShop extends InventoryMenu {
                     shopper -> ShopItem.WATER_BUCKET,
                     shopper -> ShopItem.WOOD
             },
+
+            // blocks
             { shopper -> ShopItem.WOOL,
                     shopper -> ShopItem.CLAY,
                     shopper -> ShopItem.GLASS,
@@ -43,20 +46,50 @@ public class QuickBuyShop extends InventoryMenu {
                     shopper -> ShopItem.OBSIDIAN
             },
 
+            // swords
             { shopper -> ShopItem.STONE_SWORD,
                     shopper -> ShopItem.IRON_SWORD,
                     shopper -> ShopItem.DIAMOND_SWORD,
                     shopper -> ShopItem.KB_STICK
             },
 
+            // armors
             { shopper -> ShopItem.CHAINMAIL_ARMOR,
                     shopper -> ShopItem.IRON_ARMOR,
                     shopper -> ShopItem.DIAMOND_ARMOR
             },
 
+            // tools
             { shopper -> ShopItem.SHEARS,
                     shopper -> shopper.getToolUpgrade(Shopper.PICKAXES, shopper.pickaxeTier),
                     shopper -> shopper.getToolUpgrade(Shopper.AXES, shopper.axeTier)
+            },
+
+            // bows
+            { shopper -> ShopItem.BOW_1,
+                    shopper -> ShopItem.BOW_2,
+                    shopper -> ShopItem.BOW_3,
+                    shopper -> ShopItem.ARROW
+            },
+
+            // pots
+            { shopper -> ShopItem.SPEED_POTION,
+                    shopper -> ShopItem.JUMP_POTION,
+                    shopper -> ShopItem.INVIS_POTION
+            },
+
+            // utilities
+            { shopper -> ShopItem.GOLDEN_APPLE,
+                    shopper -> ShopItem.SILVERFISH,
+                    shopper -> ShopItem.IRON_GOLEM,
+                    shopper -> ShopItem.FIREBALL,
+                    shopper -> ShopItem.TNT,
+                    shopper -> ShopItem.ENDER_PEARL,
+                    shopper -> ShopItem.WATER_BUCKET,
+                    shopper -> ShopItem.BRIDGE_EGG,
+                    shopper -> ShopItem.MAGIC_MILK,
+                    shopper -> ShopItem.SPONGE,
+                    shopper -> ShopItem.POPUP_TOWER
             }
     };
 
