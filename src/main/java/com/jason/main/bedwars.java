@@ -19,6 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 public final class bedwars extends JavaPlugin {
     private static bedwars mainInstance;
@@ -128,7 +129,7 @@ public final class bedwars extends JavaPlugin {
             }
         }
         YamlConfiguration modifyFile = YamlConfiguration.loadConfiguration(file);
-        modifyFile.set(path, value);
+        modifyFile.set(path, Optional.of(value));
         try {
             modifyFile.save(file);
         } catch (IOException e) {
@@ -152,7 +153,7 @@ public final class bedwars extends JavaPlugin {
             }
         }
         YamlConfiguration modifyFile = YamlConfiguration.loadConfiguration(file);
-        modifyFile.set(path, value);
+        modifyFile.set(path, Optional.of(value));
         try {
             modifyFile.save(file);
         } catch (IOException e) {

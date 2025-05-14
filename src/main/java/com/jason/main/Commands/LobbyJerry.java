@@ -107,7 +107,9 @@ public class LobbyJerry implements CommandExecutor, Listener {
     public void onInteract(InventoryClickEvent e) {
         if (e.getInventory().getName().equals("Worlds")) {
             e.setCancelled(true);
-
+            Player p = (Player) e.getWhoClicked();
+            p.getInventory().clear();
+            p.setAllowFlight(false);
             JoinCommand.joinWorld((Player) e.getWhoClicked(), e.getInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
         }
     }

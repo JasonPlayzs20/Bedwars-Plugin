@@ -1,5 +1,6 @@
 package com.jason.main.GameDisplay;
 
+import com.jason.main.PlayerEntities.BedwarsPlayer;
 import com.jason.main.bedwars;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,6 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.jason.main.Commands.EndCommand.removeFile;
@@ -26,6 +28,7 @@ public class GameManager {
     Player player;
     static State state;
     List<Player> players;
+    static HashMap<Player, BedwarsPlayer> bedwarsPlayers = new HashMap<>();
     public static int countdownID;
     Countdown countdown;
     GeneratorManager generatorManager;

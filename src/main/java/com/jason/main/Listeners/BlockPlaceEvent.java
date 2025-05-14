@@ -22,7 +22,9 @@ public class BlockPlaceEvent implements Listener {
 
     @EventHandler
     public static void saturationEvent(PlayerMoveEvent event) {
-        event.getPlayer().setSaturation(20);
+//        event.getPlayer().sendMessage("saturation");
+        event.getPlayer().setSaturation(25);
+        event.getPlayer().setFoodLevel(20);
     }
 
 }

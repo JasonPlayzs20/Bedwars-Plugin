@@ -17,6 +17,7 @@ public class LeaveCommand implements CommandExecutor {
             World world = player.getWorld();
             player.teleport(new Location(Bukkit.getWorld("world"), -41, 73, 0));
             Arenas.getArena(world).startArena();
+            player.setAllowFlight(true);
         }
         return false;
     }
