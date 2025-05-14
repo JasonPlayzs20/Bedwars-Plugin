@@ -153,7 +153,7 @@ public class GameManager {
             player.sendMessage("got data: " + data);
             Location oldLoc = loc;
             world.getBlockAt(loc).setType(Material.AIR);
-            loc = loc.add(0.5,3,0.5);
+            loc = loc.add(0.5,0.5,0.5);
             if (data == "p") {
 
             } else if (data.contains("g")) {
