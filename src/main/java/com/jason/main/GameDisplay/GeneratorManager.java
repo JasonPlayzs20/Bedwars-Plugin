@@ -54,6 +54,7 @@ public class GeneratorManager {
             diamondArmor.setHelmet(new ItemStack(Material.DIAMOND_BLOCK));
             diamondArmor.setCustomNameVisible(true);
             diamondArmor.setGravity(false);
+            diamondArmorStands.add(diamondArmor);
             loc.add(0,-3,0);
         }
         new BukkitRunnable() {
@@ -68,7 +69,9 @@ public class GeneratorManager {
                     }
                 }
                 diamondTimer[0]--;
-                diamondArmor.setCustomName(ChatColor.AQUA + ("Next Diamond In: " + diamondTimer[0]));
+                for (ArmorStand dia : diamondArmorStands) {
+                    dia.setCustomName(ChatColor.AQUA + ("Next Diamond In: " + diamondTimer[0]));
+                }
             }
         }.runTaskTimer(getMainInstance(), 0, 20);
 
@@ -83,6 +86,7 @@ public class GeneratorManager {
             emeraldArmor.setHelmet(new ItemStack(Material.EMERALD_BLOCK));
             emeraldArmor.setCustomNameVisible(true);
             emeraldArmor.setGravity(false);
+            emArmorStands.add(emeraldArmor);
             loc.add(0,-3,0);
         }
         new BukkitRunnable() {
@@ -100,7 +104,9 @@ public class GeneratorManager {
                     }
                 }
                 diamondTimer[0]--;
-                emeraldArmor.setCustomName(ChatColor.GREEN + ("Next Emerald In: " + diamondTimer[0]));
+                for (ArmorStand em : emArmorStands) {
+                    em.setCustomName(ChatColor.GREEN + ("Next Emerald In: " + diamondTimer[0]));
+                }
             }
         }.runTaskTimer(getMainInstance(), 0, 20);
 
