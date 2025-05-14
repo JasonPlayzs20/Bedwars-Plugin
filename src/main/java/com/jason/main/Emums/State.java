@@ -1,4 +1,4 @@
-package com.jason.main.GameDisplay;
+package com.jason.main.Emums;
 
 public enum State {
     RECRUITING,

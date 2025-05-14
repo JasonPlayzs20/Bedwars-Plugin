@@ -26,7 +26,7 @@ public class GeneratorManager {
     List<ArmorStand> emArmorStands = new ArrayList<>();
     List<ArmorStand> diamondArmorStands = new ArrayList<>();
 
-    World world;
+    public static World world;
 
     public GeneratorManager(World world, List<Location> diamondLoc, List<Location> genLoc, List<Location> emLoc, List<Location> shopLoc, List<Location> diaShopLoc) {
         this.dataFolder = "plugins/BedwarsInfo";

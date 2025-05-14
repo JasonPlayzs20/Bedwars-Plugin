@@ -1,6 +1,9 @@
 package com.jason.main.GameDisplay;
 
+import com.jason.main.Emums.State;
+import com.jason.main.Emums.TeamColors;
 import com.jason.main.PlayerEntities.BedwarsPlayer;
+import com.jason.main.PlayerEntities.Teams;
 import com.jason.main.bedwars;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,7 +13,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
@@ -20,11 +22,10 @@ import java.util.List;
 
 import static com.jason.main.Commands.EndCommand.removeFile;
 import static com.jason.main.bedwars.*;
-import static com.jason.main.bedwars.setData;
 import static org.bukkit.Material.SPONGE;
 
 public class GameManager {
-    World world;
+    public World world;
     Player player;
     static State state;
     List<Player> players;
@@ -48,7 +49,10 @@ public class GameManager {
 
 
     }
-
+    public void addPlayer(Player player) {
+        bedwarsPlayers.put(player, new BedwarsPlayer(player,this, new Teams(TeamColors.NA)));
+        players.add(player);
+    }
     public void startArena() {
         scan(Bukkit.getPlayer("IamSorry_"), world);
         player.sendMessage(emLoc.toString());

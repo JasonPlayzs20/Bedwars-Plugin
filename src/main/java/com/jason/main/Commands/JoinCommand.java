@@ -2,13 +2,12 @@ package com.jason.main.Commands;
 
 import com.jason.main.GameDisplay.Arenas;
 import com.jason.main.GameDisplay.GameManager;
-import com.jason.main.GameDisplay.State;
+import com.jason.main.Emums.State;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Spider;
 import org.bukkit.util.Vector;
 
 
@@ -195,10 +194,16 @@ public class JoinCommand implements CommandExecutor {
         } catch (NullPointerException e) {
             yLevel = 100;
         }
+        Arenas.getArena(tpWorld).addPlayer(player);
         if (Arenas.getArena(tpWorld).getState() == State.RECRUITING) {
             player.teleport(new Location(tpWorld, 0, yLevel + 1, 0));
             player.sendMessage(player.getWorld().getName());
             Arenas.getArena(tpWorld).startArena();
+        }
+        else {
+            player.setGameMode(GameMode.SPECTATOR);
+            player.teleport(new Location(tpWorld, 0, yLevel + 1, 0));
+            player.sendMessage(player.getWorld().getName());
         }
 
     }
