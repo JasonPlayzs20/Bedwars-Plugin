@@ -54,7 +54,7 @@ public class GameManager {
         player.sendMessage(String.valueOf(world.getPlayers().size()));
         if (this.players.size() == 1) {
             player.sendMessage("done recruit");
-            countdown = new Countdown(bedwars.getMainInstance(), this, 5);
+            countdown = new Countdown(bedwars.getMainInstance(), this, Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml","countdownSeconds")));
             countdown.start();
             state = State.PLAYING;
         }

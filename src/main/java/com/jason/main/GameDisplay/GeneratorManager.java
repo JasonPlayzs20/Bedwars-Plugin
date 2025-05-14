@@ -66,6 +66,7 @@ public class GeneratorManager {
                         ItemStack diamond = new ItemStack(Material.DIAMOND);
                         Entity item = world.dropItem(location, diamond);
                         item.setVelocity(new Vector(0, 0, 0));
+                        diamondTimer[0] = 30;
                     }
                 }
                 diamondTimer[0]--;
