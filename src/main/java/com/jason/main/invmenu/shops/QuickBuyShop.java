@@ -1,5 +1,6 @@
 package com.jason.main.invmenu.shops;
 
+import com.jason.main.Util;
 import com.jason.main.invmenu.InventoryMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class QuickBuyShop extends InventoryMenu {
     private static final IShopItemGetter[][] PAGES = {
+            // quick
             { shopper -> ShopItem.BRIDGE_EGG,
                     shopper -> shopper.getToolUpgrade(Shopper.PICKAXES, shopper.pickaxeTier),
                     shopper -> ShopItem.FIREBALL,
@@ -34,6 +36,8 @@ public class QuickBuyShop extends InventoryMenu {
                     shopper -> ShopItem.WATER_BUCKET,
                     shopper -> ShopItem.WOOD
             },
+
+            // blocks
             { shopper -> ShopItem.WOOL,
                     shopper -> ShopItem.CLAY,
                     shopper -> ShopItem.GLASS,
@@ -43,20 +47,50 @@ public class QuickBuyShop extends InventoryMenu {
                     shopper -> ShopItem.OBSIDIAN
             },
 
+            // swords
             { shopper -> ShopItem.STONE_SWORD,
                     shopper -> ShopItem.IRON_SWORD,
                     shopper -> ShopItem.DIAMOND_SWORD,
                     shopper -> ShopItem.KB_STICK
             },
 
+            // armors
             { shopper -> ShopItem.CHAINMAIL_ARMOR,
                     shopper -> ShopItem.IRON_ARMOR,
                     shopper -> ShopItem.DIAMOND_ARMOR
             },
 
+            // tools
             { shopper -> ShopItem.SHEARS,
                     shopper -> shopper.getToolUpgrade(Shopper.PICKAXES, shopper.pickaxeTier),
                     shopper -> shopper.getToolUpgrade(Shopper.AXES, shopper.axeTier)
+            },
+
+            // bows
+            { shopper -> ShopItem.BOW_1,
+                    shopper -> ShopItem.BOW_2,
+                    shopper -> ShopItem.BOW_3,
+                    shopper -> ShopItem.ARROW
+            },
+
+            // pots
+            { shopper -> ShopItem.SPEED_POTION,
+                    shopper -> ShopItem.JUMP_POTION,
+                    shopper -> ShopItem.INVIS_POTION
+            },
+
+            // utilities
+            { shopper -> ShopItem.GOLDEN_APPLE,
+                    shopper -> ShopItem.SILVERFISH,
+                    shopper -> ShopItem.IRON_GOLEM,
+                    shopper -> ShopItem.FIREBALL,
+                    shopper -> ShopItem.TNT,
+                    shopper -> ShopItem.ENDER_PEARL,
+                    shopper -> ShopItem.WATER_BUCKET,
+                    shopper -> ShopItem.BRIDGE_EGG,
+                    shopper -> ShopItem.MAGIC_MILK,
+                    shopper -> ShopItem.SPONGE,
+                    shopper -> ShopItem.POPUP_TOWER
             }
     };
 
@@ -72,18 +106,28 @@ public class QuickBuyShop extends InventoryMenu {
         inventory.clear();
 
         List<Material> topBar = Arrays.asList(
-            Material.NETHER_STAR,
-            Material.HARD_CLAY,
-            Material.GOLD_SWORD,
-            Material.CHAINMAIL_BOOTS,
-            Material.STONE_PICKAXE,
-            Material.BOW,
-            Material.BREWING_STAND_ITEM,
-            Material.TNT
+                Material.NETHER_STAR,
+                Material.HARD_CLAY,
+                Material.GOLD_SWORD,
+                Material.CHAINMAIL_BOOTS,
+                Material.STONE_PICKAXE,
+                Material.BOW,
+                Material.BREWING_STAND_ITEM,
+                Material.TNT
+        );
+        List<String> topBarNames = Arrays.asList(
+                "Quick Buy",
+                "Blocks",
+                "Swords",
+                "Armor",
+                "Tools",
+                "Bows",
+                "Potions",
+                "Utilities"
         );
         for (int i = 0; i < 8; i++) {
             int fi = i;
-            setButton(0, i, new ItemStack(topBar.get(i)), (menu, itemStack, button) -> page = fi);
+            setButton(0, i, Util.namedItemStack(new ItemStack(topBar.get(i)), topBarNames.get(i)), (menu, itemStack, button) -> page = fi);
         }
 
         for (int i = 0; i < 9; i++) {

@@ -16,9 +16,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.Objects;
 
 public class BlockBreakEvent implements Listener {
-
     @EventHandler
-    public static void e(org.bukkit.event.block.BlockBreakEvent e) {
+    public static void onBlockBreak(org.bukkit.event.block.BlockBreakEvent e) {
         Player p = e.getPlayer();
 //        p.sendMessage(p.getWorld().getName());
         if (Objects.equals(p.getWorld().getName(), "world")) {
@@ -50,7 +49,5 @@ public class BlockBreakEvent implements Listener {
 //        e.getPlayer().sendMessage("Fire");
         e.setCancelled(true);
 
-
     }
-
 }
