@@ -24,7 +24,10 @@ public class BlockPlaceEvent implements Listener {
     public static void onBlockPlace(org.bukkit.event.block.BlockPlaceEvent event) {
         Player player = event.getPlayer();
         World world = player.getWorld();
-        player.sendMessage(String.valueOf(getData(bedwars.serverpath, world.getName().substring(1), "blockBreakLimit")) + " UGIOHSNDYGUIOISHBGU*IOJKHUV*S)(PIDJKLVHUO*IKLJNBDSIUHOI");
+        for (int i = 1; i < 12; i ++) {
+//            player.sendMessage(String.valueOf(getData("plugins/BedwarsInfo", world.getName().substring(1), "blockBreakLimit")) + " UGIOHSNDYGUIOISHBGU*IOJKHUV*S)(PIDJKLVHUO*IKLJNBDSIUHOI");
+//            if (getData("plugins"))
+        }
 
         GameManager gameManager = Arenas.getArena(world);
         gameManager.blockList.add(event.getBlock());
@@ -42,11 +45,11 @@ public class BlockPlaceEvent implements Listener {
         if (event.getPlayer().getLocation().getBlockY() <= 20) {
             Player playerDied = event.getPlayer();
 
-//            playerDied.sendMessage("Died");
+            playerDied.sendMessage("Died");
 
             playerDied.setGameMode(GameMode.SPECTATOR);
             playerDied.setHealth(20);
-            playerDied.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " died in the void.");
+            playerDied.getWorld().getPlayers().forEach(player -> {player.sendMessage(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor + playerDied.getName().toString() + ChatColor.RED + " has died in the void.");});
             playerDied.sendMessage(String.valueOf(playerDied.getWorld()));
             playerDied.sendMessage(String.valueOf(Arenas.getArena(playerDied.getWorld())));
             playerDied.sendMessage(String.valueOf(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied)));

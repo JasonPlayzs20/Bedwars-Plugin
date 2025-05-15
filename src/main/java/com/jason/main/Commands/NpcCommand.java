@@ -15,7 +15,9 @@ public class NpcCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             GameManager bwInstance = Arenas.getArenas().get(((Player) commandSender).getWorld());
             if (bwInstance != null) {
-                DiamondShop shop = new DiamondShop((Player) commandSender, bwInstance);
+//                DiamondShop shop = new DiamondShop((Player) commandSender, bwInstance);
+//                shop.open();
+                QuickBuyShop shop = new QuickBuyShop(((Player) commandSender).getPlayer());
                 shop.open();
             }
         }
