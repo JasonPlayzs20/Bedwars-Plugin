@@ -1,5 +1,7 @@
 package com.jason.main.Commands;
 
+import com.jason.main.GameDisplay.Arenas;
+import com.jason.main.GameDisplay.GameManager;
 import com.jason.main.invmenu.shops.diamond.DiamondShop;
 import com.jason.main.invmenu.shops.quick.QuickBuyShop;
 import org.bukkit.command.Command;
@@ -11,8 +13,11 @@ public class NpcCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player) {
-            DiamondShop shop = new DiamondShop((Player) commandSender);
-            shop.open();
+            GameManager bwInstance = Arenas.getArenas().get(((Player) commandSender).getWorld());
+            if (bwInstance != null) {
+                DiamondShop shop = new DiamondShop((Player) commandSender, bwInstance);
+                shop.open();
+            }
         }
         return false;
     }

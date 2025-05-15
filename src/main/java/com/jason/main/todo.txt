@@ -1,4 +1,4 @@
 1. game loop, all automatic so you dont need to remember how to sort sht
 2. for the players and teams make a class with children about it so you can do sht
-3.kirk smart and yes
+3.kirk smart and yes (very much indeed so good sir)
 4.

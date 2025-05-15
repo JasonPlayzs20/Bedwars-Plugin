@@ -6,9 +6,10 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Arenas {
-    static HashMap<World, GameManager> arenas = new HashMap<>();
+    static Map<World, GameManager> arenas = new HashMap<>();
 
 
 
@@ -24,7 +25,7 @@ public class Arenas {
     }
 
 
-    public static HashMap getArenas() {
+    public static Map<World, GameManager> getArenas() {
         return arenas;
     }
 }

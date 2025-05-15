@@ -45,5 +45,7 @@ public class BedwarsPlayer {
         return baseSpawn;
     }
 
-
+    public Teams getTeam() {
+        return team;
+    }
 }

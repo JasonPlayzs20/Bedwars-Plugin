@@ -1,6 +1,7 @@
 package com.jason.main.invmenu.shops.diamond;
 
 import com.jason.main.Emums.DiamondUpgrade;
+import com.jason.main.GameDisplay.Arenas;
 import com.jason.main.GameDisplay.GameManager;
 import com.jason.main.PlayerEntities.BedwarsPlayer;
 import com.jason.main.invmenu.InventoryMenu;
@@ -33,10 +34,12 @@ public class DiamondShop extends InventoryMenu {
     }
 
     private final BedwarsPlayer bwPlayer;
+    private final GameManager bwInstance;
 
-    public DiamondShop(Player player) {
+    public DiamondShop(Player player, GameManager bwInstance) {
         super(player, 5, "Team Upgrade");
-        this.bwPlayer = GameManager.bedwarsPlayers.get(player);
+        this.bwInstance = bwInstance;
+        this.bwPlayer = bwInstance.bedwarsPlayers.get(player);
     }
 
     @Override
