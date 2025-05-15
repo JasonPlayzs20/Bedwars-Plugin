@@ -21,6 +21,7 @@ public class LeaveCommand implements CommandExecutor {
             player.setGameMode(GameMode.SURVIVAL);
             player.getInventory().clear();
             player.setAllowFlight(true);
+            player.getEnderChest().clear();
 
         }
         return false;
