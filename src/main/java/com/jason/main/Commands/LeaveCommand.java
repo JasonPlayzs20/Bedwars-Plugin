@@ -2,6 +2,7 @@ package com.jason.main.Commands;
 
 import com.jason.main.GameDisplay.Arenas;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -17,7 +18,10 @@ public class LeaveCommand implements CommandExecutor {
             World world = player.getWorld();
             player.teleport(new Location(Bukkit.getWorld("world"), -41, 73, 0));
             Arenas.getArena(world).startArena();
+            player.setGameMode(GameMode.SURVIVAL);
+            player.getInventory().clear();
             player.setAllowFlight(true);
+
         }
         return false;
     }

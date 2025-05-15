@@ -4,6 +4,10 @@ import com.jason.main.GameDisplay.GameManager;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
 import static com.jason.main.bedwars.getData;
 import static com.jason.main.bedwars.serverpath;
@@ -13,8 +17,8 @@ public class BedwarsPlayer {
     Player player;
     GameManager gameManager;
     World world;
-    Location mainSpawn;
-    Location baseSpawn;
+    public static Location mainSpawn;
+    public static Location baseSpawn;
     String name;
     String teamName;
 
@@ -40,5 +44,7 @@ public class BedwarsPlayer {
     public Location baseLoc() {
         return baseSpawn;
     }
+
+
 
 }

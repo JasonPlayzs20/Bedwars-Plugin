@@ -3,6 +3,7 @@ package com.jason.main.GameDisplay;
 import com.jason.main.Emums.State;
 import com.jason.main.bedwars;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class Countdown implements Runnable {
@@ -36,7 +37,7 @@ public class Countdown implements Runnable {
             return;
         }
         for (Player player : gameManager.world.getPlayers()) {
-            player.sendTitle(String.valueOf(countdownSeconds),"");
+            player.sendTitle(ChatColor.RED+String.valueOf(countdownSeconds),"");
         }
         countdownSeconds--;
     }

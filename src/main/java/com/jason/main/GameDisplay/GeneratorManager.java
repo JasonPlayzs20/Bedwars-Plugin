@@ -158,7 +158,7 @@ public class GeneratorManager {
                 }
                 diamondTimer--;
             }
-        }.runTaskTimer(getMainInstance(), 0, 45);
+        }.runTaskTimer(getMainInstance(), 0, 75);
         for (Location loc : genLoc) {
             ItemStack gold = new ItemStack(Material.GOLD_INGOT);
             Entity item = world.dropItem(loc, gold);

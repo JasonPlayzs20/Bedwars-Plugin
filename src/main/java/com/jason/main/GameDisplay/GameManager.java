@@ -29,7 +29,7 @@ public class GameManager {
     Player player;
     static State state;
     List<Player> players;
-    static HashMap<Player, BedwarsPlayer> bedwarsPlayers = new HashMap<>();
+    public static HashMap<Player, BedwarsPlayer> bedwarsPlayers = new HashMap<>();
     public static int countdownID;
     Countdown countdown;
     GeneratorManager generatorManager;
@@ -83,6 +83,9 @@ public class GameManager {
         state = State.PLAYING;
         generatorManager = new GeneratorManager(world, diamondLoc, genLoc, emLoc, shopLoc, diaShopLoc);
         generatorManager.start();
+        for (Player player : players) {
+            bedwarsPlayers.get(player).start();
+        }
 
 
     }
