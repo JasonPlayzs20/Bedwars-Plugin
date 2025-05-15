@@ -26,10 +26,10 @@ import static org.bukkit.Material.SPONGE;
 
 public class GameManager {
     public World world;
-    static State state;
+    public State state;
     List<Player> players;
-    public static HashMap<Player, BedwarsPlayer> bedwarsPlayers = new HashMap<>();
-    public static int countdownID;
+    public  HashMap<Player, BedwarsPlayer> bedwarsPlayers = new HashMap<>();
+    public  int countdownID;
     Countdown countdown;
     GeneratorManager generatorManager;
     ShopManager shopManager;
@@ -38,7 +38,7 @@ public class GameManager {
     List<Location> emLoc = new ArrayList<>();
     List<Location> shopLoc = new ArrayList<>();
     List<Location> diaShopLoc = new ArrayList<>();
-    public static List<Block> blockList = new ArrayList<>();
+    public  List<Block> blockList = new ArrayList<>();
 
     public GameManager(World world, Player player) {
         this.world = world;

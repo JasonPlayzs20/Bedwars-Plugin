@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class Teams {
     private HashMap<DiamondUpgrade, Integer> diamondUpgrades = new HashMap<>();
-    public static TeamColors teamColors;
+    public TeamColors teamColors;
     public Teams(TeamColors teamColors) {
         diamondUpgrades.put(DiamondUpgrade.SHARPNESS, 0);
         this.teamColors = teamColors;
