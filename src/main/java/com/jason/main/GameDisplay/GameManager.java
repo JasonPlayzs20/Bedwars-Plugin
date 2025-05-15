@@ -5,10 +5,7 @@ import com.jason.main.Emums.TeamColors;
 import com.jason.main.PlayerEntities.BedwarsPlayer;
 import com.jason.main.PlayerEntities.Teams;
 import com.jason.main.bedwars;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.EntityType;
@@ -49,7 +46,8 @@ public class GameManager {
 
     }
     public void addPlayer(Player player) {
-        bedwarsPlayers.put(player, new BedwarsPlayer(player,this, new Teams(TeamColors.RED)));
+        bedwarsPlayers.put(player, new BedwarsPlayer(player,this, new Teams(TeamColors.GREEN, ChatColor.GREEN)));
+        player.setDisplayName(player.getName());
         players.add(player);
     }
     public void startArena() {
