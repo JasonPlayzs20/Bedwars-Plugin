@@ -11,8 +11,12 @@ public class Teams {
     public TeamColors teamColors;
     public ChatColor chatColor;
     public Teams(TeamColors teamColors, ChatColor chatColor) {
-        diamondUpgrades.put(DiamondUpgrade.SHARPNESS, 0);
+        for (int i = 0; i < DiamondUpgrade.values().length; i++) diamondUpgrades.put(DiamondUpgrade.values()[i], 0);
         this.teamColors = teamColors;
         this.chatColor = chatColor;
+    }
+
+    public HashMap<DiamondUpgrade, Integer> getDiamondUpgrades() {
+        return diamondUpgrades;
     }
 }

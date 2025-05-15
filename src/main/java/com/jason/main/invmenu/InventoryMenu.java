@@ -43,5 +43,8 @@ public abstract class InventoryMenu {
         inventory.setItem(row * 9 + col, itemStack);
     }
 
-    protected abstract void populateMenu();
+    protected void populateMenu() {
+        inventory.clear();
+        clickListeners.clear();
+    }
 }

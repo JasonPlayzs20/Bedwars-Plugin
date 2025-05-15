@@ -1,4 +1,4 @@
-package com.jason.main.invmenu.shops;
+package com.jason.main.invmenu.shops.quick;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;

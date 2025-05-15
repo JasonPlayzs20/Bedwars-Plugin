@@ -1,4 +1,4 @@
-package com.jason.main.invmenu.shops;
+package com.jason.main.invmenu.shops.quick;
 
 import com.jason.main.Util;
 import com.jason.main.invmenu.InventoryMenu;
@@ -103,7 +103,7 @@ public class QuickBuyShop extends InventoryMenu {
     @SuppressWarnings("deprecation")
     @Override
     protected void populateMenu() {
-        inventory.clear();
+        super.populateMenu();
 
         List<Material> topBar = Arrays.asList(
                 Material.NETHER_STAR,
