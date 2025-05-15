@@ -15,14 +15,21 @@ public class BedwarsPlayer {
     World world;
     Location mainSpawn;
     Location baseSpawn;
+    String name;
+    String teamName;
 
     public BedwarsPlayer(Player player, GameManager gameManager, Teams teams) {
         this.player = player;
         this.gameManager = gameManager;
         this.team = teams;
         this.world = gameManager.world;
-        mainSpawn = new Location(world, 0, Double.parseDouble(getData(serverpath, world.getName().substring(1), "lobbySpawn.y")) - 10, 0);
-        baseSpawn = new Location(world, Double.parseDouble(getData(serverpath, world.getName().substring(1), team.toString().substring(0, 1) + "p.x")), Double.parseDouble(getData(serverpath, world.getName().substring(1), team.toString().substring(0, 1) + "p.y")) + 0.5, Double.parseDouble(getData(serverpath, world.getName().substring(1), team.toString().substring(0, 1) + "p.z")));
+
+        name = gameManager.world.getName();
+
+        player.sendMessage(team.teamColors.name());
+        player.sendMessage(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", "lobbySpawn.y"));
+        mainSpawn = new Location(world, 0, Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", "lobbySpawn.y")) - 10, 0);
+        baseSpawn = new Location(world, Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", team.teamColors.name().toString().substring(0, 1).toLowerCase() + ".p.x")), Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", team.teamColors.name().toString().substring(0, 1).toLowerCase() + ".p.y")) + 0.5, Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", team.teamColors.name().toString().substring(0, 1).toLowerCase() + ".p.z")));
 
     }
 

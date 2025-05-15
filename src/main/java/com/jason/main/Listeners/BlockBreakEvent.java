@@ -31,6 +31,7 @@ public class BlockBreakEvent implements Listener {
             GameManager gameManager = Arenas.getArena(world);
             if (!gameManager.blockList.contains(block)) {
                 e.setCancelled(true);
+                gameManager.blockList.remove(block);
             }
         }
 

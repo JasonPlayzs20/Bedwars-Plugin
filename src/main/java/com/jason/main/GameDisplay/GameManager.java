@@ -50,7 +50,7 @@ public class GameManager {
 
     }
     public void addPlayer(Player player) {
-        bedwarsPlayers.put(player, new BedwarsPlayer(player,this, new Teams(TeamColors.NA)));
+        bedwarsPlayers.put(player, new BedwarsPlayer(player,this, new Teams(TeamColors.RED)));
         players.add(player);
     }
     public void startArena() {
