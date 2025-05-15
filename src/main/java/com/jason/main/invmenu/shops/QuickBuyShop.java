@@ -1,5 +1,6 @@
 package com.jason.main.invmenu.shops;
 
+import com.jason.main.Util;
 import com.jason.main.invmenu.InventoryMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -105,18 +106,28 @@ public class QuickBuyShop extends InventoryMenu {
         inventory.clear();
 
         List<Material> topBar = Arrays.asList(
-            Material.NETHER_STAR,
-            Material.HARD_CLAY,
-            Material.GOLD_SWORD,
-            Material.CHAINMAIL_BOOTS,
-            Material.STONE_PICKAXE,
-            Material.BOW,
-            Material.BREWING_STAND_ITEM,
-            Material.TNT
+                Material.NETHER_STAR,
+                Material.HARD_CLAY,
+                Material.GOLD_SWORD,
+                Material.CHAINMAIL_BOOTS,
+                Material.STONE_PICKAXE,
+                Material.BOW,
+                Material.BREWING_STAND_ITEM,
+                Material.TNT
+        );
+        List<String> topBarNames = Arrays.asList(
+                "Quick Buy",
+                "Blocks",
+                "Swords",
+                "Armor",
+                "Tools",
+                "Bows",
+                "Potions",
+                "Utilities"
         );
         for (int i = 0; i < 8; i++) {
             int fi = i;
-            setButton(0, i, new ItemStack(topBar.get(i)), (menu, itemStack, button) -> page = fi);
+            setButton(0, i, Util.namedItemStack(new ItemStack(topBar.get(i)), topBarNames.get(i)), (menu, itemStack, button) -> page = fi);
         }
 
         for (int i = 0; i < 9; i++) {

@@ -14,10 +14,13 @@ public class InventoryClickListener implements Listener {
 
         if (menu != null && inventory.equals(event.getView().getTopInventory())) {
             event.setCancelled(true);
-            int clickSlot = event.getSlot();
-            ClickType clickType = event.getClick();
-            menu.onClick(clickSlot, clickType);
-            menu.populateMenu();
+
+            if (event.isLeftClick()) {
+                int clickSlot = event.getSlot();
+                ClickType clickType = event.getClick();
+                menu.onClick(clickSlot, clickType);
+                menu.populateMenu();
+            }
         }
     }
 }
