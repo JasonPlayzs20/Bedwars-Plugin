@@ -1,18 +1,19 @@
 package com.jason.main;
 
-import com.jason.main.Commands.EndCommand;
-import com.jason.main.Commands.JoinCommand;
-import com.jason.main.Commands.NpcCommand;
+
+import com.jason.main.Commands.*;
 import com.jason.main.Commands.addCommands.Bases.*;
 import com.jason.main.Commands.addCommands.Others.addDiamondGen;
 import com.jason.main.Commands.addCommands.Others.addEmeraldGen;
 import com.jason.main.Commands.addCommands.ScanCommand;
-import com.jason.main.Commands.startCommand;
+import com.jason.main.Listeners.BlockBreakEvent;
+import com.jason.main.Listeners.BlockPlaceEvent;
 import com.jason.main.Listeners.BlockSelection;
 import com.jason.main.Listeners.PlayerListener;
 import com.jason.main.Listeners.ProjectileListener;
 import com.jason.main.invmenu.InventoryClickListener;
 import org.bukkit.Bukkit;
+import org.bukkit.WorldCreator;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,9 +21,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 public final class bedwars extends JavaPlugin {
     private static bedwars mainInstance;
+    public static String serverpath;
 
 
     public static bedwars getMainInstance() {
@@ -35,6 +38,9 @@ public final class bedwars extends JavaPlugin {
         setData("plugins/BedwarsInfo", "Airshow.yml", "red.spawn.x", -40);
         System.out.println(getData("plugins/BedwarsInfo", "Airshow.yml", "red.spawn.x"));
         mainInstance = this;
+        serverpath = getData("plugins/BedwarsInfo", "serverpath.yml", "path");
+//        LobbyJerry.registerInventory(this.getServer());
+
 
         // Plugin startup logic
         this.getCommand("join").setExecutor(new JoinCommand());
@@ -58,19 +64,28 @@ public final class bedwars extends JavaPlugin {
 //        Bukkit.getPlayer("IamSorry_").sendMessage(getDataFolder().getParentFile().getAbsolutePath());
 //        System.out.println(getDataFolder().getParentFile().getAbsolutePath());
 
+        this.getCommand("jerry").setExecutor(new LobbyJerry());
+        this.getCommand("l").setExecutor(new LeaveCommand());
 
-//        Bukkit.createWorld(new WorldCreator("Airshow"));
-//        Bukkit.createWorld(new WorldCreator("Ashfire"));
-//        Bukkit.createWorld(new WorldCreator("Babylon"));
-//        Bukkit.createWorld(new WorldCreator("Cascade"));
-//        Bukkit.createWorld(new WorldCreator("Dragonstar"));
-//        Bukkit.createWorld(new WorldCreator("Gateway"));
-//        Bukkit.createWorld(new WorldCreator("Hollow"));
-//        Bukkit.createWorld(new WorldCreator("Lighthouse"));
-//        Bukkit.createWorld(new WorldCreator("Orchestra"));
-//        Bukkit.createWorld(new WorldCreator("Playground"));
-//        Bukkit.createWorld(new WorldCreator("Fang"));
+        Bukkit.getPluginManager().registerEvents(new BlockSelection(mainInstance), this);
+        Bukkit.getPluginManager().registerEvents(new BlockBreakEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new BlockPlaceEvent(), this);
+        Bukkit.getPlayer("IamSorry_").sendMessage(getDataFolder().getParentFile().getAbsolutePath());
+        System.out.println(getDataFolder().getParentFile().getAbsolutePath());
+        Bukkit.getPluginManager().registerEvents(new LobbyJerry(), this);
 
+
+        Bukkit.createWorld(new WorldCreator("Airshow"));
+        Bukkit.createWorld(new WorldCreator("Ashfire"));
+        Bukkit.createWorld(new WorldCreator("Babylon"));
+        Bukkit.createWorld(new WorldCreator("Cascade"));
+        Bukkit.createWorld(new WorldCreator("Dragonstar"));
+        Bukkit.createWorld(new WorldCreator("Gateway"));
+        Bukkit.createWorld(new WorldCreator("Hollow"));
+        Bukkit.createWorld(new WorldCreator("Lighthouse"));
+        Bukkit.createWorld(new WorldCreator("Orchestra"));
+        Bukkit.createWorld(new WorldCreator("Playground"));
+        Bukkit.createWorld(new WorldCreator("Fang"));
 
     }
 
@@ -120,7 +135,7 @@ public final class bedwars extends JavaPlugin {
             }
         }
         YamlConfiguration modifyFile = YamlConfiguration.loadConfiguration(file);
-        modifyFile.set(path, value);
+        modifyFile.set(path, Optional.of(value));
         try {
             modifyFile.save(file);
         } catch (IOException e) {
@@ -144,7 +159,7 @@ public final class bedwars extends JavaPlugin {
             }
         }
         YamlConfiguration modifyFile = YamlConfiguration.loadConfiguration(file);
-        modifyFile.set(path, value);
+        modifyFile.set(path, Optional.of(value));
         try {
             modifyFile.save(file);
         } catch (IOException e) {
