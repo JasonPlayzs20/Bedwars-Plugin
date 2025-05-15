@@ -1,4 +1,4 @@
-package com.jason.main.invmenu.shops;
+package com.jason.main.invmenu.shops.quick;
 
 import com.jason.main.Util;
 import com.jason.main.items.BedbugItem;

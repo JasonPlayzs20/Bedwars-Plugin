@@ -68,21 +68,21 @@ public final class bedwars extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new BlockBreakEvent(), this);
         Bukkit.getPluginManager().registerEvents(new BlockPlaceEvent(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerFakeDeathEvent(), this);
-        Bukkit.getPlayer("IamSorry_").sendMessage(getDataFolder().getParentFile().getAbsolutePath());
-        System.out.println(getDataFolder().getParentFile().getAbsolutePath());
+//        Bukkit.getPlayer("IamSorry_").sendMessage(getDataFolder().getParentFile().getAbsolutePath());
+//        System.out.println(getDataFolder().getParentFile().getAbsolutePath());
         Bukkit.getPluginManager().registerEvents(new LobbyJerry(), this);
 
 
-        Bukkit.createWorld(new WorldCreator("Airshow"));
-        Bukkit.createWorld(new WorldCreator("Ashfire"));
-        Bukkit.createWorld(new WorldCreator("Babylon"));
-        Bukkit.createWorld(new WorldCreator("Cascade"));
-        Bukkit.createWorld(new WorldCreator("Dragonstar"));
-        Bukkit.createWorld(new WorldCreator("Gateway"));
-        Bukkit.createWorld(new WorldCreator("Hollow"));
-        Bukkit.createWorld(new WorldCreator("Lighthouse"));
-        Bukkit.createWorld(new WorldCreator("Orchestra"));
-        Bukkit.createWorld(new WorldCreator("Playground"));
+//        Bukkit.createWorld(new WorldCreator("Airshow"));
+//        Bukkit.createWorld(new WorldCreator("Ashfire"));
+//        Bukkit.createWorld(new WorldCreator("Babylon"));
+//        Bukkit.createWorld(new WorldCreator("Cascade"));
+//        Bukkit.createWorld(new WorldCreator("Dragonstar"));
+//        Bukkit.createWorld(new WorldCreator("Gateway"));
+//        Bukkit.createWorld(new WorldCreator("Hollow"));
+//        Bukkit.createWorld(new WorldCreator("Lighthouse"));
+//        Bukkit.createWorld(new WorldCreator("Orchestra"));
+//        Bukkit.createWorld(new WorldCreator("Playground"));
         Bukkit.createWorld(new WorldCreator("Fang"));
 
     }

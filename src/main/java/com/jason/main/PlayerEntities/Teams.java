@@ -9,7 +9,12 @@ public class Teams {
     private HashMap<DiamondUpgrade, Integer> diamondUpgrades = new HashMap<>();
     public static TeamColors teamColors;
     public Teams(TeamColors teamColors) {
-        diamondUpgrades.put(DiamondUpgrade.SHARPNESS, 0);
+        for (int i = 0; i < DiamondUpgrade.values().length; i++) diamondUpgrades.put(DiamondUpgrade.values()[i], 0);
+
         this.teamColors = teamColors;
+    }
+
+    public HashMap<DiamondUpgrade, Integer> getDiamondUpgrades() {
+        return diamondUpgrades;
     }
 }

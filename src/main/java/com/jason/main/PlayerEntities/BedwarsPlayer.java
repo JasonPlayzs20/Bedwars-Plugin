@@ -47,4 +47,11 @@ public class BedwarsPlayer {
 
 
 
+    public Teams getTeam() {
+        return team;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
 }

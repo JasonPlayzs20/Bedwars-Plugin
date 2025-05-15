@@ -43,7 +43,7 @@ public class GameManager {
 
     public GameManager(World world, Player player) {
         this.world = world;
-        this.player = Bukkit.getPlayer("IamSorry_");
+        this.player = Bukkit.getPlayer("Kirk_KD");
         this.state = State.RECRUITING;
         this.players = new ArrayList<>();
 
@@ -54,7 +54,7 @@ public class GameManager {
         players.add(player);
     }
     public void startArena() {
-        scan(Bukkit.getPlayer("IamSorry_"), world);
+        scan(Bukkit.getPlayer("Kirk_KD"), world);
         player.sendMessage(emLoc.toString());
         state = State.RECRUITING;
         this.players = world.getPlayers();
@@ -79,7 +79,7 @@ public class GameManager {
 
     public void startGame() {
         this.player.sendMessage("Game Started");
-        Bukkit.getPlayer("IamSorry_").sendMessage("Game Started");
+        Bukkit.getPlayer("Kirk_KD").sendMessage("Game Started");
         state = State.PLAYING;
         generatorManager = new GeneratorManager(world, diamondLoc, genLoc, emLoc, shopLoc, diaShopLoc);
         generatorManager.start();
