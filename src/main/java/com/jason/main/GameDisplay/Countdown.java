@@ -17,21 +17,21 @@ public class Countdown implements Runnable {
 
     }
     public void start() {
-        Bukkit.getPlayer("Kirk_KD").sendMessage("Countdown started");
-        GameManager.state = State.COUNTDOWN;
+//        Bukkit.getPlayer("IamSorry_").sendMessage("Countdown started");
+        gameManager.state = State.COUNTDOWN;
         gameManager.countdownID = Bukkit.getScheduler().runTaskTimer(game, this,0,20).getTaskId();
 
     }
     public void stop() {
-        Bukkit.getPlayer("Kirk_KD").sendMessage("Countdown stopped");
-        GameManager.state = State.COUNTDOWN;
+//        Bukkit.getPlayer("IamSorry_").sendMessage("Countdown stopped");
+        gameManager.state = State.COUNTDOWN;
         Bukkit.getScheduler().cancelTask(gameManager.countdownID);
     }
 
     @Override
     public void run() {
         if (countdownSeconds == 0) {
-            Bukkit.getPlayer("Kirk_KD").sendMessage("Countdown Finished");
+//            Bukkit.getPlayer("IamSorry_").sendMessage("Countdown Finished");
             Bukkit.getScheduler().cancelTask(gameManager.countdownID);
             gameManager.startGame();
             return;

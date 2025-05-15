@@ -17,8 +17,8 @@ public class BedwarsPlayer {
     Player player;
     GameManager gameManager;
     World world;
-    public static Location mainSpawn;
-    public static Location baseSpawn;
+    public Location mainSpawn;
+    public Location baseSpawn;
     String name;
     String teamName;
 
@@ -46,12 +46,4 @@ public class BedwarsPlayer {
     }
 
 
-
-    public Teams getTeam() {
-        return team;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
 }

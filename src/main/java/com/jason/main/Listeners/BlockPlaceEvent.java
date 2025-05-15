@@ -19,9 +19,11 @@ public class BlockPlaceEvent implements Listener {
     public static void onBlockPlace(org.bukkit.event.block.BlockPlaceEvent event) {
         Player player = event.getPlayer();
         World world = player.getWorld();
-        player.sendMessage(String.valueOf(getData(bedwars.serverpath, world.getName().substring(1),"blockBreakLimit")));
+        player.sendMessage(String.valueOf(getData(bedwars.serverpath, world.getName().substring(1),"blockBreakLimit")) + " UGIOHSNDYGUIOISHBGU*IOJKHUV*S)(PIDJKLVHUO*IKLJNBDSIUHOI");
+
         GameManager gameManager = Arenas.getArena(world);
         gameManager.blockList.add(event.getBlock());
+
     }
 
     @EventHandler
@@ -29,6 +31,8 @@ public class BlockPlaceEvent implements Listener {
 //        event.getPlayer().sendMessage("saturation");
         event.getPlayer().setSaturation(25);
         event.getPlayer().setFoodLevel(20);
+        event.getPlayer().getWorld().setTime(1000);
+        event.getPlayer().getWorld().setStorm(false);
     }
 
 }

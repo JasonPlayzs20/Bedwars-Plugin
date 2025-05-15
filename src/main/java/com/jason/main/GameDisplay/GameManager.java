@@ -26,11 +26,10 @@ import static org.bukkit.Material.SPONGE;
 
 public class GameManager {
     public World world;
-    Player player;
-    static State state;
+    public State state;
     List<Player> players;
-    public static HashMap<Player, BedwarsPlayer> bedwarsPlayers = new HashMap<>();
-    public static int countdownID;
+    public  HashMap<Player, BedwarsPlayer> bedwarsPlayers = new HashMap<>();
+    public  int countdownID;
     Countdown countdown;
     GeneratorManager generatorManager;
     ShopManager shopManager;
@@ -39,11 +38,11 @@ public class GameManager {
     List<Location> emLoc = new ArrayList<>();
     List<Location> shopLoc = new ArrayList<>();
     List<Location> diaShopLoc = new ArrayList<>();
-    public static List<Block> blockList = new ArrayList<>();
+    public  List<Block> blockList = new ArrayList<>();
 
     public GameManager(World world, Player player) {
         this.world = world;
-        this.player = Bukkit.getPlayer("Kirk_KD");
+//        this.player = Bukkit.getPlayer("IamSorry_");
         this.state = State.RECRUITING;
         this.players = new ArrayList<>();
 
@@ -54,13 +53,10 @@ public class GameManager {
         players.add(player);
     }
     public void startArena() {
-        scan(Bukkit.getPlayer("Kirk_KD"), world);
-        player.sendMessage(emLoc.toString());
+        scan(world);
         state = State.RECRUITING;
         this.players = world.getPlayers();
-        player.sendMessage(String.valueOf(world.getPlayers().size()));
         if (this.players.size() == 1) {
-            player.sendMessage("done recruit");
             countdown = new Countdown(bedwars.getMainInstance(), this, Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml","countdownSeconds")));
             countdown.start();
             state = State.PLAYING;
@@ -69,8 +65,7 @@ public class GameManager {
 //            Bukkit.getPlayer("IamSorry_").sendMessage(countdown.toString());
             Bukkit.getScheduler().cancelTask(countdownID);
             try {
-                player.sendMessage(world.getName());
-                removeFile(player, serverpath + ".", world.getName().substring(1));
+                removeFile(serverpath + ".", world.getName().substring(1));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -78,8 +73,7 @@ public class GameManager {
     }
 
     public void startGame() {
-        this.player.sendMessage("Game Started");
-        Bukkit.getPlayer("Kirk_KD").sendMessage("Game Started");
+//        Bukkit.getPlayer("IamSorry_").sendMessage("Game Started");
         state = State.PLAYING;
         generatorManager = new GeneratorManager(world, diamondLoc, genLoc, emLoc, shopLoc, diaShopLoc);
         generatorManager.start();
@@ -91,13 +85,11 @@ public class GameManager {
     }
 
     void endGame() {
-        this.player.sendMessage("Game Ended");
         state = State.RECRUITING;
     }
 
 
     void endGenerator() {
-        this.player.sendMessage("Generator Ended");
     }
 
     void spawnShop(Location location) {
@@ -108,7 +100,7 @@ public class GameManager {
         return state;
     }
 
-    public void scan(Player player, World world) {
+    public void scan(World world) {
 //        player.sendMessage("Scanning");
         String dataFolder = "plugins/BedwarsInfo";
         int firstLevel = Integer.parseInt((getData(dataFolder, world.getName().substring(1) + ".yml", "lobbySpawn.y")));
@@ -145,7 +137,7 @@ public class GameManager {
                 Bukkit.getScheduler().runTask(bedwars.getMainInstance(), new BukkitRunnable() {
                     @Override
                     public void run() {
-                        getSign(locations, player, world);
+                        getSign(locations, world);
                     }
                 });
             }
@@ -153,40 +145,28 @@ public class GameManager {
 
     }
 
-    public void getSign(List<Location> locations, Player player, World world) {
-        player.sendMessage("get Sign");
+    public void getSign(List<Location> locations, World world) {
 //        player.sendMessage(locations.toString());
         for (Location loc : locations) {
-            player.sendMessage("For looping");
             Sign sign = (Sign) loc.getBlock().getState();
             String data = sign.getLine(0).substring(0, 1);
-            player.sendMessage("got data: " + data);
             Location oldLoc = loc;
             world.getBlockAt(loc).setType(Material.AIR);
             loc = loc.add(0.5,0.5,0.5);
             if (data == "p") {
 
             } else if (data.contains("g")) {
-                player.sendMessage("Try to add genLoc");
                 genLoc.add(loc);
-                player.sendMessage("generator");
             } else if (data.contains("s")) {
                 shopLoc.add(loc);
-                player.sendMessage("shop");
             } else if (data.contains("d")) {
                 diaShopLoc.add(loc);
-                player.sendMessage("diasShop");
             }
             if (sign.getLine(0).substring(1).contains("e")) {
                 emLoc.add(loc);
-                player.sendMessage("em");
-                player.sendMessage(emLoc.toString());
             } else if (sign.getLine(0).substring(1).contains("d")) {
                 diamondLoc.add(loc);
-                player.sendMessage("dimondLoc");
-                player.sendMessage(diamondLoc.toString());
             }
-            player.sendMessage("test: ");
 
         }
     }

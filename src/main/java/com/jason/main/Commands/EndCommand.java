@@ -21,30 +21,26 @@ import static com.jason.main.bedwars.serverpath;
 public class EndCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Player player = (Player) sender;
         try {
-            removeFile(player, serverpath + ".", args[0]);
+            removeFile(serverpath + ".", args[0]);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return false;
     }
 
-    public static boolean removeFile(Player player, String path, String args) throws IOException {
+    public static boolean removeFile(String path, String args) throws IOException {
 
         if (Objects.equals(args, "world")) {
             return true;
         }
         if (Files.exists(Paths.get(path + args))) {
             Bukkit.getServer().unloadWorld("." + args, false);
-            player.sendMessage("Unloaded");
             deleteDirectory(Paths.get(serverpath + "." + args).toFile());
 //            FileUtils.deleteDirectory(Paths.get("/Users/jason/Desktop/coding_stuffes/spigot_servers/SpigotServer1.8/." + args[0]).toFile());
-            player.sendMessage("Deleted");
 
         } else {
-            player.sendMessage("World not exist");
-            player.sendMessage(Paths.get(path+args).toString());
+            System.out.println("World not exist");
             return false;
         }
         return false;
