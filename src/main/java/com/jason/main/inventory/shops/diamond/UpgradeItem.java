@@ -1,4 +1,4 @@
-package com.jason.main.invmenu.shops.diamond;
+package com.jason.main.inventory.shops.diamond;
 
 import org.bukkit.inventory.ItemStack;
 

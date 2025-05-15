@@ -1,4 +1,4 @@
-package com.jason.main.invmenu.shops.quick;
+package com.jason.main.inventory.shops.quick;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
@@ -40,8 +40,8 @@ public class Shopper {
     private int getTier(ShopItem[] tools) {
         PlayerInventory inventory = player.getInventory();
         for (int i = tools.length - 1; i >= 0; i--) {
-            if ((inventory.getBoots() != null && inventory.getBoots().getType().equals(tools[i].getItemStack().getType())) // armor
-                    || inventory.contains(tools[i].getItemStack())) { // tools
+            if ((inventory.getBoots() != null && inventory.getBoots().getType().equals(tools[i].getDisplayItemStack().getType())) // armor
+                    || inventory.contains(tools[i].getDisplayItemStack())) { // tools
                 return i + 1;
             }
         }

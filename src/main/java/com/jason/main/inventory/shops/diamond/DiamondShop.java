@@ -1,10 +1,9 @@
-package com.jason.main.invmenu.shops.diamond;
+package com.jason.main.inventory.shops.diamond;
 
 import com.jason.main.Emums.DiamondUpgrade;
-import com.jason.main.GameDisplay.Arenas;
 import com.jason.main.GameDisplay.GameManager;
 import com.jason.main.PlayerEntities.BedwarsPlayer;
-import com.jason.main.invmenu.InventoryMenu;
+import com.jason.main.inventory.InventoryMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

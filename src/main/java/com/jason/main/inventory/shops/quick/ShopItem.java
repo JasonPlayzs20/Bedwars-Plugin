@@ -1,4 +1,4 @@
-package com.jason.main.invmenu.shops.quick;
+package com.jason.main.inventory.shops.quick;
 
 import com.jason.main.Util;
 import com.jason.main.items.BedbugItem;
@@ -121,15 +121,15 @@ public class ShopItem {
         Shopper shopper = new Shopper(player);
 
         List<Material> axeTiers = Arrays.stream(Shopper.AXES)
-                .map(shopItem -> shopItem.getItemStack().getType())
+                .map(shopItem -> shopItem.getDisplayItemStack().getType())
                 .collect(Collectors.toList());
 
         List<Material> pickaxeTiers = Arrays.stream(Shopper.PICKAXES)
-                .map(shopItem -> shopItem.getItemStack().getType())
+                .map(shopItem -> shopItem.getDisplayItemStack().getType())
                 .collect(Collectors.toList());
 
         List<Material> armorTiers = Arrays.stream(Shopper.ARMORS)
-                .map(shopItem -> shopItem.getItemStack().getType())
+                .map(shopItem -> shopItem.getDisplayItemStack().getType())
                 .collect(Collectors.toList());
 
         boolean success = tryBuyTiered(handler, axeTiers, shopper.axeTier)
@@ -152,16 +152,21 @@ public class ShopItem {
                 inv.setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
                 inv.setBoots(new ItemStack(Material.DIAMOND_BOOTS));
             }
-            else handler.giveItems(itemStack);
+            else handler.giveItems(getCleanItemStack());
         }
 
         return success;
     }
 
-    public ItemStack getItemStack() {
-        ItemMeta meta = itemStack.getItemMeta();
+    public ItemStack getDisplayItemStack() {
+        ItemStack displayItemStack = itemStack.clone();
+        ItemMeta meta = displayItemStack.getItemMeta();
         meta.setLore(Collections.singletonList(ChatColor.GOLD.toString() + cost + " " + prettify(resourceType)));
-        itemStack.setItemMeta(meta);
+        displayItemStack.setItemMeta(meta);
+        return displayItemStack;
+    }
+
+    public ItemStack getCleanItemStack() {
         return itemStack;
     }
 

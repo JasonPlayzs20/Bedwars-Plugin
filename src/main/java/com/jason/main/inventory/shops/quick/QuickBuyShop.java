@@ -1,7 +1,7 @@
-package com.jason.main.invmenu.shops.quick;
+package com.jason.main.inventory.shops.quick;
 
 import com.jason.main.Util;
-import com.jason.main.invmenu.InventoryMenu;
+import com.jason.main.inventory.InventoryMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -140,7 +140,7 @@ public class QuickBuyShop extends InventoryMenu {
         for (int s : new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43}) {
             if (i >= shopItems.length) break;
             ShopItem shopItem = shopItems[i].get(shopper);
-            setButton(s / 9, s % 9, shopItem.getItemStack(), (menu, itemStack, button) -> {
+            setButton(s / 9, s % 9, shopItem.getDisplayItemStack(), (menu, itemStack, button) -> {
                 if (!shopItem.onBought(player)) player.sendMessage(ChatColor.RED + "You broke as hell boy");
             });
             i++;
