@@ -68,7 +68,7 @@ public final class bedwars extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new BlockBreakEvent(), this);
         Bukkit.getPluginManager().registerEvents(new BlockPlaceEvent(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerFakeDeathEvent(), this);
-        Bukkit.getPlayer("IamSorry_").sendMessage(getDataFolder().getParentFile().getAbsolutePath());
+//        Bukkit.getPlayer("IamSorry_").sendMessage(getDataFolder().getParentFile().getAbsolutePath());
         System.out.println(getDataFolder().getParentFile().getAbsolutePath());
         Bukkit.getPluginManager().registerEvents(new LobbyJerry(), this);
 
