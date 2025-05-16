@@ -52,6 +52,7 @@ public class GameManager {
     }
     public void startArena() {
         scan(world);
+
         state = State.RECRUITING;
         this.players = world.getPlayers();
         if (this.players.size() == 1) {
@@ -61,7 +62,9 @@ public class GameManager {
         }
         if (this.players.size() == 0) {
 //            Bukkit.getPlayer("IamSorry_").sendMessage(countdown.toString());
+//            Bukkit.getPlayer("IamSorry_").sendMessage("STOPPING TIMER");
             Bukkit.getScheduler().cancelTask(countdownID);
+            countdown.stop();
             try {
                 removeFile(serverpath + ".", world.getName().substring(1));
             } catch (IOException e) {

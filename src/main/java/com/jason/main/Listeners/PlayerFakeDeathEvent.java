@@ -3,6 +3,7 @@ package com.jason.main.Listeners;
 import com.jason.main.GameDisplay.Arenas;
 import com.jason.main.bedwars;
 import com.jason.main.items.BedwarsItem;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -77,7 +78,9 @@ public class PlayerFakeDeathEvent implements Listener {
     @EventHandler
     public static void onDamageByEntity(EntityDamageByEntityEvent e) {
         Player damager, playerDied;
+        Arrow arrow = (Arrow) e.getDamager();
 
+//        Bukkit.getServer().getPlayer("IamSorry_").sendMessage(String.valueOf(arrow.getShooter()));
 
 
         if (e.getDamager() instanceof Player) damager = (Player) e.getDamager();
@@ -90,7 +93,7 @@ public class PlayerFakeDeathEvent implements Listener {
         else {
             playerDied = null;
             if (e.getDamager() instanceof Arrow) {
-                Arrow arrow = (Arrow) e.getDamager();
+//                Arrow arrow = (Arrow) e.getDamager();
                 Player player = (Player) arrow.getShooter();
                 if (Arenas.getArena(player.getWorld()).bedwarsPlayers.get(player).team.teamColors == Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors) {
                     e.setCancelled(true);
