@@ -25,8 +25,6 @@ public class InventoryListener implements Listener {
             return;
         }
 
-        System.out.println(clickedInventory.getType() + "  " + event.getAction() + "  " + event.getSlotType());
-
         // prevent clicking on armor slot
         if (event.getSlotType().equals(InventoryType.SlotType.ARMOR)) {
             event.setCancelled(true);
@@ -63,19 +61,4 @@ public class InventoryListener implements Listener {
             }
         }
     }
-
-//    @EventHandler
-//    public void onMoveItem(InventoryMoveItemEvent event) {
-//        Inventory initiator = event.getInitiator();
-//        Inventory destination = event.getDestination();
-//        ItemStack itemStack = event.getItem();
-//
-//        if (itemStack != null && itemStack.getType() != Material.AIR &&
-//                initiator.getType().equals(InventoryType.PLAYER) &&
-//                (destination.getType().equals(InventoryType.ENDER_CHEST)
-//                || destination.getType().equals(InventoryType.CHEST))) {
-//            // prevent storing tools
-//            if (AXES.contains(itemStack.getType()) || PICKAXES.contains(itemStack.getType())) event.setCancelled(true);
-//        }
-//    }
 }

@@ -55,9 +55,9 @@ public class QuickBuyShop extends InventoryMenu {
             },
 
             // armors
-            { shopper -> ShopItem.CHAINMAIL_ARMOR,
-                    shopper -> ShopItem.IRON_ARMOR,
-                    shopper -> ShopItem.DIAMOND_ARMOR
+            { shopper -> shopper.armorTier == 0 ? ShopItem.CHAINMAIL_ARMOR : null,
+                    shopper -> shopper.armorTier <= 1 ? ShopItem.IRON_ARMOR : null,
+                    shopper -> shopper.armorTier <= 2 ? ShopItem.DIAMOND_ARMOR : null
             },
 
             // tools
@@ -140,7 +140,7 @@ public class QuickBuyShop extends InventoryMenu {
         for (int s : new int[] {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43}) {
             if (i >= shopItems.length) break;
             ShopItem shopItem = shopItems[i].get(shopper);
-            setButton(s / 9, s % 9, shopItem.getDisplayItemStack(), (menu, itemStack, button) -> {
+            if (shopItem != null) setButton(s / 9, s % 9, shopItem.getDisplayItemStack(), (menu, itemStack, button) -> {
                 if (!shopItem.onBought(player)) player.sendMessage(ChatColor.RED + "You broke as hell boy");
             });
             i++;
