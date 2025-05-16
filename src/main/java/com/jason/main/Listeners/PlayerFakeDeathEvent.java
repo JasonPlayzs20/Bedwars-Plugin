@@ -5,9 +5,11 @@ import com.jason.main.GameDisplay.GameManager;
 import com.jason.main.PlayerEntities.BedwarsPlayer;
 import com.jason.main.bedwars;
 import com.jason.main.items.BedwarsItem;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -82,15 +84,30 @@ public class PlayerFakeDeathEvent implements Listener {
     @EventHandler
     public static void onDamageByEntity(EntityDamageByEntityEvent e) {
         Player damager, playerDied;
+        Arrow arrow = (Arrow) e.getDamager();
+
+//        Bukkit.getServer().getPlayer("IamSorry_").sendMessage(String.valueOf(arrow.getShooter()));
+
 
         if (e.getDamager() instanceof Player) damager = (Player) e.getDamager();
-        else return;
+        else {
+            damager = null;
+            return;
+        }
 
         if (e.getEntity() instanceof Player) playerDied = (Player) e.getEntity();
         else {
             playerDied = null;
-            return;
+            if (e.getDamager() instanceof Arrow) {
+//                Arrow arrow = (Arrow) e.getDamager();
+                Player player = (Player) arrow.getShooter();
+                if (Arenas.getArena(player.getWorld()).bedwarsPlayers.get(player).team.teamColors == Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors) {
+                    e.setCancelled(true);
+                    return;
+                }
+            }else return;
         }
+
 
         // TODO if damager and victim are the same team, ignore.
         // TODO JASON WHY YOU NO CHECK FOR NULL???????????????????
@@ -110,7 +127,7 @@ public class PlayerFakeDeathEvent implements Listener {
             playerDied.setHealth(20);
             playerDied.teleport(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).mainSpawn);
 //            Arenas.getArena(playerDied.getWorld()).world.sendPluginMessage(bedwars.getMainInstance(), playerDied.getName() + " was killed by " + damager );
-            Arenas.getArena(playerDied.getWorld()).world.getPlayers().forEach(p -> {
+            playerDied.getWorld().getPlayers().forEach(p -> {
                 p.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() +ChatColor.RED + " was killed by " + (Arenas.getArena(damager.getWorld()).bedwarsPlayers.get(damager).team.chatColor));
             });
             for (ItemStack itemStack : playerDied.getInventory().getContents()) {

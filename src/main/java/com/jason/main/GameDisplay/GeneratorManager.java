@@ -130,7 +130,7 @@ public class GeneratorManager {
                 }
                 diamondTimer--;
             }
-        }.runTaskTimer(getMainInstance(), 0, 15);
+        }.runTaskTimer(getMainInstance(), 0, 19);
 
 
         for (Location loc : genLoc) {
