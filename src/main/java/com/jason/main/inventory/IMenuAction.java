@@ -1,4 +1,4 @@
-package com.jason.main.invmenu;
+package com.jason.main.inventory;
 
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;

@@ -1,4 +1,4 @@
-package com.jason.main.invmenu.shops.quick;
+package com.jason.main.inventory.shops.quick;
 
 @FunctionalInterface
 public interface IShopItemGetter {

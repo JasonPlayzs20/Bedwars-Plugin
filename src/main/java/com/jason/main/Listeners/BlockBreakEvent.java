@@ -36,18 +36,4 @@ public class BlockBreakEvent implements Listener {
 
 
     }
-
-
-    @EventHandler
-    public static void Fire(PlayerInteractEvent e) {
-        if (!Objects.equals(e.getPlayer().getWorld().getName(), "world")) {
-            return;
-        }
-        if (e.getAction() == Action.LEFT_CLICK_AIR) {
-            return;
-        }
-//        e.getPlayer().sendMessage("Fire");
-        e.setCancelled(true);
-
-    }
 }

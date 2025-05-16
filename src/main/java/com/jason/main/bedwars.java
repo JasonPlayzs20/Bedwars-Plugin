@@ -7,8 +7,7 @@ import com.jason.main.Commands.addCommands.Others.addDiamondGen;
 import com.jason.main.Commands.addCommands.Others.addEmeraldGen;
 import com.jason.main.Commands.addCommands.ScanCommand;
 import com.jason.main.Listeners.*;
-import com.jason.main.PlayerEntities.BedwarsPlayer;
-import com.jason.main.invmenu.InventoryClickListener;
+import com.jason.main.inventory.InventoryListener;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -55,7 +54,7 @@ public final class bedwars extends JavaPlugin {
         this.getCommand("npc").setExecutor(new NpcCommand());
 
         Bukkit.getPluginManager().registerEvents(new BlockSelection(mainInstance), this);
-        Bukkit.getPluginManager().registerEvents(new InventoryClickListener(), this);
+        Bukkit.getPluginManager().registerEvents(new InventoryListener(), this);
         Bukkit.getPluginManager().registerEvents(new ProjectileListener(), this);
 //        Bukkit.getPlayer("IamSorry_").sendMessage(getDataFolder().getParentFile().getAbsolutePath());
 //        System.out.println(getDataFolder().getParentFile().getAbsolutePath());

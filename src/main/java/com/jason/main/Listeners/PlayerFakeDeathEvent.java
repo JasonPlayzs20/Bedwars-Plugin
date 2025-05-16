@@ -1,6 +1,8 @@
 package com.jason.main.Listeners;
 
 import com.jason.main.GameDisplay.Arenas;
+import com.jason.main.GameDisplay.GameManager;
+import com.jason.main.PlayerEntities.BedwarsPlayer;
 import com.jason.main.bedwars;
 import com.jason.main.items.BedwarsItem;
 import org.bukkit.Bukkit;
@@ -11,12 +13,16 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import static com.jason.main.Util.consumeItem;
+import static com.sun.javafx.util.Utils.clamp;
 
 public class PlayerFakeDeathEvent implements Listener {
     @EventHandler
@@ -104,6 +110,7 @@ public class PlayerFakeDeathEvent implements Listener {
 
 
         // TODO if damager and victim are the same team, ignore.
+        // TODO JASON WHY YOU NO CHECK FOR NULL???????????????????
         if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors == Arenas.getArena(damager.getWorld()).bedwarsPlayers.get(damager).team.teamColors) {
             e.setCancelled(true);
             return;
@@ -124,6 +131,7 @@ public class PlayerFakeDeathEvent implements Listener {
                 p.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() +ChatColor.RED + " was killed by " + (Arenas.getArena(damager.getWorld()).bedwarsPlayers.get(damager).team.chatColor));
             });
             for (ItemStack itemStack : playerDied.getInventory().getContents()) {
+                // the unholy code of jason
                 if (itemStack.getType() == Material.IRON_INGOT) {
                     damager.getInventory().addItem(itemStack);
                 }
@@ -178,9 +186,12 @@ public class PlayerFakeDeathEvent implements Listener {
         BedwarsItem bedwarsItem = BedwarsItem.from(itemStack);
         if (bedwarsItem == null) return;
 
-        bedwarsItem.onUse(event);
+        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
+            bedwarsItem.onUse(event);
 
-        if (itemStack.getAmount() == 1) event.getPlayer().getInventory().removeItem(itemStack);
-        else itemStack.setAmount(itemStack.getAmount() - 1);
+            event.getPlayer().updateInventory();
+            itemStack.setAmount(itemStack.getAmount() - 1);
+            event.getPlayer().updateInventory();
+        }
     }
 }
