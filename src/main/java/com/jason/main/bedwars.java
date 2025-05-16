@@ -17,7 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
+
 
 public final class bedwars extends JavaPlugin {
     private static bedwars mainInstance;
@@ -30,11 +30,12 @@ public final class bedwars extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        System.out.println(getData("plugins/BedwarsInfo", "Airshow.yml", "red.spawn.x"));
-        setData("plugins/BedwarsInfo", "Airshow.yml", "red.spawn.x", -40);
-        System.out.println(getData("plugins/BedwarsInfo", "Airshow.yml", "red.spawn.x"));
+//        System.out.println(getData("plugins/BedwarsInfo", "Airshow.yml", "red.spawn.x"));
+//        setData("plugins/BedwarsInfo", "Airshow.yml", "red.spawn.x", -40);
+//        System.out.println(getData("plugins/BedwarsInfo", "Airshow.yml", "red.spawn.x"));
         mainInstance = this;
         serverpath = getData("plugins/BedwarsInfo", "serverpath.yml", "path");
+        System.out.println(serverpath);
 //        LobbyJerry.registerInventory(this.getServer());
 
 
@@ -72,19 +73,19 @@ public final class bedwars extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new LobbyJerry(), this);
 
 
-        Bukkit.createWorld(new WorldCreator("Airshow"));
-        Bukkit.createWorld(new WorldCreator("Ashfire"));
-        Bukkit.createWorld(new WorldCreator("Babylon"));
-        Bukkit.createWorld(new WorldCreator("Cascade"));
-        Bukkit.createWorld(new WorldCreator("Dragonstar"));
-        Bukkit.createWorld(new WorldCreator("Gateway"));
-        Bukkit.createWorld(new WorldCreator("Hollow"));
-        Bukkit.createWorld(new WorldCreator("Lighthouse"));
-        Bukkit.createWorld(new WorldCreator("Orchestra"));
-        Bukkit.createWorld(new WorldCreator("Playground"));
+//        Bukkit.createWorld(new WorldCreator("Airshow"));
+//        Bukkit.createWorld(new WorldCreator("Ashfire"));
+//        Bukkit.createWorld(new WorldCreator("Babylon"));
+//        Bukkit.createWorld(new WorldCreator("Cascade"));
+//        Bukkit.createWorld(new WorldCreator("Dragonstar"));
+//        Bukkit.createWorld(new WorldCreator("Gateway"));
+//        Bukkit.createWorld(new WorldCreator("Hollow"));
+//        Bukkit.createWorld(new WorldCreator("Lighthouse"));
+//        Bukkit.createWorld(new WorldCreator("Orchestra"));
+//        Bukkit.createWorld(new WorldCreator("Playground"));
         Bukkit.createWorld(new WorldCreator("Fang"));
 
-        System.out.println("5828309p58");
+        System.out.println("81585181653");
     }
 
 
@@ -133,7 +134,7 @@ public final class bedwars extends JavaPlugin {
             }
         }
         YamlConfiguration modifyFile = YamlConfiguration.loadConfiguration(file);
-        modifyFile.set(path, Optional.of(value));
+        modifyFile.set(path, value);
         try {
             modifyFile.save(file);
         } catch (IOException e) {
@@ -157,7 +158,7 @@ public final class bedwars extends JavaPlugin {
             }
         }
         YamlConfiguration modifyFile = YamlConfiguration.loadConfiguration(file);
-        modifyFile.set(path, Optional.of(value));
+        modifyFile.set(path, value);
         try {
             modifyFile.save(file);
         } catch (IOException e) {

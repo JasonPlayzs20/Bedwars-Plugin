@@ -36,17 +36,29 @@ public class GameManager {
     List<Location> shopLoc = new ArrayList<>();
     List<Location> diaShopLoc = new ArrayList<>();
     public  List<Block> blockList = new ArrayList<>();
+    public HashMap<TeamColors, Integer> teamCount = new HashMap<>();
+
 
     public GameManager(World world, Player player) {
         this.world = world;
 //        this.player = Bukkit.getPlayer("IamSorry_");
         this.state = State.RECRUITING;
         this.players = new ArrayList<>();
+        for (TeamColors teamColor : TeamColors.values()) {
+            teamCount.put(teamColor, 0);
+        }
 
 
     }
+    public void addTeam(Player player, TeamColors teamColor, ChatColor chatColor) {
+        teamCount.put(teamColor, teamCount.get(teamColor) + 1);
+        bedwarsPlayers.get(player).team.teamColors = teamColor;
+        bedwarsPlayers.get(player).team.chatColor = chatColor;
+    }
+
     public void addPlayer(Player player) {
-        bedwarsPlayers.put(player, new BedwarsPlayer(player,this, new Teams(TeamColors.GREEN, ChatColor.GREEN)));
+        bedwarsPlayers.put(player, new BedwarsPlayer(player,this, new Teams(TeamColors.NA, ChatColor.GREEN)));
+        addTeam(player, TeamColors.NA, ChatColor.GREEN);
         player.setDisplayName(player.getName());
         players.add(player);
     }
@@ -72,13 +84,35 @@ public class GameManager {
             }
         }
     }
+    public void setTeams() {
+        for (Player player : players) {
+            player.sendMessage("you");
+            TeamColors teamColors = bedwarsPlayers.get(player).team.teamColors;
+            if (teamColors == TeamColors.NA) {
+                player.sendMessage("NA");
+                for (TeamColors teamColors1 : TeamColors.values()) {
+                    player.sendMessage("Looping through colors: " + teamColors1);
+                    if (teamColors1 == TeamColors.NA) {continue;}
+                    else if (teamCount.get(teamColors1) <= 2) {
+                        player.sendMessage("put into" + teamColors1);
+                        bedwarsPlayers.get(player).team.teamColors = teamColors1;
+                        bedwarsPlayers.get(player).team.chatColor = ChatColor.valueOf(teamColors1.name());
+                        player.sendMessage("chat color." + teamColors1.name());
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
     public void startGame() {
-//        Bukkit.getPlayer("IamSorry_").sendMessage("Game Started");
+//
+        setTeams();
         state = State.PLAYING;
         generatorManager = new GeneratorManager(world, diamondLoc, genLoc, emLoc, shopLoc, diaShopLoc);
         generatorManager.start();
         for (Player player : players) {
+//            bedwarsPlayers.get(player).team = new Teams(TeamColors.NA, ChatColor.GREEN);
             bedwarsPlayers.get(player).start();
         }
 

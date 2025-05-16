@@ -8,6 +8,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.util.Vector;
+
+import java.util.HashMap;
 
 import static com.jason.main.bedwars.getData;
 import static com.jason.main.bedwars.serverpath;
@@ -22,6 +25,7 @@ public class BedwarsPlayer {
     String name;
     String teamName;
 
+
     public BedwarsPlayer(Player player, GameManager gameManager, Teams teams) {
         this.player = player;
         this.gameManager = gameManager;
@@ -32,13 +36,12 @@ public class BedwarsPlayer {
 
         player.sendMessage(team.teamColors.name());
         player.sendMessage(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", "lobbySpawn.y"));
-        mainSpawn = new Location(world, 0, Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", "lobbySpawn.y")) - 30, 0);
-        baseSpawn = new Location(world, Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", team.teamColors.name().toString().substring(0, 1).toLowerCase() + ".p.x")), Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", team.teamColors.name().toString().substring(0, 1).toLowerCase() + ".p.y")) + 0.5, Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", team.teamColors.name().toString().substring(0, 1).toLowerCase() + ".p.z")));
-
 
     }
 
     public void start() {
+        mainSpawn = new Location(world, 0, Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", "lobbySpawn.y")) - 30, 0);
+        baseSpawn = new Location(world, Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", team.teamColors.name().toString().substring(0, 1).toLowerCase() + ".p.x")), Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", team.teamColors.name().toString().substring(0, 1).toLowerCase() + ".p.y")) + 0.5, Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", team.teamColors.name().toString().substring(0, 1).toLowerCase() + ".p.z"))).setDirection(new Vector(0,0,-2500));
         player.teleport(baseSpawn);
     }
 
