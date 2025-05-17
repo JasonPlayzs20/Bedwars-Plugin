@@ -16,6 +16,8 @@ import static com.jason.main.Util.consumeItem;
 import static com.jason.main.Util.namedItemStack;
 
 public class DiamondShop extends InventoryMenu {
+    public static final List<DiamondUpgrade> TRAPS = Arrays.asList(DiamondUpgrade.ITSATRAP, DiamondUpgrade.MININGTRAP, DiamondUpgrade.ALARMTRAP, DiamondUpgrade.COUNTERTRAP);
+
     private static final HashMap<DiamondUpgrade, UpgradeItem> upgradeItems = new HashMap<>();
     static {
         upgradeItems.put(DiamondUpgrade.SHARPNESS, new UpgradeItem(namedItemStack(new ItemStack(Material.DIAMOND_SWORD), "Sharpness"), new int[] { 4 }));
@@ -57,7 +59,7 @@ public class DiamondShop extends InventoryMenu {
 
             UpgradeItem upgradeItem = upgradeItems.get(upgrade);
 
-            if (priceIdx >= upgradeItem.getPrices().length) {
+            if (priceIdx >= upgradeItem.getPrices().length) { // maxed out already
                 ItemStack is = upgradeItem.getItemStack();
                 ItemMeta im = is.getItemMeta();
                 im.setLore(Arrays.asList(
@@ -68,22 +70,33 @@ public class DiamondShop extends InventoryMenu {
 
                 setItem(row, col, is);
             } else {
-                int price = upgradeItem.getPrices()[priceIdx];
+                if (TRAPS.contains(upgrade) && bwPlayer.getTeam().getTrap() != null) { // only allow one trap at a time
+                    ItemStack is = upgradeItem.getItemStack();
+                    ItemMeta im = is.getItemMeta();
+                    im.setLore(Collections.singletonList(
+                            ChatColor.RED + "Already bought a trap!"
+                    ));
+                    is.setItemMeta(im);
 
-                ItemStack is = upgradeItem.getItemStack();
-                ItemMeta im = is.getItemMeta();
-                im.setLore(Arrays.asList(
-                        ChatColor.GOLD + (priceIdx == 0 ? "Didn't buy yet" : "Tier " + priceIdx),
-                        ChatColor.GOLD + "Click to upgrade: " + price + " diamonds"
-                ));
-                is.setItemMeta(im);
+                    setItem(row, col, is);
+                } else {
+                    int price = upgradeItem.getPrices()[priceIdx];
 
-                setButton(row, col, is, (menu, itemStack, button) -> {
-                    if (consumeItem(player, price, Material.DIAMOND)) {
-                        bwPlayer.getTeam().getDiamondUpgrades().put(upgrade, priceIdx + 1);
-                        player.sendMessage(ChatColor.GREEN + "Upgraded");
-                    } else player.sendMessage(ChatColor.RED + "You broke as hell boy");
-                });
+                    ItemStack is = upgradeItem.getItemStack();
+                    ItemMeta im = is.getItemMeta();
+                    im.setLore(Arrays.asList(
+                            ChatColor.GOLD + (priceIdx == 0 ? "Didn't buy yet" : "Tier " + priceIdx),
+                            ChatColor.GOLD + "Click to upgrade: " + price + " diamonds"
+                    ));
+                    is.setItemMeta(im);
+
+                    setButton(row, col, is, (menu, itemStack, button) -> {
+                        if (consumeItem(player, price, Material.DIAMOND)) {
+                            bwPlayer.getTeam().getDiamondUpgrades().put(upgrade, priceIdx + 1);
+                            player.sendMessage(ChatColor.GREEN + "Upgraded");
+                        } else player.sendMessage(ChatColor.RED + "You broke as hell boy");
+                    });
+                }
             }
 
             if (++col == 8) {

@@ -6,13 +6,18 @@ import com.jason.main.Commands.addCommands.Bases.*;
 import com.jason.main.Commands.addCommands.Others.addDiamondGen;
 import com.jason.main.Commands.addCommands.Others.addEmeraldGen;
 import com.jason.main.Commands.addCommands.ScanCommand;
+import com.jason.main.GameDisplay.Arenas;
+import com.jason.main.GameDisplay.GameManager;
 import com.jason.main.Listeners.*;
+import com.jason.main.PlayerEntities.BedwarsPlayer;
 import com.jason.main.inventory.InventoryListener;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 
 import java.io.File;
@@ -86,6 +91,20 @@ public final class bedwars extends JavaPlugin {
         Bukkit.createWorld(new WorldCreator("Fang"));
 
         System.out.println("81585181653");
+
+        // per-tick task to handle BedwarsPlayer enchantments etc
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    BedwarsPlayer bwPlayer = Arenas.getPlayer(player);
+                    if (bwPlayer != null) { // the player is in a BW instance
+                        bwPlayer.applyDiamondUpgrades();
+                        bwPlayer.applyTrapEffects();
+                    }
+                }
+            }
+        }.runTaskTimer(this, 0, 1);
     }
 
 

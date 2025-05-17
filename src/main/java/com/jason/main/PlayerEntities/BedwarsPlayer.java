@@ -1,21 +1,34 @@
 package com.jason.main.PlayerEntities;
 
+import com.jason.main.Emums.DiamondUpgrade;
+import com.jason.main.GameDisplay.Arenas;
 import com.jason.main.GameDisplay.GameManager;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.jason.main.bedwars.getData;
 import static com.jason.main.bedwars.serverpath;
+import static com.jason.main.inventory.InventoryListener.SWORDS;
 
 public class BedwarsPlayer {
+    public static final double BASE_RADIUS = 20;
+
     public Teams team;
     Player player;
     GameManager gameManager;
@@ -51,5 +64,84 @@ public class BedwarsPlayer {
 
     public Teams getTeam() {
         return team;
+    }
+
+    /**
+     * Applies all diamond upgrades other than traps.
+     */
+    public void applyDiamondUpgrades() {
+        Map<DiamondUpgrade, Integer> upgrades = team.getDiamondUpgrades();
+
+        if (upgrades.get(DiamondUpgrade.PROTECTION) != 0) {
+            PlayerInventory inv = player.getInventory();
+            for (ItemStack itemStack : inv.getArmorContents())
+                itemStack.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgrades.get(DiamondUpgrade.PROTECTION));
+        }
+
+        if (upgrades.get(DiamondUpgrade.SHARPNESS) != 0) {
+            PlayerInventory inv = player.getInventory();
+            for (ItemStack itemStack : inv.getContents()) {
+                if (itemStack == null) continue;
+                if (SWORDS.contains(itemStack.getType())) itemStack.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 1);
+            }
+        }
+
+        if (upgrades.get(DiamondUpgrade.HASTE) != 0) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, upgrades.get(DiamondUpgrade.HASTE)));
+        }
+
+        if (upgrades.get(DiamondUpgrade.HEALPOOL) != 0) {
+            double dist = baseSpawn.distance(player.getLocation());
+            // heal pool with a radius of 20 blocks
+            if (dist <= BASE_RADIUS) player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1));
+            else player.removePotionEffect(PotionEffectType.REGENERATION);
+        }
+
+        int forge = upgrades.get(DiamondUpgrade.FORGE);
+        if (forge == 1) { // +50% speed
+
+        } else if (forge == 2) { // +100% speed
+
+        } else if (forge == 3) { // spawn emeralds
+
+        } else if (forge == 4) { // +200% speed
+
+        }
+    }
+
+    /**
+     * Checks if this player should trigger another team's trap.
+     */
+    public void applyTrapEffects() {
+        List<Player> players = player.getWorld().getPlayers();
+
+        for (Player other : players) {
+            if (other.equals(player)) continue;
+
+            BedwarsPlayer enemy = Arenas.getPlayer(other);
+            if (enemy == null || enemy.getTeam().equals(this.getTeam())) continue;
+
+            // out of range
+            if (player.getLocation().distance(enemy.baseLoc()) > BASE_RADIUS) continue;
+
+            Teams enemyTeam = enemy.getTeam();
+            DiamondUpgrade enemyTrap = enemyTeam.getTrap();
+
+            // end trap check after triggering a trap
+            if (enemyTrap == DiamondUpgrade.MININGTRAP) {
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 5, 1));
+                enemyTeam.getDiamondUpgrades().put(DiamondUpgrade.MININGTRAP, 0);
+                return;
+            } else if (enemyTrap == DiamondUpgrade.ITSATRAP) {
+                enemyTeam.getDiamondUpgrades().put(DiamondUpgrade.ITSATRAP, 0);
+                return;
+            } else if (enemyTrap == DiamondUpgrade.COUNTERTRAP) {
+                enemyTeam.getDiamondUpgrades().put(DiamondUpgrade.COUNTERTRAP, 0);
+                return;
+            } else if (enemyTrap == DiamondUpgrade.ALARMTRAP) {
+                enemyTeam.getDiamondUpgrades().put(DiamondUpgrade.ALARMTRAP, 0);
+                return;
+            }
+        }
     }
 }

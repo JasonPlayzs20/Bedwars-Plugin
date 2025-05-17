@@ -28,5 +28,12 @@ public class Arenas {
     public static Map<World, GameManager> getArenas() {
         return arenas;
     }
+
+    public static BedwarsPlayer getPlayer(Player player) {
+        GameManager gameManager = arenas.get(player.getWorld());
+        if (gameManager == null) return null;
+
+        return gameManager.bedwarsPlayers.get(player);
+    }
 }
 
