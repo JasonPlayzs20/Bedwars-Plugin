@@ -10,6 +10,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class GameManager {
     public World world;
     public State state;
     List<Player> players;
-    public  HashMap<Player, BedwarsPlayer> bedwarsPlayers = new HashMap<>();
+    public HashMap<Player, BedwarsPlayer> bedwarsPlayers = new HashMap<>();
     public  int countdownID;
     Countdown countdown;
     GeneratorManager generatorManager;
@@ -67,7 +68,7 @@ public class GameManager {
 
         state = State.RECRUITING;
         this.players = world.getPlayers();
-        if (this.players.size() == 1) {
+        if (this.players.size() == 2) {
             countdown = new Countdown(bedwars.getMainInstance(), this, Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml","countdownSeconds")));
             countdown.start();
             state = State.PLAYING;
@@ -85,19 +86,22 @@ public class GameManager {
         }
     }
     public void setTeams() {
+        Player golbal = Bukkit.getPlayer("IamSOrry_");
         for (Player player : players) {
             player.sendMessage("you");
+            player.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
             TeamColors teamColors = bedwarsPlayers.get(player).team.teamColors;
             if (teamColors == TeamColors.NA) {
                 player.sendMessage("NA");
                 for (TeamColors teamColors1 : TeamColors.values()) {
-                    player.sendMessage("Looping through colors: " + teamColors1);
+                    golbal.sendMessage("Looping through colors: " + teamColors1);
                     if (teamColors1 == TeamColors.NA) {continue;}
-                    else if (teamCount.get(teamColors1) <= 2) {
-                        player.sendMessage("put into" + teamColors1);
+                    else if (teamCount.get(teamColors1) < 1) {
+                        golbal.sendMessage("put into" + teamColors1);
                         bedwarsPlayers.get(player).team.teamColors = teamColors1;
                         bedwarsPlayers.get(player).team.chatColor = ChatColor.valueOf(teamColors1.name());
-                        player.sendMessage("chat color." + teamColors1.name());
+                        teamCount.put(teamColors1,teamCount.get(teamColors1) + 1);
+                        golbal.sendMessage(String.valueOf(teamCount.get(teamColors1)));
                         break;
                     }
                 }
