@@ -17,7 +17,7 @@ public class QuickBuyShop extends InventoryMenu {
             { shopper -> ShopItem.BRIDGE_EGG,
                     shopper -> shopper.getToolUpgrade(Shopper.PICKAXES, shopper.pickaxeTier),
                     shopper -> ShopItem.FIREBALL,
-                    shopper -> ShopItem.IRON_ARMOR,
+                    shopper -> shopper.armorTier <= 1 ? ShopItem.IRON_ARMOR : null,
                     shopper -> ShopItem.TNT,
                     shopper -> ShopItem.INVIS_POTION,
                     shopper -> ShopItem.SILVERFISH,
