@@ -20,7 +20,7 @@ public class InventoryListener implements Listener {
         Inventory clickedInventory = event.getClickedInventory();
         ItemStack movingItemStack = event.getCursor().getType().equals(Material.AIR) ? event.getCurrentItem() : event.getCursor();
 
-        if (clickedInventory == null) { // drop item
+        if (movingItemStack != null && clickedInventory == null) { // drop item
             if (AXES.contains(movingItemStack.getType()) || PICKAXES.contains(movingItemStack.getType())) event.setCancelled(true);
             return;
         }
@@ -33,7 +33,7 @@ public class InventoryListener implements Listener {
 
         InventoryAction inventoryAction = event.getAction();
 
-        if (AXES.contains(movingItemStack.getType()) || PICKAXES.contains(movingItemStack.getType())) {
+        if (movingItemStack != null && (AXES.contains(movingItemStack.getType()) || PICKAXES.contains(movingItemStack.getType()))) {
             if (clickedInventory.getType().equals(InventoryType.PLAYER)) { // moving within the player inventory
                 if (inventoryAction.equals(InventoryAction.MOVE_TO_OTHER_INVENTORY)) {
                     event.setCancelled(true);

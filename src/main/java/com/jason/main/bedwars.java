@@ -17,6 +17,8 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 
@@ -101,6 +103,11 @@ public final class bedwars extends JavaPlugin {
                     if (bwPlayer != null) { // the player is in a BW instance
                         bwPlayer.applyDiamondUpgrades();
                         bwPlayer.applyTrapEffects();
+                    } else {
+                        for (PotionEffect potionEffect : player.getActivePotionEffects()) {
+                            if (potionEffect.getType().equals(PotionEffectType.SATURATION) || potionEffect.getType().equals(PotionEffectType.NIGHT_VISION)) continue;
+                            player.removePotionEffect(potionEffect.getType());
+                        }
                     }
                 }
             }
