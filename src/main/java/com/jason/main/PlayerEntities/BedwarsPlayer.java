@@ -65,7 +65,7 @@ public class BedwarsPlayer {
                 player.sendMessage("greater than 0 Y");
                 baseSpawn.setDirection(new Vector(0, 0, -2500));
             }
-        }else  {
+        } else {
             if (baseSpawn.getX() < 0) {
                 player.sendMessage("less than 0 X");
                 baseSpawn.setDirection(new Vector(90, 0, 0));
@@ -113,7 +113,8 @@ public class BedwarsPlayer {
         if (upgrades.get(DiamondUpgrade.HEALPOOL) != 0) {
             double dist = baseSpawn.distance(player.getLocation());
             // heal pool with a radius of 20 blocks
-            if (dist <= BASE_RADIUS) player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1));
+            if (dist <= BASE_RADIUS)
+                player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1));
             else player.removePotionEffect(PotionEffectType.REGENERATION);
         }
 
@@ -149,7 +150,7 @@ public class BedwarsPlayer {
 
             // end trap check after triggering a trap
             if (enemyTrap == DiamondUpgrade.MININGTRAP) {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 5, 1));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 8 * 20, 1));
                 enemyTeam.getDiamondUpgrades().put(DiamondUpgrade.MININGTRAP, 0);
                 return;
             } else if (enemyTrap == DiamondUpgrade.ITSATRAP) {
