@@ -68,7 +68,7 @@ public class GameManager {
 
         state = State.RECRUITING;
         this.players = world.getPlayers();
-        if (this.players.size() == 2) {
+        if (this.players.size() == 8) {
             countdown = new Countdown(bedwars.getMainInstance(), this, Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml","countdownSeconds")));
             countdown.start();
             state = State.PLAYING;
@@ -86,7 +86,7 @@ public class GameManager {
         }
     }
     public void setTeams() {
-        Player golbal = Bukkit.getPlayer("IamSOrry_");
+//        Player golbal = Bukkit.getPlayer("IamSOrry_");
         for (Player player : players) {
             player.sendMessage("you");
             player.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
@@ -94,14 +94,14 @@ public class GameManager {
             if (teamColors == TeamColors.NA) {
                 player.sendMessage("NA");
                 for (TeamColors teamColors1 : TeamColors.values()) {
-                    golbal.sendMessage("Looping through colors: " + teamColors1);
+//                    golbal.sendMessage("Looping through colors: " + teamColors1);
                     if (teamColors1 == TeamColors.NA) {continue;}
-                    else if (teamCount.get(teamColors1) < 1) {
-                        golbal.sendMessage("put into" + teamColors1);
+                    else if (teamCount.get(teamColors1) < 2) {
+//                        golbal.sendMessage("put into" + teamColors1);
                         bedwarsPlayers.get(player).team.teamColors = teamColors1;
                         bedwarsPlayers.get(player).team.chatColor = ChatColor.valueOf(teamColors1.name());
                         teamCount.put(teamColors1,teamCount.get(teamColors1) + 1);
-                        golbal.sendMessage(String.valueOf(teamCount.get(teamColors1)));
+//                        golbal.sendMessage(String.valueOf(teamCount.get(teamColors1)));
                         break;
                     }
                 }

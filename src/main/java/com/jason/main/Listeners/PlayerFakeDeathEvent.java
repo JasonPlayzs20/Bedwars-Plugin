@@ -96,7 +96,7 @@ public class PlayerFakeDeathEvent implements Listener {
                 Player shooter = (Player) arrow.getShooter();
                 if (Arenas.getArena(shooter.getWorld()).bedwarsPlayers.get(shooter).team.teamColors == Arenas.getArena(e.getEntity().getWorld()).bedwarsPlayers.get(e.getEntity()).team.teamColors) {
                     e.setCancelled(true);
-                    Bukkit.getServer().getPlayer("IamSorry_").sendMessage(String.valueOf(shooter));
+//                    Bukkit.getServer().getPlayer("IamSorry_").sendMessage(String.valueOf(shooter));
                 }
             }
         }
