@@ -26,46 +26,48 @@ public class BlockBreakEvent implements Listener {
             GameManager gameManager = Arenas.getArena(world);
             //-1 or -2
             Location blockLoc = block.getLocation();
-//            if (Math.abs(blockLoc.getX()) > Math.abs(blockLoc.getZ())) {
-//                if (blockLoc.getX() > 0) {
-//                    for (int i = 1; i < 3; i++) {
-////                                go +X 2 blocks
-////                        bed();
-//                    }
+            if (Math.abs(blockLoc.getX()) > Math.abs(blockLoc.getZ())) {
+                if (blockLoc.getX() > 0) {
+                    for (int i = 1; i < 3; i++) {
+//                                go +X 2 blocks
+                        bed(p,world,gameManager,blockLoc.add(i,0,0));
+                    }
+
+                } else {
+                    for (int i = 1; i < 3; i++) {
+//                                go -X 2 blocks
+                        bed(p,world,gameManager,blockLoc.add(-i,0,0));
+                    }
+                }
+            } else {
+                if (blockLoc.getZ() > 0) {
+                    for (int i = 1; i < 3; i++) {
+//                                go +X 2 blocks\
+                        bed(p,world,gameManager,blockLoc.add(0,0,-1));
+
+                    }
+                } else {
+                    for (int i = 1; i < 3; i++) {
+//                                go -Z 2 blocks
+                        bed(p,world,gameManager,blockLoc.add(0,0,-i));
+
+                    }
+                }
+            }
+            p.sendMessage(String.valueOf(gameManager.bedLoc));
+            if (gameManager.bedLoc.containsKey(block.getLocation())) {
+                world.getPlayers().forEach(player -> {
+                    if (gameManager.bedwarsPlayers.get(player).team.teamColors.name().substring(0, 1).toLowerCase().equals(gameManager.bedLoc.get(block.getLocation()))) {
+                        gameManager.bedwarsPlayers.get(player).hasBed = false;
+                        player.sendTitle(ChatColor.RED + "YOU HAVE NO BED!", ChatColor.YELLOW + "YOU WILL NOT RESPAWN!!!");
+                    }
 //
-//                } else {
-//                    for (int i = 1; i < 3; i--) {
-////                                go -X 2 blocks
-//
-//                    }
-//                }
-//            } else {
-//                if (blockLoc.getZ() > 0) {
-//                    for (int i = 1; i < 3; i++) {
-////                                go +X 2 blocks
-//
-//                    }
-//                } else {
-//                    for (int i = 1; i < 3; i--) {
-////                                go -Z 2 blocks
-//
-//                    }
-//                }
-//            }
-//            p.sendMessage(String.valueOf(gameManager.bedLoc));
-//            if (gameManager.bedLoc.containsKey(block.getLocation())) {
-//                world.getPlayers().forEach(player -> {
-//                    if (gameManager.bedwarsPlayers.get(player).team.teamColors.name().substring(0, 1).toLowerCase().equals(gameManager.bedLoc.get(block.getLocation()))) {
-//                        gameManager.bedwarsPlayers.get(player).hasBed = false;
-//                        player.sendTitle(ChatColor.RED + "YOU HAVE NO BED!", ChatColor.YELLOW + "YOU WILL NOT RESPAWN!!!");
-//                    }
-////
-////                    String team = gameManager.bedLoc.get(block.getLocation());
-//
-//                    Arenas.getArena(world).bedwarsPlayers.get(player).hasBed = false;
-//                });
-//            }
-//                p.sendMessage(String.valueOf(block.getLocation()));
+//                    String team = gameManager.bedLoc.get(block.getLocation());
+
+                    Arenas.getArena(world).bedwarsPlayers.get(player).hasBed = false;
+                });
+            }
+                p.sendMessage(String.valueOf(block.getLocation()));
             if (!gameManager.blockList.contains(block)) {
                 e.setCancelled(true);
                 gameManager.blockList.remove(block);
@@ -76,11 +78,11 @@ public class BlockBreakEvent implements Listener {
 
     }
 
-    public void bed(Player p, World world, GameManager gameManager, Block block) {
+    public static void bed(Player p, World world, GameManager gameManager, Location location) {
         p.sendMessage(String.valueOf(gameManager.bedLoc));
-        if (gameManager.bedLoc.containsKey(block.getLocation())) {
+        if (gameManager.bedLoc.containsKey(location)) {
             world.getPlayers().forEach(player -> {
-                if (gameManager.bedwarsPlayers.get(player).team.teamColors.name().substring(0, 1).toLowerCase().equals(gameManager.bedLoc.get(block.getLocation()))) {
+                if (gameManager.bedwarsPlayers.get(player).team.teamColors.name().substring(0, 1).toLowerCase().equals(gameManager.bedLoc.get(location))) {
                     gameManager.bedwarsPlayers.get(player).hasBed = false;
                     player.sendTitle(ChatColor.RED + "YOU HAVE NO BED!", ChatColor.YELLOW + "YOU WILL NOT RESPAWN!!!");
                 }

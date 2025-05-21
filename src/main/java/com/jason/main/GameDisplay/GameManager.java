@@ -206,6 +206,7 @@ public class GameManager {
             } else if (data.contains("d")) {
                 diaShopLoc.add(loc);
             } else if (data.contains("f")) {
+                Bukkit.getPlayer("Iamsorry_").sendMessage(loc.toString());
                 bedLoc.put(loc,sign.getLine(0).substring(1));
             }
             if (sign.getLine(0).substring(1).contains("e")) {
