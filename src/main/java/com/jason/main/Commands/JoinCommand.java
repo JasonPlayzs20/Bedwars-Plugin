@@ -23,7 +23,7 @@ public class JoinCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-        player.sendMessage("yes");
+//        player.sendMessage("yes");
         if (Objects.equals(args[0], "a")) {
             Location tpLoc = new Location(Bukkit.getWorld("fang"), 0, 100, 0, 3, 0);
             Vector vector = player.getEyeLocation().getDirection().setY(90);
@@ -42,12 +42,12 @@ public class JoinCommand implements CommandExecutor {
 
 //            player.sendMessage(String.valueOf(Bukkit.getWorld(nameWorld)));
             if (Bukkit.getWorld(nameWorld) == null) {
-                player.sendMessage("kirk");
+//                player.sendMessage("kirk");
             }
             Path sourceFolderPath = Paths.get("/Users/jason/Desktop/coding_stuffes/spigot_servers/SpigotServer1.8/" + nameWorld);
             Path newFolderPath = Paths.get("/Users/jason/Desktop/coding_stuffes/spigot_servers/SpigotServer1.8/", ("." + nameWorld));
             if (!Files.exists(newFolderPath)) {
-                player.sendMessage("need to dupew");
+//                player.sendMessage("need to dupew");
                 try {
                     Files.createDirectory(newFolderPath);
                     System.out.println("Folder created successfully: ");
@@ -130,7 +130,7 @@ public class JoinCommand implements CommandExecutor {
 
 //            player.sendMessage(String.valueOf(Bukkit.getWorld(nameWorld)));
         if (Bukkit.getWorld(nameWorld) == null) {
-            player.sendMessage("kirk");
+//            player.sendMessage("kirk");
         }
         Path sourceFolderPath = Paths.get(serverpath + nameWorld);
         Path newFolderPath = Paths.get(serverpath, ("." + nameWorld));
@@ -197,13 +197,13 @@ public class JoinCommand implements CommandExecutor {
         Arenas.getArena(tpWorld).addPlayer(player);
         if (Arenas.getArena(tpWorld).getState() == State.RECRUITING) {
             player.teleport(new Location(tpWorld, 0, yLevel + 1, 0));
-            player.sendMessage(player.getWorld().getName());
+//            player.sendMessage(player.getWorld().getName());
             Arenas.getArena(tpWorld).startArena();
         }
         else {
             player.setGameMode(GameMode.SPECTATOR);
             player.teleport(new Location(tpWorld, 0, yLevel + 1, 0));
-            player.sendMessage(player.getWorld().getName());
+//            player.sendMessage(player.getWorld().getName());
         }
 
     }

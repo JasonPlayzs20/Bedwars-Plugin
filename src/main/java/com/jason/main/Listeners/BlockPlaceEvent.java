@@ -85,16 +85,16 @@ public class BlockPlaceEvent implements Listener {
                 playerDied.teleport(new Location(Bukkit.getWorld("world"), -41, 73, 0).setDirection(new Vector(90,0,0)));
                 return;
             }
-            playerDied.sendMessage("Died");
+//            playerDied.sendMessage("Died");
 
             playerDied.setGameMode(GameMode.SPECTATOR);
             playerDied.setHealth(20);
 //            playerDied.sendMessage(String.valueOf(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).team));
             playerDied.getWorld().getPlayers().forEach(player -> {player.sendMessage(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).team.chatColor + playerDied.getName().toString() + ChatColor.RED + " has died in the void.");});
-            playerDied.sendMessage(String.valueOf(playerDied.getWorld()));
-            playerDied.sendMessage(String.valueOf(Arenas.getArena(playerDied.getWorld())));
-            playerDied.sendMessage(String.valueOf(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName()))));
-            playerDied.sendMessage(String.valueOf(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).mainSpawn));
+//            playerDied.sendMessage(String.valueOf(playerDied.getWorld()));
+//            playerDied.sendMessage(String.valueOf(Arenas.getArena(playerDied.getWorld())));
+//            playerDied.sendMessage(String.valueOf(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName()))));
+//            playerDied.sendMessage(String.valueOf(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).mainSpawn));
             playerDied.teleport(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).mainSpawn);
             playerDied.getInventory().clear();
             playerDied.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));

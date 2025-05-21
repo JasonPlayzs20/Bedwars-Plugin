@@ -36,8 +36,11 @@ public class GameManager {
     List<Location> emLoc = new ArrayList<>();
     List<Location> shopLoc = new ArrayList<>();
     List<Location> diaShopLoc = new ArrayList<>();
+    public HashMap<Location, String > bedLoc = new HashMap<>();
     public  List<Block> blockList = new ArrayList<>();
     public HashMap<TeamColors, Integer> teamCount = new HashMap<>();
+    int max_players = Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml", "maxPlayers"));
+    int team_players = Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml", "teamPlayers"));
 
 
     public GameManager(World world, Player player) {
@@ -68,7 +71,7 @@ public class GameManager {
 
         state = State.RECRUITING;
         this.players = world.getPlayers();
-        if (this.players.size() == 8) {
+        if (this.players.size() == max_players) {
             countdown = new Countdown(bedwars.getMainInstance(), this, Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml","countdownSeconds")));
             countdown.start();
             state = State.PLAYING;
@@ -86,22 +89,24 @@ public class GameManager {
         }
     }
     public void setTeams() {
-//        Player golbal = Bukkit.getPlayer("IamSOrry_");
-        for (Player player : players) {
-            player.sendMessage("you");
+        Player golbal = Bukkit.getPlayer("IamSOrry_");
+        for (Player player :  players) {
+//            player.sendMessage("you");
             player.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
             TeamColors teamColors = bedwarsPlayers.get(player).team.teamColors;
             if (teamColors == TeamColors.NA) {
-                player.sendMessage("NA");
+//                player.sendMessage("NA");
                 for (TeamColors teamColors1 : TeamColors.values()) {
 //                    golbal.sendMessage("Looping through colors: " + teamColors1);
                     if (teamColors1 == TeamColors.NA) {continue;}
-                    else if (teamCount.get(teamColors1) < 2) {
+                    else if (teamCount.get(teamColors1) < team_players) {
 //                        golbal.sendMessage("put into" + teamColors1);
                         bedwarsPlayers.get(player).team.teamColors = teamColors1;
                         bedwarsPlayers.get(player).team.chatColor = ChatColor.valueOf(teamColors1.name());
                         teamCount.put(teamColors1,teamCount.get(teamColors1) + 1);
-//                        golbal.sendMessage(String.valueOf(teamCount.get(teamColors1)));
+                        player.setDisplayName(ChatColor.valueOf(teamColors1.name()) + player.getDisplayName()+ ChatColor.WHITE + "");
+                        player.setPlayerListName(ChatColor.valueOf(teamColors1.name()) + player.getPlayerListName() );
+                        golbal.sendMessage(String.valueOf(teamCount.get(teamColors1)));
                         break;
                     }
                 }
@@ -200,6 +205,8 @@ public class GameManager {
                 shopLoc.add(loc);
             } else if (data.contains("d")) {
                 diaShopLoc.add(loc);
+            } else if (data.contains("f")) {
+                bedLoc.put(loc,sign.getLine(0).substring(1));
             }
             if (sign.getLine(0).substring(1).contains("e")) {
                 emLoc.add(loc);

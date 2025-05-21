@@ -91,7 +91,7 @@ public final class bedwars extends JavaPlugin {
 //        Bukkit.createWorld(new WorldCreator("Lighthouse"));
 //        Bukkit.createWorld(new WorldCreator("Orchestra"));
 //        Bukkit.createWorld(new WorldCreator("Playground"));
-        Bukkit.createWorld(new WorldCreator("Fang"));
+        Bukkit.createWorld(new WorldCreator("fang"));
 
         System.out.println("81585181653");
 

@@ -12,7 +12,7 @@ public class PlayerDropEvent implements Listener {
     @EventHandler
     public static void onPlayerDropItem(PlayerDropItemEvent e) {
         ItemStack itemStack = e.getItemDrop().getItemStack();
-        e.getPlayer().sendMessage(String.valueOf(itemStack.getType()));
+//        e.getPlayer().sendMessage(String.valueOf(itemStack.getType()));
         if (String.valueOf(itemStack.getType()).toLowerCase().contains("wood_sword")) {
             e.setCancelled(true);
         }

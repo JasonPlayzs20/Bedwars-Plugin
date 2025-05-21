@@ -38,7 +38,7 @@ public class LobbyJerry implements CommandExecutor, Listener {
 //        }
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            player.sendMessage("yo");
+//            player.sendMessage("yo");
             Location loc = player.getLocation();
             Villager villager = loc.getWorld().spawn(loc, Villager.class);
             villager.setCustomName("Jerry");

@@ -76,12 +76,12 @@ public class ScanCommand implements CommandExecutor {
         for (Location loc : locations) {
             Sign sign = (Sign) loc.getBlock().getState();
             String data = sign.getLine(0);
-            player.sendMessage("test: ");
+//            player.sendMessage("test: ");
             if (getData("plugins/BedwarsInfo", world.getName() + ".yml","test.x") == null) {
                 player.sendMessage("null");
             }
             player.sendMessage(getData("plugins/BedwarsInfo", world.getName() + ".yml","test.x"));
-            setData("plugins/BedwarsInfo", world.getName() + ".yml", data.charAt(1) + "." + ".speed", 1);
+//            setData("plugins/BedwarsInfo", world.getName() + ".yml", data.charAt(1) + "." + ".speed", 1);
             setData("plugins/BedwarsInfo", world.getName() + ".yml", data.charAt(1) + "." + data.charAt(0) + ".x", sign.getX());
             setData("plugins/BedwarsInfo", world.getName() + ".yml", data.charAt(1) + "." + data.charAt(0) + ".y", sign.getY());
             setData("plugins/BedwarsInfo", world.getName() + ".yml", data.charAt(1) + "." + data.charAt(0) + ".z", sign.getZ());

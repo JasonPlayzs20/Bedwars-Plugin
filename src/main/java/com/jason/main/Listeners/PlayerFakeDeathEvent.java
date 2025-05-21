@@ -29,11 +29,13 @@ public class PlayerFakeDeathEvent implements Listener {
     public static void onDeath(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
             Player playerDied = (Player) e.getEntity();
+//            playerDied.getActivePotionEffects().forEach(potionEffect -> {playerDied.removePotionEffect(potionEffect.getType());});
             if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) {
                 return;
             }
 //            playerDied.sendMessage("sriughfo");
             if ((playerDied.getHealth() - e.getFinalDamage()) < 1) {
+                playerDied.getActivePotionEffects().forEach(potionEffect -> {playerDied.removePotionEffect(potionEffect.getType());});
 //                playerDied.sendMessage("Died"
                 if (e.getCause().equals(EntityDamageEvent.DamageCause.FIRE)) {
                     playerDied.getWorld().getPlayers().forEach(player -> {
@@ -46,7 +48,7 @@ public class PlayerFakeDeathEvent implements Listener {
                     });
                 }
                 else {
-                    playerDied.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " broke their ankles.");
+                    playerDied.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " died... smh");
                 }
 
                 e.setCancelled(true);
@@ -56,7 +58,10 @@ public class PlayerFakeDeathEvent implements Listener {
 
                 playerDied.getInventory().clear();
                 playerDied.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
-
+                if (!Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
+                    playerDied.sendTitle(ChatColor.RED + "You Died", ChatColor.YELLOW + ("Your bed is broken, you will not respawn."));
+                    return;
+                }
                 new BukkitRunnable() {
                     int timer = 5;
 
@@ -91,6 +96,7 @@ public class PlayerFakeDeathEvent implements Listener {
         Player damager, playerDied;
 
         if (e.getEntity() instanceof Player) {
+
             if (e.getDamager() instanceof Arrow) {
                 Arrow arrow = (Arrow) e.getDamager();
                 Player shooter = (Player) arrow.getShooter();
@@ -127,6 +133,7 @@ public class PlayerFakeDeathEvent implements Listener {
 
 //            playerDied.sendMessage("sriughfo");
         if ((playerDied.getHealth() - e.getFinalDamage()) < 1) {
+            playerDied.getActivePotionEffects().forEach(potionEffect -> {playerDied.removePotionEffect(potionEffect.getType());});
 //                playerDied.sendMessage("Died"
             e.setCancelled(true);
             playerDied.setGameMode(GameMode.SPECTATOR);
@@ -155,7 +162,10 @@ public class PlayerFakeDeathEvent implements Listener {
 
             playerDied.getInventory().clear();
             playerDied.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
-
+            if (!Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
+                playerDied.sendTitle(ChatColor.RED + "You Died", ChatColor.YELLOW + ("Your bed is broken, you will not respawn."));
+                return;
+            }
             Player finalPlayerDied = playerDied;
             new BukkitRunnable() {
                 int timer = 5;
