@@ -93,7 +93,7 @@ public final class bedwars extends JavaPlugin {
 //        Bukkit.createWorld(new WorldCreator("Playground"));
         Bukkit.createWorld(new WorldCreator("fang"));
 
-        System.out.println("81585181653");
+//        System.out.println("81585181653");
 
         // per-tick task to handle BedwarsPlayer enchantments etc
         new BukkitRunnable() {

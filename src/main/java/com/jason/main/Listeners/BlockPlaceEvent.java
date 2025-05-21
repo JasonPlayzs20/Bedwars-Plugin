@@ -33,6 +33,7 @@ public class BlockPlaceEvent implements Listener {
 
         for (int i = 1; i < 12; i++) {
             String baseKey = "blockBreakLimit." + i;
+            player.sendMessage(world.getName());
 
             // Get one coordinate to test if the region exists
             String x1Str = getData(folder, file, baseKey + ".x1");
