@@ -56,7 +56,40 @@ public class PlayerFakeDeathEvent implements Listener {
                 playerDied.setHealth(20);
                 playerDied.teleport(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).mainSpawn);
 
+                Material bootsMaterial = null;
+                for (ItemStack armorPiece : playerDied.getInventory().getArmorContents()) {
+                    if (armorPiece == null) continue;
+                    if (armorPiece.getType() == Material.CHAINMAIL_BOOTS) {
+                        bootsMaterial = Material.CHAINMAIL_BOOTS;
+                        break;
+                    } else if (armorPiece.getType() == Material.IRON_BOOTS) {
+                        bootsMaterial = Material.IRON_BOOTS;
+                        break;
+                    } else if (armorPiece.getType() == Material.DIAMOND_BOOTS) {
+                        bootsMaterial = Material.DIAMOND_BOOTS;
+                        break;
+                    }
+                }
+
                 playerDied.getInventory().clear();
+
+                if (bootsMaterial != null) {
+                    switch (bootsMaterial) {
+                        case CHAINMAIL_BOOTS:
+                            playerDied.getInventory().setLeggings(new ItemStack(Material.CHAINMAIL_LEGGINGS));
+                            playerDied.getInventory().setBoots(new ItemStack(Material.CHAINMAIL_BOOTS));
+                            break;
+                        case IRON_BOOTS:
+                            playerDied.getInventory().setLeggings(new ItemStack(Material.IRON_LEGGINGS));
+                            playerDied.getInventory().setBoots(new ItemStack(Material.IRON_BOOTS));
+                            break;
+                        case DIAMOND_BOOTS:
+                            playerDied.getInventory().setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
+                            playerDied.getInventory().setBoots(new ItemStack(Material.DIAMOND_BOOTS));
+                            break;
+                    }
+                }
+
                 playerDied.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
                 Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
                 if (!Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
@@ -147,6 +180,22 @@ public class PlayerFakeDeathEvent implements Listener {
             playerDied.getWorld().getPlayers().forEach(p -> {
                 p.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() +ChatColor.RED + " was killed by " + (Arenas.getArena(damager.getWorld()).bedwarsPlayers.get(damager).team.chatColor)+ damager.getName());
             });
+
+            Material bootsMaterial = null;
+            for (ItemStack armorPiece : playerDied.getInventory().getArmorContents()) {
+                if (armorPiece == null) continue;
+                if (armorPiece.getType() == Material.CHAINMAIL_BOOTS) {
+                    bootsMaterial = Material.CHAINMAIL_BOOTS;
+                    break;
+                } else if (armorPiece.getType() == Material.IRON_BOOTS) {
+                    bootsMaterial = Material.IRON_BOOTS;
+                    break;
+                } else if (armorPiece.getType() == Material.DIAMOND_BOOTS) {
+                    bootsMaterial = Material.DIAMOND_BOOTS;
+                    break;
+                }
+            }
+
             for (ItemStack itemStack : playerDied.getInventory().getContents()) {
                 // the unholy code of jason
                 if (itemStack == null) {continue;}
@@ -165,6 +214,24 @@ public class PlayerFakeDeathEvent implements Listener {
             }
 
             playerDied.getInventory().clear();
+
+            if (bootsMaterial != null) {
+                switch (bootsMaterial) {
+                    case CHAINMAIL_BOOTS:
+                        playerDied.getInventory().setLeggings(new ItemStack(Material.CHAINMAIL_LEGGINGS));
+                        playerDied.getInventory().setBoots(new ItemStack(Material.CHAINMAIL_BOOTS));
+                        break;
+                    case IRON_BOOTS:
+                        playerDied.getInventory().setLeggings(new ItemStack(Material.IRON_LEGGINGS));
+                        playerDied.getInventory().setBoots(new ItemStack(Material.IRON_BOOTS));
+                        break;
+                    case DIAMOND_BOOTS:
+                        playerDied.getInventory().setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
+                        playerDied.getInventory().setBoots(new ItemStack(Material.DIAMOND_BOOTS));
+                        break;
+                }
+            }
+
             playerDied.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
             Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
 
