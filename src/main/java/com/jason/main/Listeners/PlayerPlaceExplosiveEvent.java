@@ -54,13 +54,14 @@ public class PlayerPlaceExplosiveEvent implements Listener {
     public void onTNT(BlockPlaceEvent e) {
         Player player = e.getPlayer();
 
-        if (player.getInventory().getItemInHand().getAmount() < 1) {
+        if (player.getInventory().getItemInHand().getAmount() <= 1) {
             player.getInventory().getItemInHand().setType(Material.AIR);
+            player.getInventory().clear(player.getInventory().getHeldItemSlot());
         } else {
             player.getInventory().getItemInHand().setAmount(player.getInventory().getItemInHand().getAmount() - 1);
         }
 
-        player.getWorld().spawnEntity(e.getBlockPlaced().getLocation().add(0.5, 0, 0.5), EntityType.PRIMED_TNT);
+        player.getWorld().spawnEntity(e.getBlockPlaced().getLocation().add(0.5, 0, 0.5), EntityType.PRIMED_TNT).setTicksLived(8/3*20);
         e.setCancelled(true);
 
     }
