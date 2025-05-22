@@ -11,6 +11,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -27,6 +28,13 @@ import static com.sun.javafx.util.Utils.clamp;
 public class PlayerFakeDeathEvent implements Listener {
     @EventHandler
     public static void onDeath(EntityDamageEvent e) {
+        if (e.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION)) {
+            e.getEntity().sendMessage("e");
+            if (e.getDamage() > 6) {
+                e.setDamage(6);
+//                e.setCancelled(true);
+            }
+        }
         if (e.getEntity() instanceof Player) {
             Player playerDied = (Player) e.getEntity();
 //            playerDied.getActivePotionEffects().forEach(potionEffect -> {playerDied.removePotionEffect(potionEffect.getType());});
@@ -72,7 +80,7 @@ public class PlayerFakeDeathEvent implements Listener {
                 }
 
                 playerDied.getInventory().clear();
-
+                Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
                 if (bootsMaterial != null) {
                     switch (bootsMaterial) {
                         case CHAINMAIL_BOOTS:
@@ -91,7 +99,7 @@ public class PlayerFakeDeathEvent implements Listener {
                 }
 
                 playerDied.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
-                Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
+
                 if (!Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
                     playerDied.sendTitle(ChatColor.RED + "You Died", ChatColor.YELLOW + ("Your bed is broken, you will not respawn."));
                     return;
@@ -128,7 +136,13 @@ public class PlayerFakeDeathEvent implements Listener {
     @EventHandler
     public static void onDamageByEntity(EntityDamageByEntityEvent e) {
         Player damager, playerDied;
-
+        if (e.getDamager() instanceof TNTPrimed) {
+            e.getEntity().sendMessage("e");
+            if (e.getDamage() > 6) {
+                e.setDamage(6);
+//                e.setCancelled(true);
+            }
+        }
         if (e.getEntity() instanceof Player) {
 
             if (e.getDamager() instanceof Arrow) {
@@ -214,6 +228,7 @@ public class PlayerFakeDeathEvent implements Listener {
             }
 
             playerDied.getInventory().clear();
+            Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
 
             if (bootsMaterial != null) {
                 switch (bootsMaterial) {
@@ -233,7 +248,7 @@ public class PlayerFakeDeathEvent implements Listener {
             }
 
             playerDied.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
-            Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
+//            Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
 
             if (!Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
                 playerDied.sendTitle(ChatColor.RED + "You Died", ChatColor.YELLOW + ("Your bed is broken, you will not respawn."));

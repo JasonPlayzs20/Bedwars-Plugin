@@ -31,7 +31,7 @@ public class ShopListener implements Listener {
                 },1);
 
             } else if (villager.getCustomName().contains("Shop")) {
-                player.sendMessage("sjop");
+//                player.sendMessage("sjop");
 
 
                 Bukkit.getScheduler().runTaskLater(bedwars.getMainInstance(), new Runnable() {

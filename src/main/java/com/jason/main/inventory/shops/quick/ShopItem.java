@@ -69,7 +69,7 @@ public class ShopItem {
 
             BRIDGE_EGG = new ShopItem(Util.namedItemStack(new ItemStack(Material.EGG), "Bridge Egg(NOT WORKING)"), Material.EMERALD, 1),
             FIREBALL = new ShopItem(Util.namedItemStack(new ItemStack(Material.FIREBALL), "Fireball"), Material.IRON_INGOT, 40), // TODO BedwarsItem implementation
-            TNT = new ShopItem(new ItemStack(Material.NETHER_STAR), Material.IRON_INGOT, 1),//ssihodigsoighsoighosihgoisdhgoudsihgoidsuhgoiusdhgoiusdhgiosdhgiosdhgoishdgoihsdgiohsdioghdsiuoghsdiopghdsiogh
+            TNT = new ShopItem(new ItemStack(Material.TNT), Material.GOLD_INGOT, 4),//ssihodigsoighsoighosihgoisdhgoudsihgoidsuhgoiusdhgoiusdhgiosdhgiosdhgoishdgoihsdgiohsdioghdsiuoghsdiopghdsiogh
             SILVERFISH = new ShopItem(new BedbugItem().getItemStack(), Material.IRON_INGOT, 24),
             ENDER_PEARL = new ShopItem(new ItemStack(Material.ENDER_PEARL), Material.EMERALD, 4),
             GOLDEN_APPLE = new ShopItem(new ItemStack(Material.GOLDEN_APPLE), Material.GOLD_INGOT, 3),

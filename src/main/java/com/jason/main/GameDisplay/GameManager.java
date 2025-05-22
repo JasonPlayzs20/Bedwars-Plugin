@@ -245,6 +245,7 @@ public class GameManager {
                 shop.setHealth(2048);
                 shop.setCustomName("Shop");
                 shop.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100000, 50, false,false));
+                shop.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100000, 50, false,false));
                 shop.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 100000, 50, false,false));
 
             } else if (data.contains("d")) {
@@ -254,6 +255,7 @@ public class GameManager {
                 shop.setHealth(2048);
                 shop.setCustomName("Diamond Shop");
                 shop.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100000, 50, false,false));
+                shop.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100000, 50, false,false));
                 shop.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 100000, 50, false,false));
             } else if (data.contains("f")) {
 //                Bukkit.getPlayer("Iamsorry_").sendMessage(loc.toString());

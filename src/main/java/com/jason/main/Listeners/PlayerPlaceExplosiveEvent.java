@@ -5,11 +5,14 @@ import com.jason.main.bedwars;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -32,7 +35,7 @@ public class PlayerPlaceExplosiveEvent implements Listener {
             }
             if (player.getItemInHand().getAmount() == 1) {
                 player.getInventory().remove(player.getItemInHand());
-            }else {
+            } else {
                 player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
             }
 
@@ -40,7 +43,6 @@ public class PlayerPlaceExplosiveEvent implements Listener {
             Vector direction = player.getLocation().getDirection().normalize();
             fireball.setVelocity(direction.multiply(1));
 
-            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 40, 2, false, false));
 
             Bukkit.getScheduler().runTaskLater(bedwars.getMainInstance(), () -> {
                 player.setVelocity(player.getVelocity().multiply(2));
@@ -49,8 +51,23 @@ public class PlayerPlaceExplosiveEvent implements Listener {
     }
 
     @EventHandler
+    public void onTNT(BlockPlaceEvent e) {
+        Player player = e.getPlayer();
+
+        if (player.getInventory().getItemInHand().getAmount() < 1) {
+            player.getInventory().getItemInHand().setType(Material.AIR);
+        } else {
+            player.getInventory().getItemInHand().setAmount(player.getInventory().getItemInHand().getAmount() - 1);
+        }
+
+        player.getWorld().spawnEntity(e.getBlockPlaced().getLocation().add(0.5, 0, 0.5), EntityType.PRIMED_TNT);
+        e.setCancelled(true);
+
+    }
+
+    @EventHandler
     public void onFireballExplode(EntityExplodeEvent e) {
-        if (!(e.getEntity() instanceof Fireball)) return;
+//        if (!(e.getEntity() instanceof Fireball)) return;
 
         List<Block> allowedBlocks = Arenas.getArena(e.getEntity().getWorld()).blockList;
         Iterator<Block> it = e.blockList().iterator();
@@ -66,22 +83,44 @@ public class PlayerPlaceExplosiveEvent implements Listener {
     @EventHandler
     public void onFireballHitPlayer(EntityDamageByEntityEvent e) {
         if (!(e.getEntity() instanceof Player)) return;
-        if (!(e.getDamager() instanceof Fireball)) return;
-
+//        if (!(e.getDamager() instanceof Fireball)) return;
+        Player player = (Player) e.getEntity();
+        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 40, 2, false, false));
+        player.sendMessage("EFT");
+        player.sendMessage(String.valueOf(e.getDamage()));
+        if (e.getDamage() > 6) {
+            player.sendMessage("EE");
+            e.setDamage(6);
+        }
         Player victim = (Player) e.getEntity();
-        Fireball fireball = (Fireball) e.getDamager();
+        Vector knockback = player.getVelocity();
+        if (e.getDamager() instanceof Fireball) {
+            Fireball fireball = (Fireball) e.getDamager();
 
-        // Check if the fireball was shot by a player
-        if (fireball.getShooter() instanceof Player) {
-            Player shooter = (Player) fireball.getShooter();
-            if (victim.equals(shooter)) return; // Don't knockback the shooter
+            // Check if the fireball was shot by a player
+            if (fireball.getShooter() instanceof Player) {
+                Player shooter = (Player) fireball.getShooter();
+//            if (victim.equals(shooter)) return; // Don't knockback the shooter
+            }
+            knockback = victim.getLocation().toVector().subtract(fireball.getLocation().toVector()).normalize().multiply(2);
+        }
+        if (e.getDamager() instanceof TNTPrimed) {
+            TNTPrimed fireball = (TNTPrimed) e.getDamager();
+
+            // Check if the fireball was shot by a player
+//            if (fireball.getShooter() instanceof Player) {
+//                Player shooter = (Player) fireball.getShooter();
+////            if (victim.equals(shooter)) return; // Don't knockback the shooter
+//            }
+            knockback = victim.getLocation().toVector().subtract(fireball.getLocation().toVector()).normalize().multiply(2);
         }
 
         // Vector from fireball to victim
-        Vector knockback = victim.getLocation().toVector().subtract(fireball.getLocation().toVector()).normalize().multiply(2);
 
+
+        Vector finalKnockback = knockback;
         Bukkit.getScheduler().runTaskLater(bedwars.getMainInstance(), () -> {
-            victim.setVelocity(knockback);
+            victim.setVelocity(finalKnockback);
         }, 2);
     }
 }
