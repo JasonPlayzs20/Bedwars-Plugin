@@ -130,6 +130,9 @@ public class PlayerFakeDeathEvent implements Listener {
 
         if (playerDied.hasPotionEffect(PotionEffectType.INVISIBILITY))
             playerDied.removePotionEffect(PotionEffectType.INVISIBILITY);
+            playerDied.getWorld().getPlayers().forEach(player -> {
+                player.showPlayer(playerDied);
+            });
 
 //            playerDied.sendMessage("sriughfo");
         if ((playerDied.getHealth() - e.getFinalDamage()) < 1) {
