@@ -99,6 +99,10 @@ public class BlockPlaceEvent implements Listener {
             playerDied.teleport(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).mainSpawn);
             playerDied.getInventory().clear();
             playerDied.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
+            if (!Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
+                playerDied.sendTitle(ChatColor.RED + "You Died", ChatColor.YELLOW + ("Your bed is broken, you will not respawn."));
+                return;
+            }
 
             new BukkitRunnable() {
                 int timer = 5;

@@ -79,8 +79,10 @@ public class GameManager {
         if (this.players.size() == 0) {
 //            Bukkit.getPlayer("IamSorry_").sendMessage(countdown.toString());
 //            Bukkit.getPlayer("IamSorry_").sendMessage("STOPPING TIMER");
-            Bukkit.getScheduler().cancelTask(countdownID);
-            countdown.stop();
+            if (countdown != null) {
+                Bukkit.getScheduler().cancelTask(countdownID);
+                countdown.stop();
+            }
             try {
                 removeFile(serverpath + ".", world.getName().substring(1));
             } catch (IOException e) {
@@ -106,7 +108,7 @@ public class GameManager {
                         teamCount.put(teamColors1,teamCount.get(teamColors1) + 1);
                         player.setDisplayName(ChatColor.valueOf(teamColors1.name()) + player.getDisplayName()+ ChatColor.WHITE + "");
                         player.setPlayerListName(ChatColor.valueOf(teamColors1.name()) + player.getPlayerListName() );
-                        golbal.sendMessage(String.valueOf(teamCount.get(teamColors1)));
+//                        golbal.sendMessage(String.valueOf(teamCount.get(teamColors1)));
                         break;
                     }
                 }
@@ -206,7 +208,7 @@ public class GameManager {
             } else if (data.contains("d")) {
                 diaShopLoc.add(loc);
             } else if (data.contains("f")) {
-                Bukkit.getPlayer("Iamsorry_").sendMessage(loc.toString());
+//                Bukkit.getPlayer("Iamsorry_").sendMessage(loc.toString());
                 bedLoc.put(loc,sign.getLine(0).substring(1));
             }
             if (sign.getLine(0).substring(1).contains("e")) {

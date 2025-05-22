@@ -1,5 +1,7 @@
 package com.jason.main.Commands;
 
+import com.jason.main.Emums.TeamColors;
+import com.jason.main.GameDisplay.Arenas;
 import com.jason.main.bedwars;
 import org.bukkit.*;
 import org.bukkit.command.Command;
@@ -79,6 +81,10 @@ public class LobbyJerry implements CommandExecutor, Listener {
 
     @EventHandler
     public void onClick(PlayerInteractAtEntityEvent e) {
+//        Arenas.getPlayer(e.getPlayer()).team.teamColors = TeamColors.NA;
+//        Arenas.getPlayer(e.getPlayer()).team.chatColor = ChatColor.WHITE;
+        e.getPlayer().setDisplayName((ChatColor.WHITE) + e.getPlayer().getDisplayName()+ ChatColor.WHITE + "");
+        e.getPlayer().setPlayerListName((ChatColor.WHITE) + e.getPlayer().getPlayerListName().toString());
         if (e.getRightClicked() instanceof Villager) {
             Villager villager = (Villager) e.getRightClicked();
             if (villager.getCustomName() != null && villager.getCustomName().equals("Jerry")) {
