@@ -1,5 +1,7 @@
 package com.jason.main.items;
 
+import com.jason.main.GameDisplay.Arenas;
+import com.jason.main.PlayerEntities.BedwarsPlayer;
 import com.jason.main.bedwars;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -23,19 +25,10 @@ public class BedbugItem extends BedwarsItem {
     }
 
     public static void summonBedbug(Player spawner, Location location) {
-        World world = location.getWorld();
-        Silverfish silverfish = (Silverfish) world.spawnEntity(location, EntityType.SILVERFISH);
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (silverfish.isDead()) this.cancel();
-
-                silverfish.setTarget(null);
-                silverfish.setTicksLived(1);
-                silverfish.setCustomName(spawner.getDisplayName() + "'s Bedbug" + ChatColor.RED + " ❤" + (int) silverfish.getHealth());
-                silverfish.setCustomNameVisible(true);
-            }
-        }.runTaskTimer(bedwars.getMainInstance(), 0, 1);
+        BedwarsPlayer bwPlayer = Arenas.getPlayer(spawner.getPlayer());
+        if (bwPlayer != null) {
+            Silverfish silverfish = (Silverfish) location.getWorld().spawnEntity(location, EntityType.SILVERFISH);
+            new BedwarsEntity(silverfish, "Bed Bug", bwPlayer).run();
+        }
     }
 }

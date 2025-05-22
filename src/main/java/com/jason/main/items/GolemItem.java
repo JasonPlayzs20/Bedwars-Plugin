@@ -1,5 +1,7 @@
 package com.jason.main.items;
 
+import com.jason.main.GameDisplay.Arenas;
+import com.jason.main.PlayerEntities.BedwarsPlayer;
 import com.jason.main.bedwars;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -20,22 +22,10 @@ public class GolemItem extends BedwarsItem {
         event.setCancelled(true);
 
         Block clickedBlock = event.getClickedBlock();
-        if (clickedBlock != null) {
+        BedwarsPlayer bwPlayer = Arenas.getPlayer(event.getPlayer());
+        if (bwPlayer != null && clickedBlock != null) {
             IronGolem golem = (IronGolem) event.getPlayer().getWorld().spawnEntity(clickedBlock.getLocation().add(0, 1, 0), EntityType.IRON_GOLEM);
-
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    if (golem.isDead()) this.cancel();
-
-                    golem.setCustomName(event.getPlayer().getDisplayName() + "'s Iron Golem" + ChatColor.RED + " ❤ " + (int) golem.getHealth());
-                    golem.setCustomNameVisible(true);
-                    golem.setTicksLived(1);
-
-                    // TODO add target
-                    golem.setTarget(null);
-                }
-            }.runTaskTimer(bedwars.getMainInstance(), 0, 1);
+            new BedwarsEntity(golem, "Iron Golem", bwPlayer).run();
         }
     }
 }

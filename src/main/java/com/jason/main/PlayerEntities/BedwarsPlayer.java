@@ -54,6 +54,10 @@ public class BedwarsPlayer {
 
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
     public void start() {
         mainSpawn = new Location(world, 0, Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", "lobbySpawn.y")) - 30, 0);
         baseSpawn = new Location(world, Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", team.teamColors.name().toString().substring(0, 1).toLowerCase() + ".p.x")), Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", team.teamColors.name().toString().substring(0, 1).toLowerCase() + ".p.y")) + 0.5, Double.parseDouble(getData("plugins/BedwarsInfo", name.substring(1) + ".yml", team.teamColors.name().toString().substring(0, 1).toLowerCase() + ".p.z")));
