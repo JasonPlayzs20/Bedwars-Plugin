@@ -3,6 +3,7 @@ package com.jason.main.PlayerEntities;
 import com.jason.main.Emums.DiamondUpgrade;
 import com.jason.main.GameDisplay.Arenas;
 import com.jason.main.GameDisplay.GameManager;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
@@ -151,6 +152,13 @@ public class BedwarsPlayer {
 
             // end trap check after triggering a trap
             if (enemyTrap == DiamondUpgrade.MININGTRAP) {
+                players.forEach(player1 -> {
+                    if (gameManager.bedwarsPlayers.get(player1).team.teamColors == enemy.team.teamColors) {
+
+                        player1.sendTitle(ChatColor.RED + "Your Mining Fatigue Trap",ChatColor.YELLOW +"Has Been Triggered");
+                    }
+                });
+//                player.sendMessage("trapped");
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 8 * 20, 1));
                 enemyTeam.getDiamondUpgrades().put(DiamondUpgrade.MININGTRAP, 0);
                 return;

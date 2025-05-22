@@ -91,7 +91,7 @@ public class GameManager {
         }
     }
     public void setTeams() {
-        Player golbal = Bukkit.getPlayer("IamSOrry_");
+//        Player golbal = Bukkit.getPlayer("IamSOrry_");
         for (Player player :  players) {
 //            player.sendMessage("you");
             player.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
@@ -106,8 +106,8 @@ public class GameManager {
                         bedwarsPlayers.get(player).team.teamColors = teamColors1;
                         bedwarsPlayers.get(player).team.chatColor = ChatColor.valueOf(teamColors1.name());
                         teamCount.put(teamColors1,teamCount.get(teamColors1) + 1);
-                        player.setDisplayName(ChatColor.valueOf(teamColors1.name()) + player.getDisplayName()+ ChatColor.WHITE + "");
-                        player.setPlayerListName(ChatColor.valueOf(teamColors1.name()) + player.getPlayerListName() );
+                        player.setDisplayName(ChatColor.valueOf(teamColors1.name()) + player.getName()+ ChatColor.WHITE + "");
+                        player.setPlayerListName(ChatColor.valueOf(teamColors1.name()) + player.getName() );
 //                        golbal.sendMessage(String.valueOf(teamCount.get(teamColors1)));
                         break;
                     }

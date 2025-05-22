@@ -83,8 +83,10 @@ public class LobbyJerry implements CommandExecutor, Listener {
     public void onClick(PlayerInteractAtEntityEvent e) {
 //        Arenas.getPlayer(e.getPlayer()).team.teamColors = TeamColors.NA;
 //        Arenas.getPlayer(e.getPlayer()).team.chatColor = ChatColor.WHITE;
-        e.getPlayer().setDisplayName((ChatColor.WHITE) + e.getPlayer().getDisplayName()+ ChatColor.WHITE + "");
-        e.getPlayer().setPlayerListName((ChatColor.WHITE) + e.getPlayer().getPlayerListName().toString());
+//        e.getPlayer().sendMessage( e.getPlayer().getDisplayName());
+        e.getPlayer().setDisplayName(ChatColor.WHITE + e.getPlayer().getName());
+//        e.getPlayer().sendMessage( e.getPlayer().getDisplayName());
+        e.getPlayer().setPlayerListName(ChatColor.WHITE + e.getPlayer().getPlayerListName().toString());
         if (e.getRightClicked() instanceof Villager) {
             Villager villager = (Villager) e.getRightClicked();
             if (villager.getCustomName() != null && villager.getCustomName().equals("Jerry")) {
