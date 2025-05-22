@@ -84,12 +84,12 @@ public class QuickBuyShop extends InventoryMenu {
                     shopper -> ShopItem.SILVERFISH,
                     shopper -> ShopItem.IRON_GOLEM,
                     shopper -> ShopItem.FIREBALL,
-                    shopper -> ShopItem.TNT,
+//                    shopper -> ShopItem.TNT,
                     shopper -> ShopItem.ENDER_PEARL,
                     shopper -> ShopItem.WATER_BUCKET,
                     shopper -> ShopItem.BRIDGE_EGG,
                     shopper -> ShopItem.MAGIC_MILK,
-                    shopper -> ShopItem.SPONGE,
+//                    shopper -> ShopItem.SPONGE,
                     shopper -> ShopItem.POPUP_TOWER
             }
     };

@@ -10,7 +10,12 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.material.MaterialData;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
@@ -32,13 +37,14 @@ public class GameManager {
     GeneratorManager generatorManager;
     ShopManager shopManager;
     List<Location> diamondLoc = new ArrayList<>();
-    List<Location> genLoc = new ArrayList<>();
+    public List<Location> genLoc = new ArrayList<>();
     List<Location> emLoc = new ArrayList<>();
     List<Location> shopLoc = new ArrayList<>();
     List<Location> diaShopLoc = new ArrayList<>();
     public HashMap<Location, String > bedLoc = new HashMap<>();
     public  List<Block> blockList = new ArrayList<>();
     public HashMap<TeamColors, Integer> teamCount = new HashMap<>();
+    public HashMap<TeamColors,Color> colors = new HashMap<>();
     int max_players = Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml", "maxPlayers"));
     int team_players = Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml", "teamPlayers"));
 
@@ -51,6 +57,10 @@ public class GameManager {
         for (TeamColors teamColor : TeamColors.values()) {
             teamCount.put(teamColor, 0);
         }
+        colors.put(TeamColors.BLUE,Color.BLUE);
+        colors.put(TeamColors.GREEN,Color.GREEN);
+        colors.put(TeamColors.RED,Color.RED);
+        colors.put(TeamColors.YELLOW, Color.YELLOW);
 
 
     }
@@ -109,11 +119,35 @@ public class GameManager {
                         player.setDisplayName(ChatColor.valueOf(teamColors1.name()) + player.getName()+ ChatColor.WHITE + "");
                         player.setPlayerListName(ChatColor.valueOf(teamColors1.name()) + player.getName() );
 //                        golbal.sendMessage(String.valueOf(teamCount.get(teamColors1)));
+                       wearArmor(player,teamColors1);
                         break;
                     }
                 }
             }
         }
+    }
+
+    public void wearArmor(Player player, TeamColors teamColors1) {
+        ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
+        LeatherArmorMeta helmetMeta = (LeatherArmorMeta) helmet.getItemMeta();
+        helmetMeta.setColor(colors.get(teamColors1));
+        helmet.setItemMeta(helmetMeta);
+        ItemStack chest = new ItemStack(Material.LEATHER_CHESTPLATE);
+        LeatherArmorMeta chestMeta = (LeatherArmorMeta) chest.getItemMeta();
+        chestMeta.setColor(colors.get(teamColors1));
+        chest.setItemMeta(chestMeta);
+        ItemStack leg = new ItemStack(Material.LEATHER_LEGGINGS);
+        LeatherArmorMeta legMeta = (LeatherArmorMeta) leg.getItemMeta();
+        legMeta.setColor(colors.get(teamColors1));
+        leg.setItemMeta(legMeta);
+        ItemStack boot = new ItemStack(Material.LEATHER_BOOTS);
+        LeatherArmorMeta bootMeta = (LeatherArmorMeta) boot.getItemMeta();
+        bootMeta.setColor(colors.get(teamColors1));
+        boot.setItemMeta(bootMeta);
+        player.getInventory().setHelmet(helmet);
+        player.getInventory().setChestplate(chest);
+        player.getInventory().setLeggings(leg);
+        player.getInventory().setBoots(boot);
     }
 
     public void startGame() {
@@ -123,6 +157,7 @@ public class GameManager {
         generatorManager = new GeneratorManager(world, diamondLoc, genLoc, emLoc, shopLoc, diaShopLoc);
         generatorManager.start();
         for (Player player : players) {
+            player.sendMessage(ChatColor.RED+"Items that are marked as (NOT WORKING), surprisingly, does not work! If you see a star in the shop, that means that the item is too unstable to be beta tested. Please be patient. Any breaking bugs please report thx.");
 //            bedwarsPlayers.get(player).team = new Teams(TeamColors.NA, ChatColor.GREEN);
             bedwarsPlayers.get(player).start();
         }
@@ -205,8 +240,21 @@ public class GameManager {
                 genLoc.add(loc);
             } else if (data.contains("s")) {
                 shopLoc.add(loc);
+                Villager shop = world.spawn(loc, Villager.class);
+                shop.setMaxHealth(2048);
+                shop.setHealth(2048);
+                shop.setCustomName("Shop");
+                shop.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100000, 50, false,false));
+                shop.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 100000, 50, false,false));
+
             } else if (data.contains("d")) {
                 diaShopLoc.add(loc);
+                Villager shop = world.spawn(loc, Villager.class);
+                shop.setMaxHealth(2048);
+                shop.setHealth(2048);
+                shop.setCustomName("Diamond Shop");
+                shop.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100000, 50, false,false));
+                shop.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 100000, 50, false,false));
             } else if (data.contains("f")) {
 //                Bukkit.getPlayer("Iamsorry_").sendMessage(loc.toString());
                 bedLoc.put(loc,sign.getLine(0).substring(1));

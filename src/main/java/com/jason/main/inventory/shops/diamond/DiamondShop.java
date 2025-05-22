@@ -25,9 +25,9 @@ public class DiamondShop extends InventoryMenu {
         upgradeItems.put(DiamondUpgrade.FORGE, new UpgradeItem(namedItemStack(new ItemStack(Material.FURNACE), "Quick Forge"), new int[] { 2, 5, 6, 8 }));
         upgradeItems.put(DiamondUpgrade.HASTE, new UpgradeItem(namedItemStack(new ItemStack(Material.GOLD_PICKAXE), "Maniac Minor"), new int[] { 2, 4 }));
 
-        upgradeItems.put(DiamondUpgrade.ALARMTRAP, new UpgradeItem(namedItemStack(new ItemStack(Material.REDSTONE_TORCH_ON), "Alarm Trap"), new int[] { 1 }));
-        upgradeItems.put(DiamondUpgrade.COUNTERTRAP, new UpgradeItem(namedItemStack(new ItemStack(Material.FEATHER), "Counter Trap"), new int[] { 1 }));
-        upgradeItems.put(DiamondUpgrade.ITSATRAP, new UpgradeItem(namedItemStack(new ItemStack(Material.TRIPWIRE), "It's a Trap!"), new int[] { 1 }));
+//        upgradeItems.put(DiamondUpgrade.ALARMTRAP, new UpgradeItem(namedItemStack(new ItemStack(Material.REDSTONE_TORCH_ON), "Alarm Trap"), new int[] { 1 }));
+//        upgradeItems.put(DiamondUpgrade.COUNTERTRAP, new UpgradeItem(namedItemStack(new ItemStack(Material.FEATHER), "Counter Trap"), new int[] { 1 }));
+//        upgradeItems.put(DiamondUpgrade.ITSATRAP, new UpgradeItem(namedItemStack(new ItemStack(Material.TRIPWIRE), "It's a Trap!"), new int[] { 1 }));
         upgradeItems.put(DiamondUpgrade.MININGTRAP, new UpgradeItem(namedItemStack(new ItemStack(Material.WOOD_PICKAXE), "Mining Fatigue Trap"), new int[] { 1 }));
 
         upgradeItems.put(DiamondUpgrade.HEALPOOL, new UpgradeItem(namedItemStack(new ItemStack(Material.BEACON), "Heal Pool"), new int[] { 1 }));

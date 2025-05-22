@@ -58,6 +58,7 @@ public class PlayerFakeDeathEvent implements Listener {
 
                 playerDied.getInventory().clear();
                 playerDied.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
+                Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
                 if (!Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
                     playerDied.sendTitle(ChatColor.RED + "You Died", ChatColor.YELLOW + ("Your bed is broken, you will not respawn."));
                     return;
@@ -165,6 +166,8 @@ public class PlayerFakeDeathEvent implements Listener {
 
             playerDied.getInventory().clear();
             playerDied.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
+            Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
+
             if (!Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
                 playerDied.sendTitle(ChatColor.RED + "You Died", ChatColor.YELLOW + ("Your bed is broken, you will not respawn."));
                 return;
