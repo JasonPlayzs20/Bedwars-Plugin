@@ -157,17 +157,105 @@ public class PlayerFakeDeathEvent implements Listener {
 
 
 
-        if (e.getDamager() instanceof Player) damager = (Player) e.getDamager();
-        else {
-            damager = null;
-            return;
-        }
+
 
         if (e.getEntity() instanceof Player) playerDied = (Player) e.getEntity();
         else {
             return;
         }
 
+        if (e.getDamager() instanceof Player) damager = (Player) e.getDamager();
+        else {
+            if (playerDied.hasPotionEffect(PotionEffectType.INVISIBILITY))
+                playerDied.removePotionEffect(PotionEffectType.INVISIBILITY);
+            playerDied.getWorld().getPlayers().forEach(player -> {
+                player.showPlayer(playerDied);
+            });
+
+//            playerDied.sendMessage("sriughfo");
+            if ((playerDied.getHealth() - e.getFinalDamage()) < 1) {
+                playerDied.getActivePotionEffects().forEach(potionEffect -> {playerDied.removePotionEffect(potionEffect.getType());});
+//                playerDied.sendMessage("Died"
+                e.setCancelled(true);
+                playerDied.setGameMode(GameMode.SPECTATOR);
+                playerDied.setHealth(20);
+                playerDied.teleport(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).mainSpawn);
+//            Arenas.getArena(playerDied.getWorld()).world.sendPluginMessage(bedwars.getMainInstance(), playerDied.getName() + " was killed by " + damager );
+                playerDied.getWorld().getPlayers().forEach(p -> {
+                    p.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() +ChatColor.RED + " was killed by " + e.getDamager().getCustomName());
+                });
+
+                Material bootsMaterial = null;
+                for (ItemStack armorPiece : playerDied.getInventory().getArmorContents()) {
+                    if (armorPiece == null) continue;
+                    if (armorPiece.getType() == Material.CHAINMAIL_BOOTS) {
+                        bootsMaterial = Material.CHAINMAIL_BOOTS;
+                        break;
+                    } else if (armorPiece.getType() == Material.IRON_BOOTS) {
+                        bootsMaterial = Material.IRON_BOOTS;
+                        break;
+                    } else if (armorPiece.getType() == Material.DIAMOND_BOOTS) {
+                        bootsMaterial = Material.DIAMOND_BOOTS;
+                        break;
+                    }
+                }
+
+
+                playerDied.getInventory().clear();
+                Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
+
+                if (bootsMaterial != null) {
+                    switch (bootsMaterial) {
+                        case CHAINMAIL_BOOTS:
+                            playerDied.getInventory().setLeggings(new ItemStack(Material.CHAINMAIL_LEGGINGS));
+                            playerDied.getInventory().setBoots(new ItemStack(Material.CHAINMAIL_BOOTS));
+                            break;
+                        case IRON_BOOTS:
+                            playerDied.getInventory().setLeggings(new ItemStack(Material.IRON_LEGGINGS));
+                            playerDied.getInventory().setBoots(new ItemStack(Material.IRON_BOOTS));
+                            break;
+                        case DIAMOND_BOOTS:
+                            playerDied.getInventory().setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
+                            playerDied.getInventory().setBoots(new ItemStack(Material.DIAMOND_BOOTS));
+                            break;
+                    }
+                }
+
+                playerDied.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
+//            Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
+
+                if (!Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
+                    playerDied.sendTitle(ChatColor.RED + "You Died", ChatColor.YELLOW + ("Your bed is broken, you will not respawn."));
+                    return;
+                }
+                Player finalPlayerDied = playerDied;
+                new BukkitRunnable() {
+                    int timer = 5;
+
+                    @Override
+                    public void run() {
+                        if (timer == 0) {
+                            cancel();
+                            return;
+                        }
+                        finalPlayerDied.sendTitle(ChatColor.RED + "You Died", ChatColor.YELLOW + ("Respawning in : " + timer));
+                        timer--;
+                    }
+                }.runTaskTimerAsynchronously(bedwars.getMainInstance(), 0, 20);
+
+                Player finalPlayerDied1 = playerDied;
+                new BukkitRunnable() {
+
+                    @Override
+                    public void run() {
+                        finalPlayerDied1.setHealth(20);
+                        finalPlayerDied1.setGameMode(GameMode.SURVIVAL);
+                        finalPlayerDied1.teleport(Arenas.getArena(finalPlayerDied1.getWorld()).bedwarsPlayers.get(finalPlayerDied1).baseSpawn);
+                    }
+                }.runTaskLater(bedwars.getMainInstance(), 5 * 20);
+            }
+            return;
+        }
 
         // TODO if damager and victim are the same team, ignore.
         // TODO JASON WHY YOU NO CHECK FOR NULL???????????????????
@@ -292,10 +380,15 @@ public class PlayerFakeDeathEvent implements Listener {
         BedwarsItem bedwarsItem = BedwarsItem.from(itemStack);
         if (bedwarsItem == null) return;
 
-        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
+        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             bedwarsItem.onUse(event);
 
             event.getPlayer().updateInventory();
+            if (event.getPlayer().getInventory().getItemInHand().getAmount() <= 1) {
+                event.getPlayer().getInventory().getItemInHand().setType(Material.AIR);
+                event.getPlayer().getInventory().clear(event.getPlayer().getInventory().getHeldItemSlot());
+            }
+            event.getPlayer().sendMessage("a");
             itemStack.setAmount(itemStack.getAmount() - 1);
             event.getPlayer().updateInventory();
         }

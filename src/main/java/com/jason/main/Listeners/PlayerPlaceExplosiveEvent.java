@@ -84,7 +84,8 @@ public class PlayerPlaceExplosiveEvent implements Listener {
     @EventHandler
     public void onFireballHitPlayer(EntityDamageByEntityEvent e) {
         if (!(e.getEntity() instanceof Player)) return;
-//        if (!(e.getDamager() instanceof Fireball)) return;
+        if (!(e.getDamager() instanceof Fireball)) return;
+        if (!(e.getDamager() instanceof TNTPrimed)) return;
         Player player = (Player) e.getEntity();
         player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 40, 2, false, false));
         player.sendMessage("EFT");
