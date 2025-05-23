@@ -1,6 +1,7 @@
 package com.jason.main.inventory.shops.diamond;
 
 import com.jason.main.Emums.DiamondUpgrade;
+import com.jason.main.GameDisplay.Arenas;
 import com.jason.main.GameDisplay.GameManager;
 import com.jason.main.PlayerEntities.BedwarsPlayer;
 import com.jason.main.inventory.InventoryMenu;
@@ -92,8 +93,13 @@ public class DiamondShop extends InventoryMenu {
 
                     setButton(row, col, is, (menu, itemStack, button) -> {
                         if (consumeItem(player, price, Material.DIAMOND)) {
-                            bwPlayer.getTeam().getDiamondUpgrades().put(upgrade, priceIdx + 1);
-                            player.sendMessage(ChatColor.GREEN + "Upgraded");
+                            player.getWorld().getPlayers().forEach(player1 -> {
+                                if (Arenas.getArena(player1.getWorld()).bedwarsPlayers.get(player1).team.teamColors == Arenas.getArena(player.getWorld()).bedwarsPlayers.get(player).team.teamColors) {
+                                    Arenas.getArena(player1.getWorld()).bedwarsPlayers.get(player1).getTeam().getDiamondUpgrades().put(upgrade, priceIdx + 1);
+                                    player1.sendMessage(ChatColor.GREEN + "Upgraded");
+                                }
+                            });
+
                         } else player.sendMessage(ChatColor.RED + "You broke as hell boy");
                     });
                 }
