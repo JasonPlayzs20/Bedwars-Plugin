@@ -6,6 +6,7 @@ import com.jason.main.bedwars;
 import com.jason.main.inventory.shops.diamond.DiamondShop;
 import com.jason.main.inventory.shops.quick.QuickBuyShop;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
@@ -15,6 +16,7 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 public class ShopListener implements Listener {
     @EventHandler
     public static void shop(PlayerInteractAtEntityEvent e) {
+        if (e.getRightClicked() instanceof ArmorStand) e.setCancelled(true);
         if (e.getRightClicked() instanceof Villager) {
             Villager villager = (Villager) e.getRightClicked();
             Player player = e.getPlayer();

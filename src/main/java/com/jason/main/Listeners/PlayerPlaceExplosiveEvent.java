@@ -45,7 +45,7 @@ public class PlayerPlaceExplosiveEvent implements Listener {
 
 
             Bukkit.getScheduler().runTaskLater(bedwars.getMainInstance(), () -> {
-                player.setVelocity(player.getVelocity().multiply(2));
+                player.setVelocity(player.getVelocity().multiply(3));
             }, 2);
         }
     }
@@ -53,7 +53,7 @@ public class PlayerPlaceExplosiveEvent implements Listener {
     @EventHandler
     public void onTNT(BlockPlaceEvent e) {
         Player player = e.getPlayer();
-
+        if (!(player.getItemInHand().getType() == Material.TNT)) return;
         if (player.getInventory().getItemInHand().getAmount() <= 1) {
             player.getInventory().getItemInHand().setType(Material.AIR);
             player.getInventory().clear(player.getInventory().getHeldItemSlot());
@@ -75,7 +75,7 @@ public class PlayerPlaceExplosiveEvent implements Listener {
 
         while (it.hasNext()) {
             Block block = it.next();
-            if (!allowedBlocks.contains(block)) {
+            if (!allowedBlocks.contains(block) || block.getType().equals(Material.STAINED_GLASS)) {
                 it.remove();
             }
         }

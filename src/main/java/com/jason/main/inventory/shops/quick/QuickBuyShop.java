@@ -44,7 +44,7 @@ public class QuickBuyShop extends InventoryMenu {
                     shopper -> ShopItem.ENDER_STONE,
                     shopper -> ShopItem.LADDERS,
                     shopper -> ShopItem.WOOD,
-                    shopper -> ShopItem.OBSIDIAN
+//                    shopper -> ShopItem.OBSIDIAN
             },
 
             // swords

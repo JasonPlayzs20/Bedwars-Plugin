@@ -7,10 +7,19 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.ItemSpawnEvent;
 
 import java.util.Objects;
 
 public class BlockBreakEvent implements Listener {
+
+    @EventHandler
+    public void onItemSpawn(ItemSpawnEvent event) {
+        if (event.getEntity().getItemStack().getType() == Material.BED) {
+            event.setCancelled(true); // Prevent the bed item from spawning
+        }
+    }
+
     @EventHandler
     public static void onBlockBreak(org.bukkit.event.block.BlockBreakEvent e) {
         Player p = e.getPlayer();
@@ -19,6 +28,7 @@ public class BlockBreakEvent implements Listener {
 //            p.sendMessage("broken");
             e.setCancelled(true);
         } else {
+
             World world = p.getWorld();
             Block block = e.getBlock();
             GameManager gameManager = Arenas.getArena(world);
@@ -36,11 +46,16 @@ public class BlockBreakEvent implements Listener {
 //                    player.sendMessage(letter);
 //                    player.sendMessage(gameManager.bedwarsPlayers.get(p).team.teamColors.name().substring(0, 1).toLowerCase());
                     gameManager.bedLoc.keySet().forEach(location -> {
-                        if (location.getX() - blockLoc.getX() < 3 && location.getZ() - blockLoc.getZ() < 3) {
+//                        p.sendMessage(String.valueOf(location.getX() - e.getBlock().getX()));
+//                        p.sendMessage(String.valueOf(location.getZ() - e.getBlock().getZ()));
+                        if ((location.getX() - e.getBlock().getX()) < 3 && (location.getZ() - e.getBlock().getZ()) < 3  && (location.getX() - e.getBlock().getX()) > -3 && (location.getZ() - e.getBlock().getZ()) > -3) {
+//                            p.sendMessage(gameManager.bedwarsPlayers.get(p).team.teamColors.name().toLowerCase().substring(0,1));
                             if (gameManager.bedLoc.get(location).equals(gameManager.bedwarsPlayers.get(p).team.teamColors.name().toLowerCase().substring(0,1))) {
                                 e.setCancelled(true);
 
                                 bed[0] = false;
+//                                p.sendMessage("Broken");
+
                                 return;
                             }
 

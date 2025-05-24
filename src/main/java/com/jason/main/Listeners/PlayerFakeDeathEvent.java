@@ -19,6 +19,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -125,6 +127,7 @@ public class PlayerFakeDeathEvent implements Listener {
                         playerDied.setHealth(20);
                         playerDied.setGameMode(GameMode.SURVIVAL);
                         playerDied.teleport(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).baseSpawn);
+                        playerDied.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,20, 189, false,false));
                     }
                 }.runTaskLater(bedwars.getMainInstance(), 5 * 20);
             }
@@ -135,16 +138,18 @@ public class PlayerFakeDeathEvent implements Listener {
 
     @EventHandler
     public static void onDamageByEntity(EntityDamageByEntityEvent e) {
-        Player damager, playerDied;
+        Player playerDied;
+
         if (e.getDamager() instanceof TNTPrimed) {
-            e.getEntity().sendMessage("e");
+//            e.getEntity().sendMessage("e");
             if (e.getDamage() > 6) {
                 e.setDamage(6);
 //                e.setCancelled(true);
             }
         }
         if (e.getEntity() instanceof Player) {
-
+            ((Player) e.getDamager()).getInventory().getItemInHand().setDurability((short) -1);
+            ((Player) e.getDamager()).updateInventory();
             if (e.getDamager() instanceof Arrow) {
                 Arrow arrow = (Arrow) e.getDamager();
                 Player shooter = (Player) arrow.getShooter();
@@ -157,15 +162,23 @@ public class PlayerFakeDeathEvent implements Listener {
 
 
 
-
+        Player damager = (Player) e.getDamager();
 
         if (e.getEntity() instanceof Player) playerDied = (Player) e.getEntity();
         else {
             return;
         }
-
+        playerDied.getInventory().getHelmet().setDurability((short) (-1));
+        playerDied.getInventory().getChestplate().setDurability((short) (-1));
+        playerDied.getInventory().getLeggings().setDurability((short) (-1));
+        playerDied.getInventory().getBoots().setDurability((short) (-1));
         if (e.getDamager() instanceof Player) damager = (Player) e.getDamager();
         else {
+            damager.getInventory().getHelmet().setDurability((short) (-1));
+            damager.getInventory().getChestplate().setDurability((short) (-1));
+            damager.getInventory().getLeggings().setDurability((short) (-1));
+            damager.getInventory().getBoots().setDurability((short) (-1));
+            damager.getInventory().getItemInHand().setDurability((short)-1);
             if (playerDied.hasPotionEffect(PotionEffectType.INVISIBILITY))
                 playerDied.removePotionEffect(PotionEffectType.INVISIBILITY);
             playerDied.getWorld().getPlayers().forEach(player -> {
@@ -251,6 +264,7 @@ public class PlayerFakeDeathEvent implements Listener {
                         finalPlayerDied1.setHealth(20);
                         finalPlayerDied1.setGameMode(GameMode.SURVIVAL);
                         finalPlayerDied1.teleport(Arenas.getArena(finalPlayerDied1.getWorld()).bedwarsPlayers.get(finalPlayerDied1).baseSpawn);
+                        playerDied.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,20, 189, false,false));
                     }
                 }.runTaskLater(bedwars.getMainInstance(), 5 * 20);
             }
@@ -259,8 +273,10 @@ public class PlayerFakeDeathEvent implements Listener {
 
         // TODO if damager and victim are the same team, ignore.
         // TODO JASON WHY YOU NO CHECK FOR NULL???????????????????
+
         if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors == Arenas.getArena(damager.getWorld()).bedwarsPlayers.get(damager).team.teamColors) {
             e.setCancelled(true);
+
             return;
         }
 
@@ -279,8 +295,9 @@ public class PlayerFakeDeathEvent implements Listener {
             playerDied.setHealth(20);
             playerDied.teleport(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).mainSpawn);
 //            Arenas.getArena(playerDied.getWorld()).world.sendPluginMessage(bedwars.getMainInstance(), playerDied.getName() + " was killed by " + damager );
+            Player finalDamager = damager;
             playerDied.getWorld().getPlayers().forEach(p -> {
-                p.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() +ChatColor.RED + " was killed by " + (Arenas.getArena(damager.getWorld()).bedwarsPlayers.get(damager).team.chatColor)+ damager.getName());
+                p.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() +ChatColor.RED + " was killed by " + (Arenas.getArena(finalDamager.getWorld()).bedwarsPlayers.get(finalDamager).team.chatColor)+ finalDamager.getName());
             });
 
             Material bootsMaterial = null;
@@ -316,6 +333,7 @@ public class PlayerFakeDeathEvent implements Listener {
             }
 
             playerDied.getInventory().clear();
+
             Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
 
             if (bootsMaterial != null) {
@@ -365,6 +383,7 @@ public class PlayerFakeDeathEvent implements Listener {
                     finalPlayerDied1.setHealth(20);
                     finalPlayerDied1.setGameMode(GameMode.SURVIVAL);
                     finalPlayerDied1.teleport(Arenas.getArena(finalPlayerDied1.getWorld()).bedwarsPlayers.get(finalPlayerDied1).baseSpawn);
+                    playerDied.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,20, 189, false,false));
                 }
             }.runTaskLater(bedwars.getMainInstance(), 5 * 20);
         }

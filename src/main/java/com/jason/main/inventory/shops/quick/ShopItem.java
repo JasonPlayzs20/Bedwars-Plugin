@@ -1,9 +1,12 @@
 package com.jason.main.inventory.shops.quick;
 
+import com.jason.main.GameDisplay.Arenas;
 import com.jason.main.Util;
 import com.jason.main.items.BedbugItem;
 import com.jason.main.items.GolemItem;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -11,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.material.Wool;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -152,6 +156,18 @@ public class ShopItem {
             else if (itemStack.getType().equals(Material.DIAMOND_BOOTS)) {
                 inv.setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
                 inv.setBoots(new ItemStack(Material.DIAMOND_BOOTS));
+            }
+            else if (itemStack.getType().equals(Material.WOOL)) {
+                Color color = Arenas.getArena(player.getWorld()).colors.get(Arenas.getArena(player.getWorld()).bedwarsPlayers.get(player).team.teamColors);
+                ItemStack wool = getCleanItemStack();
+//                Material woolMat = Material.valueOf(Arenas.getArena(player.getWorld()).bedwarsPlayers.get(player).team.teamColors.name().toUpperCase() + "_WOOL");
+                Wool woolColored = new Wool(Material.WOOL);
+                woolColored.setColor(DyeColor.valueOf(Arenas.getArena(player.getWorld()).bedwarsPlayers.get(player).team.teamColors.name()));
+//                ItemStack woolColored = new ItemStack(woolMat);
+//                woolColored.setAmount(wool.getAmount());
+                ItemStack newWool = woolColored.toItemStack();
+                newWool.setAmount(wool.getAmount());
+                handler.giveItems(newWool);
             }
             else handler.giveItems(getCleanItemStack());
         }

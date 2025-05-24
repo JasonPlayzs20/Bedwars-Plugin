@@ -95,6 +95,7 @@ public class DiamondShop extends InventoryMenu {
                         if (consumeItem(player, price, Material.DIAMOND)) {
                             player.getWorld().getPlayers().forEach(player1 -> {
                                 if (Arenas.getArena(player1.getWorld()).bedwarsPlayers.get(player1).team.teamColors == Arenas.getArena(player.getWorld()).bedwarsPlayers.get(player).team.teamColors) {
+                                    player1.getActivePotionEffects().clear();
                                     Arenas.getArena(player1.getWorld()).bedwarsPlayers.get(player1).getTeam().getDiamondUpgrades().put(upgrade, priceIdx + 1);
                                     player1.sendMessage(ChatColor.GREEN + "Upgraded");
                                 }

@@ -3,18 +3,6 @@
 3.kirk smart and yes (very much indeed so good sir)
 4.
 
-5. Randomly dont respond
-7. duping
-8. crafting
-9. bed bugs/ iron golems
-12. explosions/ custom items not work
+12. custom items not work
 13. armor while invis
-14. hit with damage while invis dont make it disappear
 15. splitting
-16. can take diamond and em blocks
-17. void building
-18. water bottles
-19. height limit
-20. eggs spawn chickens
-21. glass need to be bullet proof
-22. deleting using npc
