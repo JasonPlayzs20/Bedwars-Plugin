@@ -17,6 +17,10 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,6 +68,26 @@ public class GameManager {
 
 
     }
+
+    public void updateScoreBoard() {
+        world.getPlayers().forEach(player -> {
+            Scoreboard bedwarsScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+            Objective obj = bedwarsScoreboard.registerNewObjective("Bedwars Scoreboard","dummy");
+            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+            obj.setDisplayName(ChatColor.YELLOW.toString() + ChatColor.BOLD +"Bedwars Scoreboard");
+
+            Score kills = obj.getScore(ChatColor.YELLOW + "69420");
+            kills.setScore(1);
+
+            Score name = obj.getScore(ChatColor.GREEN + "Name: " + player.getName());
+            name.setScore(3);
+
+            Score space = obj.getScore(" ");
+            space.setScore(2);
+            player.setScoreboard(bedwarsScoreboard);
+        });
+    }
+
     public void addTeam(Player player, TeamColors teamColor, ChatColor chatColor) {
         teamCount.put(teamColor, teamCount.get(teamColor) + 1);
         bedwarsPlayers.get(player).team.teamColors = teamColor;
@@ -153,6 +177,7 @@ public class GameManager {
     public void startGame() {
 //
         setTeams();
+        updateScoreBoard();
         state = State.PLAYING;
         generatorManager = new GeneratorManager(world, diamondLoc, genLoc, emLoc, shopLoc, diaShopLoc);
         generatorManager.start();
