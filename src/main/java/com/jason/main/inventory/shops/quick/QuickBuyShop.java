@@ -19,7 +19,7 @@ public class QuickBuyShop extends InventoryMenu {
                     shopper -> ShopItem.FIREBALL,
                     shopper -> shopper.armorTier <= 1 ? ShopItem.IRON_ARMOR : null,
                     shopper -> ShopItem.TNT,
-                    shopper -> ShopItem.INVIS_POTION,
+                    shopper -> ShopItem.SPEED_POTION,
                     shopper -> ShopItem.SILVERFISH,
                     shopper -> ShopItem.ENDER_PEARL,
                     shopper -> shopper.getToolUpgrade(Shopper.AXES, shopper.axeTier),
@@ -76,7 +76,6 @@ public class QuickBuyShop extends InventoryMenu {
             // pots
             { shopper -> ShopItem.SPEED_POTION,
                     shopper -> ShopItem.JUMP_POTION,
-                    shopper -> ShopItem.INVIS_POTION
             },
 
             // utilities
@@ -90,7 +89,6 @@ public class QuickBuyShop extends InventoryMenu {
                     shopper -> ShopItem.BRIDGE_EGG,
                     shopper -> ShopItem.MAGIC_MILK,
                     shopper -> ShopItem.SPONGE,
-                    shopper -> ShopItem.POPUP_TOWER
             }
     };
 

@@ -39,6 +39,9 @@ public class PlayerFakeDeathEvent implements Listener {
         }
         if (e.getEntity() instanceof Player) {
             Player playerDied = (Player) e.getEntity();
+            playerDied.getWorld().getPlayers().forEach(player -> {
+                Arenas.getArena(player.getWorld()).updateScoreBoard();
+            });
 //            playerDied.getActivePotionEffects().forEach(potionEffect -> {playerDied.removePotionEffect(potionEffect.getType());});
             if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) {
                 return;
@@ -97,9 +100,84 @@ public class PlayerFakeDeathEvent implements Listener {
                         break;
                     }
                 }
+                if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit) != null) {
+                    Player damager = Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit).getPlayer();
+                    for (ItemStack itemStack : playerDied.getInventory().getContents()) {
+                        // the unholy code of jason
+                        if (itemStack == null) {
+                            continue;
+                        }
+                        if (itemStack.getType() == Material.IRON_INGOT) {
+                            damager.getInventory().addItem(itemStack);
+                        }
+                        if (itemStack.getType() == Material.GOLD_INGOT) {
+                            damager.getInventory().addItem(itemStack);
+                        }
+                        if (itemStack.getType() == Material.DIAMOND) {
+                            damager.getInventory().addItem(itemStack);
+                        }
+                        if (itemStack.getType() == Material.EMERALD) {
+                            damager.getInventory().addItem(itemStack);
+                        }
+                    }
+                }
+                Material axe = null;
+                Material pick = null;
+                boolean shear = false;
+                for (ItemStack tool : playerDied.getInventory()) {
 
+                    if (tool == null) continue;
+
+                    if (tool.getType().name().toLowerCase().contains("_axe")) {
+                        if (tool.getType().name().toLowerCase().contains("stone")) {
+                            axe = Material.WOOD_AXE;
+                        }
+                        if (tool.getType().name().toLowerCase().contains("iron")) {
+                            axe = Material.STONE_AXE;
+                        }
+                        if (tool.getType().name().toLowerCase().contains("diamond")) {
+                            axe = Material.IRON_AXE;
+                        }
+                        if (tool.getType().name().toLowerCase().contains("wood")) {
+                            axe = Material.WOOD_AXE;
+                        }
+                    } else if (tool.getType().name().toLowerCase().contains("pick")) {
+                        if (tool.getType().name().toLowerCase().contains("iron")) {
+                            pick = Material.WOOD_PICKAXE;
+                        }
+                        if (tool.getType().name().toLowerCase().contains("gold")) {
+                            pick = Material.IRON_PICKAXE;
+                        }
+                        if (tool.getType().name().toLowerCase().contains("diamond")) {
+                            pick = Material.GOLD_PICKAXE;
+                        }
+                        if (tool.getType().name().toLowerCase().contains("wood")) {
+                            pick = Material.WOOD_PICKAXE;
+                        }
+                    }
+                    if (tool.getType().name().toLowerCase().contains("shear")) shear = true;
+
+                }
+                playerDied.teleport(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).mainSpawn);
                 playerDied.getInventory().clear();
-                Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
+                playerDied.sendMessage(String.valueOf(shear));
+                if (axe != null) {
+                    playerDied.getInventory().addItem(new ItemStack(Material.AIR));
+                    playerDied.getInventory().addItem(new ItemStack(axe));
+                    playerDied.getInventory().setItem(1,new ItemStack(axe));
+                    playerDied.updateInventory();
+                }
+                if (pick != null) {
+                    playerDied.getInventory().addItem(new ItemStack(Material.AIR));
+                    playerDied.getInventory().addItem(new ItemStack(pick));
+                    playerDied.getInventory().setItem(2,new ItemStack(pick));
+                    playerDied.updateInventory();
+                }
+                if (shear) {
+                    playerDied.getInventory().addItem(new ItemStack(Material.SHEARS));
+                    playerDied.getInventory().setItem(3,new ItemStack(Material.SHEARS));
+                    playerDied.updateInventory();
+                }
                 if (bootsMaterial != null) {
                     switch (bootsMaterial) {
                         case CHAINMAIL_BOOTS:
@@ -118,7 +196,6 @@ public class PlayerFakeDeathEvent implements Listener {
                 }
 
                 playerDied.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
-
                 if (!Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
                     playerDied.sendTitle(ChatColor.RED + "You Died", ChatColor.YELLOW + ("Your bed is broken, you will not respawn."));
                     if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit) != null) {
@@ -143,7 +220,7 @@ public class PlayerFakeDeathEvent implements Listener {
                         timer--;
                     }
                 }.runTaskTimerAsynchronously(bedwars.getMainInstance(), 0, 20);
-
+                Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(((Player) e.getEntity())).lastHit = null;
                 new BukkitRunnable() {
 
                     @Override
@@ -154,6 +231,9 @@ public class PlayerFakeDeathEvent implements Listener {
                         playerDied.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,20, 189, false,false));
                     }
                 }.runTaskLater(bedwars.getMainInstance(), 5 * 20);
+                playerDied.getWorld().getPlayers().forEach(player -> {
+                    Arenas.getArena(player.getWorld()).updateScoreBoard();
+                });
             }
 
         }
@@ -187,6 +267,7 @@ public class PlayerFakeDeathEvent implements Listener {
 
 
         Player damager = (Player) e.getDamager();
+
         Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(((Player) e.getEntity())).lastHit = damager;
         if (e.getEntity() instanceof Player) playerDied = (Player) e.getEntity();
         else {
@@ -241,11 +322,62 @@ public class PlayerFakeDeathEvent implements Listener {
                         break;
                     }
                 }
+                Material axe = null;
+                Material pick = null;
+                boolean shear = false;
+                for (ItemStack tool : playerDied.getInventory()) {
 
+                    if (tool == null) continue;
+                     
+                    if (tool.getType().name().toLowerCase().contains("_axe")) {
+                        if (tool.getType().name().toLowerCase().contains("stone")) {
+                            axe = Material.WOOD_AXE;
+                        }
+                        if (tool.getType().name().toLowerCase().contains("iron")) {
+                            axe = Material.STONE_AXE;
+                        }
+                        if (tool.getType().name().toLowerCase().contains("diamond")) {
+                            axe = Material.IRON_AXE;
+                        }
+                        if (tool.getType().name().toLowerCase().contains("wood")) {
+                            axe = Material.WOOD_AXE;
+                        }
+                    } else if (tool.getType().name().toLowerCase().contains("pick")) {
+                        if (tool.getType().name().toLowerCase().contains("iron")) {
+                            pick = Material.WOOD_PICKAXE;
+                        }
+                        if (tool.getType().name().toLowerCase().contains("gold")) {
+                            pick = Material.IRON_PICKAXE;
+                        }
+                        if (tool.getType().name().toLowerCase().contains("diamond")) {
+                            pick = Material.GOLD_PICKAXE;
+                        }
+                        if (tool.getType().name().toLowerCase().contains("wood")) {
+                            pick = Material.WOOD_PICKAXE;
+                        }
+                    }
+                    if (tool.getType().name().toLowerCase().contains("shear")) shear = true;
 
+                }
+                playerDied.teleport(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).mainSpawn);
                 playerDied.getInventory().clear();
-                Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
-
+                if (shear) {
+                    playerDied.getInventory().addItem(new ItemStack(Material.SHEARS));
+                    playerDied.getInventory().setItem(3,new ItemStack(Material.SHEARS));
+                    playerDied.updateInventory();
+                }
+                if (axe != null) {
+                    playerDied.getInventory().addItem(new ItemStack(Material.AIR));
+                    playerDied.getInventory().addItem(new ItemStack(axe));
+                    playerDied.getInventory().setItem(1,new ItemStack(axe));
+                    playerDied.updateInventory();
+                }
+                if (pick != null) {
+                    playerDied.getInventory().addItem(new ItemStack(Material.AIR));
+                    playerDied.getInventory().addItem(new ItemStack(pick));
+                    playerDied.getInventory().setItem(2,new ItemStack(pick));
+                    playerDied.updateInventory();
+                }
                 if (bootsMaterial != null) {
                     switch (bootsMaterial) {
                         case CHAINMAIL_BOOTS:
@@ -263,6 +395,7 @@ public class PlayerFakeDeathEvent implements Listener {
                     }
                 }
 
+
                 playerDied.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
 //            Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
 
@@ -273,6 +406,10 @@ public class PlayerFakeDeathEvent implements Listener {
                 }else {
                     Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(e.getEntity()).lastHit).kills += 1;
                 }
+                damager.getWorld().getPlayers().forEach(player -> {
+                    Arenas.getArena(player.getWorld()).updateScoreBoard();
+                });
+                Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(((Player) e.getEntity())).lastHit = null;
                 Player finalPlayerDied = playerDied;
                 new BukkitRunnable() {
                     int timer = 5;
@@ -367,9 +504,62 @@ public class PlayerFakeDeathEvent implements Listener {
                     damager.getInventory().addItem(itemStack);
                 }
             }
+            Material axe = null;
+            Material pick = null;
+            boolean shear = false;
+            for (ItemStack tool : playerDied.getInventory()) {
 
+                if (tool == null) continue;
+                 
+                if (tool.getType().name().toLowerCase().contains("_axe")) {
+                    if (tool.getType().name().toLowerCase().contains("stone")) {
+                        axe = Material.WOOD_AXE;
+                    }
+                    if (tool.getType().name().toLowerCase().contains("iron")) {
+                        axe = Material.STONE_AXE;
+                    }
+                    if (tool.getType().name().toLowerCase().contains("diamond")) {
+                        axe = Material.IRON_AXE;
+                    }
+                    if (tool.getType().name().toLowerCase().contains("wood")) {
+                        axe = Material.WOOD_AXE;
+                    }
+                } else if (tool.getType().name().toLowerCase().contains("pick")) {
+                    if (tool.getType().name().toLowerCase().contains("iron")) {
+                        pick = Material.WOOD_PICKAXE;
+                    }
+                    if (tool.getType().name().toLowerCase().contains("gold")) {
+                        pick = Material.IRON_PICKAXE;
+                    }
+                    if (tool.getType().name().toLowerCase().contains("diamond")) {
+                        pick = Material.GOLD_PICKAXE;
+                    }
+                    if (tool.getType().name().toLowerCase().contains("wood")) {
+                        pick = Material.WOOD_PICKAXE;
+                    }
+                }
+                if (tool.getType().name().toLowerCase().contains("shear")) shear = true;
+
+            }
+            playerDied.teleport(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).mainSpawn);
             playerDied.getInventory().clear();
-
+            if (shear) {
+                playerDied.getInventory().addItem(new ItemStack(Material.SHEARS));
+                playerDied.getInventory().setItem(3,new ItemStack(Material.SHEARS));
+                playerDied.updateInventory();
+            }
+            if (axe != null) {
+                playerDied.getInventory().addItem(new ItemStack(Material.AIR));
+                playerDied.getInventory().addItem(new ItemStack(axe));
+                playerDied.getInventory().setItem(1,new ItemStack(axe));
+                playerDied.updateInventory();
+            }
+            if (pick != null) {
+                playerDied.getInventory().addItem(new ItemStack(Material.AIR));
+                playerDied.getInventory().addItem(new ItemStack(pick));
+                playerDied.getInventory().setItem(2,new ItemStack(pick));
+                playerDied.updateInventory();
+            }
             Arenas.getArena(playerDied.getWorld()).wearArmor(playerDied,Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.teamColors);
 
             if (bootsMaterial != null) {
@@ -414,6 +604,10 @@ public class PlayerFakeDeathEvent implements Listener {
                 }
             }.runTaskTimerAsynchronously(bedwars.getMainInstance(), 0, 20);
 
+            damager.getWorld().getPlayers().forEach(player -> {
+                Arenas.getArena(player.getWorld()).updateScoreBoard();
+            });
+            Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(((Player) e.getEntity())).lastHit = null;
             Player finalPlayerDied1 = playerDied;
             new BukkitRunnable() {
 

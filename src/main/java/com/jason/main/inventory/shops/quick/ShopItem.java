@@ -159,13 +159,9 @@ public class ShopItem {
                 inv.setBoots(new ItemStack(Material.DIAMOND_BOOTS));
             }
             else if (itemStack.getType().equals(Material.WOOL)) {
-                Color color = Arenas.getArena(player.getWorld()).colors.get(Arenas.getArena(player.getWorld()).bedwarsPlayers.get(player).team.teamColors);
                 ItemStack wool = getCleanItemStack();
-//                Material woolMat = Material.valueOf(Arenas.getArena(player.getWorld()).bedwarsPlayers.get(player).team.teamColors.name().toUpperCase() + "_WOOL");
                 Wool woolColored = new Wool(Material.WOOL);
                 woolColored.setColor(DyeColor.valueOf(Arenas.getArena(player.getWorld()).bedwarsPlayers.get(player).team.teamColors.name()));
-//                ItemStack woolColored = new ItemStack(woolMat);
-//                woolColored.setAmount(wool.getAmount());
                 ItemStack newWool = woolColored.toItemStack();
                 newWool.setAmount(wool.getAmount());
                 handler.giveItems(newWool);

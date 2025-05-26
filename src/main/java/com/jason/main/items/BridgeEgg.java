@@ -30,16 +30,17 @@ public class BridgeEgg extends BedwarsItem {
 
     public static void placeBridgeBlocks(Player spawner, Egg egg) {
         BedwarsPlayer bwPlayer = Arenas.getPlayer(spawner);
+//        spawner.sendMessage(spawner.getDisplayName());
         if (bwPlayer == null) return;
 
-        DyeColor blockColor = DyeColor.valueOf(bwPlayer.getTeam().teamColors.name());
-        Wool coloredWool = new Wool();
+        DyeColor blockColor = DyeColor.valueOf(bwPlayer.team.teamColors.name());
+        Wool coloredWool = new Wool(Material.WOOL);
         coloredWool.setColor(blockColor);
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (egg.isDead()) this.cancel();
+//                if (egg.isDead()) this.cancel();
 
                 World w = spawner.getWorld();
 
@@ -54,13 +55,18 @@ public class BridgeEgg extends BedwarsItem {
                             for (int dz = -1; dz <= 1; dz++) {
                                 double bx = x + dx;
                                 double bz = z + dz;
-                                Location loc = new Location(w, bx, y, bz);
+                                Location loc = new Location(w, bx, y-2, bz);
                                 Block block = w.getBlockAt(loc);
-                                if (block.getType().equals(Material.AIR)) block.setType(coloredWool.getItemType());
+                                if (block.getType().equals(Material.AIR)){
+//                                    block.setType(coloredWool.getItemType());
+                                    block.setType(Material.WOOL);
+                                    block.setData(coloredWool.getData());
+                                    Arenas.getArena(spawner.getWorld()).blockList.add(block);
+                                }
                             }
                         }
                     }
-                }.runTaskLater(bedwars.getMainInstance(), 20);
+                }.runTaskLater(bedwars.getMainInstance(), 0);
             }
         }.runTaskTimer(bedwars.getMainInstance(), 0, 1);
     }

@@ -23,6 +23,7 @@ public class BlockBreakEvent implements Listener {
     @EventHandler
     public static void onBlockBreak(org.bukkit.event.block.BlockBreakEvent e) {
         Player p = e.getPlayer();
+        p.getInventory().getItemInHand().setDurability((short) -1);
 //        p.sendMessage(p.getWorld().getName());
         if (Objects.equals(p.getWorld().getName(), "world")) {
 //            p.sendMessage("broken");
@@ -61,10 +62,20 @@ public class BlockBreakEvent implements Listener {
 
                         }
                     });
+                    Bukkit.getWorld(player.getWorld().getName()).playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL, 1,1);
+//                    player.sendMessage();
+                    String teamName = gameManager.bedwarsPlayers.get(player).team.teamColors.name();
+//                    player.sendMessage(ChatColor.RED + teamName + "'s bed is broken!");
                     if (bed[0]) {
+
                         gameManager.bedwarsPlayers.get(player).hasBed = false;
                         player.sendTitle(ChatColor.RED + "YOU HAVE NO BED!", ChatColor.YELLOW + "YOU WILL NOT RESPAWN!!!");
+
                         Arenas.getArena(world).bedwarsPlayers.get(player).hasBed = false;
+
+                        player.getWorld().getPlayers().forEach(player1 -> {
+                            Arenas.getArena(player1.getWorld()).updateScoreBoard();
+                        });
                     }else {
                         player.sendMessage(ChatColor.RED + "You cannot break your own bed!!!");
                     }
@@ -78,6 +89,7 @@ public class BlockBreakEvent implements Listener {
             } else {
 
             }
+
 
         }
 

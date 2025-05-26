@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.jason.main.Commands.EndCommand.removeFile;
 import static com.jason.main.bedwars.*;
@@ -41,6 +42,7 @@ public class GameManager {
     public  int countdownID;
     Countdown countdown;
     GeneratorManager generatorManager;
+    Dragon dragon;
     ShopManager shopManager;
     List<Location> diamondLoc = new ArrayList<>();
     public List<Location> genLoc = new ArrayList<>();
@@ -72,45 +74,67 @@ public class GameManager {
     }
 
     public void updateScoreBoard() {
-        world.getPlayers().forEach(player -> {
+        // First, collect one representative per team to check global bed status
+        Map<TeamColors, BedwarsPlayer> teamRepresentatives = new HashMap<>();
+        for (Player p : world.getPlayers()) {
+            BedwarsPlayer bwPlayer = Arenas.getArena(world).bedwarsPlayers.get(p);
+            TeamColors color = bwPlayer.team.teamColors;
+            teamRepresentatives.putIfAbsent(color, bwPlayer); // only first player from each team
+        }
+
+        // Now, update scoreboard for each player
+        for (Player player : world.getPlayers()) {
             Scoreboard bedwarsScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
             Objective obj = bedwarsScoreboard.registerNewObjective("bedwars", "dummy");
             obj.setDisplaySlot(DisplaySlot.SIDEBAR);
             obj.setDisplayName(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Bedwars 2025");
-//
-//
-//
-//
-//
-//            Score kills = obj.getScore(ChatColor.RED + "Kills: " + ChatColor.WHITE + "0");
-//            kills.setScore(1);
+
             int i = 2;
+
+            // Global team bed status
             for (TeamColors teamColor : TeamColors.values()) {
-                if (teamColor == TeamColors.NA) {continue;}
-                Score color = obj.getScore("  " +ChatColor.valueOf(teamColor.toString()) +teamColor.toString().substring(0,1)+ teamColor.toString().substring(1).toLowerCase() + ":");
-                color.setScore(i);
-                i++;
+                if (teamColor == TeamColors.NA) continue;
+
+                ChatColor colorCode = ChatColor.valueOf(teamColor.toString());
+                String teamName = teamColor.toString().substring(0, 1) + teamColor.toString().substring(1).toLowerCase();
+
+                BedwarsPlayer rep = teamRepresentatives.get(teamColor);
+                boolean hasBed = rep != null && rep.hasBed;
+
+                String bedStatus = hasBed ? ChatColor.GREEN + "✔" : ChatColor.RED + "X";
+                Score color = obj.getScore("  " + colorCode + teamName + ": " + bedStatus);
+                color.setScore(i++);
             }
+
+            // Static headers
             Score bar = obj.getScore(ChatColor.DARK_GRAY + "----------------------");
             bar.setScore(1);
             Score commtech = obj.getScore(ChatColor.GOLD.toString() + "Commtech Bedwars Tournament");
             commtech.setScore(0);
+
+            // Dynamic player stats
             Score teams = obj.getScore(ChatColor.WHITE + "Teams: ");
-            teams.setScore(i);
-            i++;
+            teams.setScore(i++);
             Score space = obj.getScore(ChatColor.DARK_GRAY + "----------------------" + ChatColor.GOLD);
-            space.setScore(i);
-            i++;
-            Score kills = obj.getScore(ChatColor.RED + "Kills: " + ChatColor.WHITE + Arenas.getArena(world).bedwarsPlayers.get(player).kills);
-            kills.setScore(i);
-            i++;
+            space.setScore(i++);
+
+            BedwarsPlayer current = Arenas.getArena(world).bedwarsPlayers.get(player);
+
+            Score kills = obj.getScore(ChatColor.RED + "Kills: " + ChatColor.WHITE + current.kills);
+            kills.setScore(i++);
+            Score finals = obj.getScore(ChatColor.RED + "Final Kills: " + ChatColor.WHITE + current.finals);
+            finals.setScore(i++);
             Score name = obj.getScore(ChatColor.GREEN + "Name: " + player.getDisplayName());
-            name.setScore(i);
-
+            name.setScore(i++);
+            Score gap = obj.getScore(" ");
+            gap.setScore(i++);
+            if (dragon.timer() < 60) {
+                Score timer = obj.getScore(ChatColor.RED + "Sudden Death in: " + String.valueOf(dragon.timer()));
+                timer.setScore(i++);
+            }
             player.setScoreboard(bedwarsScoreboard);
-        });
+        }
     }
-
     public void addTeam(Player player, TeamColors teamColor, ChatColor chatColor) {
         teamCount.put(teamColor, teamCount.get(teamColor) + 1);
         bedwarsPlayers.get(player).team.teamColors = teamColor;
@@ -204,6 +228,8 @@ public class GameManager {
         state = State.PLAYING;
         generatorManager = new GeneratorManager(world, diamondLoc, genLoc, emLoc, shopLoc, diaShopLoc);
         generatorManager.start();
+        dragon = new Dragon(bedwars.getMainInstance(),this,Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml","suddenDeath"))*60);
+        dragon.start();
         for (Player player : players) {
             player.sendMessage(ChatColor.RED+"Items that are marked as (NOT WORKING), surprisingly, does not work! If you see a star in the shop, that means that the item is too unstable to be beta tested. Please be patient. Any breaking bugs please report thx.");
 //            bedwarsPlayers.get(player).team = new Teams(TeamColors.NA, ChatColor.GREEN);
