@@ -31,6 +31,8 @@ public class BedwarsPlayer {
     public static final double BASE_RADIUS = 20;
 
     public Teams team;
+    public int kills = 0;
+    public int finals = 0;
     Player player;
     GameManager gameManager;
     World world;
@@ -39,6 +41,7 @@ public class BedwarsPlayer {
     String name;
     String teamName;
     public boolean hasBed = true;
+    public Player lastHit = null;
 
 
     public BedwarsPlayer(Player player, GameManager gameManager, Teams teams) {

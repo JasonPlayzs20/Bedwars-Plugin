@@ -179,17 +179,56 @@ public class BlockPlaceEvent implements Listener {
             playerDied.setGameMode(GameMode.SPECTATOR);
             playerDied.setHealth(20);
 //            playerDied.sendMessage(String.valueOf(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).team));
-            playerDied.getWorld().getPlayers().forEach(player -> {player.sendMessage(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).team.chatColor + playerDied.getName().toString() + ChatColor.RED + " has died in the void.");});
-//            playerDied.sendMessage(String.valueOf(playerDied.getWorld()));
-//            playerDied.sendMessage(String.valueOf(Arenas.getArena(playerDied.getWorld())));
-//            playerDied.sendMessage(String.valueOf(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName()))));
-//            playerDied.sendMessage(String.valueOf(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).mainSpawn));
+            if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit == null) {
+                playerDied.getWorld().getPlayers().forEach(player -> {
+                    if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
+                        player.sendMessage(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).team.chatColor + playerDied.getName().toString() + ChatColor.RED + " has died in the void.");
+                    }else {
+                        player.sendMessage(ChatColor.AQUA + "FINAL KILL! " +Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).team.chatColor + playerDied.getName().toString() + ChatColor.RED + " has died in the void.");
+                    }
+                });
+            }else {
+                playerDied.getWorld().getPlayers().forEach(player -> {
+                    if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
+                        player.sendMessage(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).team.chatColor + playerDied.getName().toString() + ChatColor.RED + " has been knocked into the void by " + Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit.getDisplayName());
+                    }else {
+                        player.sendMessage(ChatColor.AQUA + "FINAL KILL! " +Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).team.chatColor + playerDied.getName().toString() + ChatColor.RED + " has been knocked into the void by " + Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit.getDisplayName());
+                    }
+                });
+                for (ItemStack itemStack : playerDied.getInventory().getContents()) {
+                    // the unholy code of jason
+                    if (itemStack == null) {continue;}
+                    if (itemStack.getType() == Material.IRON_INGOT) {
+                        Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit.getInventory().addItem(itemStack);
+                    }
+                    if (itemStack.getType() == Material.GOLD_INGOT) {
+                        Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit.getInventory().addItem(itemStack);
+                    }
+                    if (itemStack.getType() == Material.DIAMOND) {
+                        Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit.getInventory().addItem(itemStack);
+                    }
+                    if (itemStack.getType() == Material.EMERALD) {
+                        Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit.getInventory().addItem(itemStack);
+                    }
+                }
+
+            }
+
             playerDied.teleport(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).mainSpawn);
             playerDied.getInventory().clear();
             playerDied.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
             if (!Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
                 playerDied.sendTitle(ChatColor.RED + "You Died", ChatColor.YELLOW + ("Your bed is broken, you will not respawn."));
+                if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Arenas.getArena(((Player) playerDied).getWorld()).bedwarsPlayers.get(playerDied).lastHit) == null) return;
+                Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Arenas.getArena(((Player) playerDied).getWorld()).bedwarsPlayers.get(playerDied).lastHit).finals += 1;
                 return;
+            }else {
+                if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Arenas.getArena(((Player) playerDied).getWorld()).bedwarsPlayers.get(playerDied).lastHit) == null)
+                {
+
+                }else {
+                    Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Arenas.getArena(((Player) playerDied).getWorld()).bedwarsPlayers.get(playerDied).lastHit).kills += 1;
+                }
             }
 
             new BukkitRunnable() {

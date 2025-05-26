@@ -9,6 +9,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
@@ -34,6 +35,7 @@ import static org.bukkit.Material.SPONGE;
 public class GameManager {
     public World world;
     public State state;
+    public List<Item> droppedItems = new ArrayList<>();
     List<Player> players;
     public HashMap<Player, BedwarsPlayer> bedwarsPlayers = new HashMap<>();
     public  int countdownID;
@@ -72,18 +74,39 @@ public class GameManager {
     public void updateScoreBoard() {
         world.getPlayers().forEach(player -> {
             Scoreboard bedwarsScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-            Objective obj = bedwarsScoreboard.registerNewObjective("Bedwars Scoreboard","dummy");
+            Objective obj = bedwarsScoreboard.registerNewObjective("bedwars", "dummy");
             obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-            obj.setDisplayName(ChatColor.YELLOW.toString() + ChatColor.BOLD +"Bedwars Scoreboard");
+            obj.setDisplayName(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Bedwars 2025");
+//
+//
+//
+//
+//
+//            Score kills = obj.getScore(ChatColor.RED + "Kills: " + ChatColor.WHITE + "0");
+//            kills.setScore(1);
+            int i = 2;
+            for (TeamColors teamColor : TeamColors.values()) {
+                if (teamColor == TeamColors.NA) {continue;}
+                Score color = obj.getScore("  " +ChatColor.valueOf(teamColor.toString()) +teamColor.toString().substring(0,1)+ teamColor.toString().substring(1).toLowerCase() + ":");
+                color.setScore(i);
+                i++;
+            }
+            Score bar = obj.getScore(ChatColor.DARK_GRAY + "----------------------");
+            bar.setScore(1);
+            Score commtech = obj.getScore(ChatColor.GOLD.toString() + "Commtech Bedwars Tournament");
+            commtech.setScore(0);
+            Score teams = obj.getScore(ChatColor.WHITE + "Teams: ");
+            teams.setScore(i);
+            i++;
+            Score space = obj.getScore(ChatColor.DARK_GRAY + "----------------------" + ChatColor.GOLD);
+            space.setScore(i);
+            i++;
+            Score kills = obj.getScore(ChatColor.RED + "Kills: " + ChatColor.WHITE + Arenas.getArena(world).bedwarsPlayers.get(player).kills);
+            kills.setScore(i);
+            i++;
+            Score name = obj.getScore(ChatColor.GREEN + "Name: " + player.getDisplayName());
+            name.setScore(i);
 
-            Score kills = obj.getScore(ChatColor.YELLOW + "69420");
-            kills.setScore(1);
-
-            Score name = obj.getScore(ChatColor.GREEN + "Name: " + player.getName());
-            name.setScore(3);
-
-            Score space = obj.getScore(" ");
-            space.setScore(2);
             player.setScoreboard(bedwarsScoreboard);
         });
     }
@@ -177,7 +200,7 @@ public class GameManager {
     public void startGame() {
 //
         setTeams();
-        updateScoreBoard();
+
         state = State.PLAYING;
         generatorManager = new GeneratorManager(world, diamondLoc, genLoc, emLoc, shopLoc, diaShopLoc);
         generatorManager.start();
@@ -186,6 +209,7 @@ public class GameManager {
 //            bedwarsPlayers.get(player).team = new Teams(TeamColors.NA, ChatColor.GREEN);
             bedwarsPlayers.get(player).start();
         }
+        updateScoreBoard();
 
 
     }

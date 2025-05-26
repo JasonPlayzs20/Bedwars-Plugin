@@ -49,16 +49,33 @@ public class PlayerFakeDeathEvent implements Listener {
 //                playerDied.sendMessage("Died"
                 if (e.getCause().equals(EntityDamageEvent.DamageCause.FIRE)) {
                     playerDied.getWorld().getPlayers().forEach(player -> {
-                        player.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " died from fire.");
+                        if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
+                            player.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " died from fire.");
+                        }else {
+                            player.sendMessage(ChatColor.BLUE + "FINAL KILL! " +(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " died from fire.");
+//                            player.sendMessage(ChatColor.BLUE + "FINAL KILL! " + (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " was killed by " + e.getDamager().getCustomName());
+                        }
+//                        player.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " died from fire.");
                     });
                 }
                 else if (e.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
                     playerDied.getWorld().getPlayers().forEach(player -> {
-                        player.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " broke their ankles.");
+                        if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
+                            player.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " broke their ankles.");
+                        }else {
+                            player.sendMessage(ChatColor.AQUA + "FINAL KILL! " +(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " broke their ankles.");
+                        }
                     });
                 }
                 else {
                     playerDied.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " died... smh");
+                    playerDied.getWorld().getPlayers().forEach(player -> {
+                        if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
+                            player.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " died... smh");
+                        }else {
+                            player.sendMessage(ChatColor.AQUA + "FINAL KILL! " +(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " died... smh");
+                        }
+                    });
                 }
 
                 e.setCancelled(true);
@@ -104,7 +121,14 @@ public class PlayerFakeDeathEvent implements Listener {
 
                 if (!Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
                     playerDied.sendTitle(ChatColor.RED + "You Died", ChatColor.YELLOW + ("Your bed is broken, you will not respawn."));
+                    if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit) != null) {
+                        Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit).finals += 1;
+                    }
                     return;
+                }else {
+                    if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit) != null) {
+                    Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit).kills += 1;
+                    }
                 }
                 new BukkitRunnable() {
                     int timer = 5;
@@ -163,7 +187,7 @@ public class PlayerFakeDeathEvent implements Listener {
 
 
         Player damager = (Player) e.getDamager();
-
+        Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(((Player) e.getEntity())).lastHit = damager;
         if (e.getEntity() instanceof Player) playerDied = (Player) e.getEntity();
         else {
             return;
@@ -195,7 +219,12 @@ public class PlayerFakeDeathEvent implements Listener {
                 playerDied.teleport(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).mainSpawn);
 //            Arenas.getArena(playerDied.getWorld()).world.sendPluginMessage(bedwars.getMainInstance(), playerDied.getName() + " was killed by " + damager );
                 playerDied.getWorld().getPlayers().forEach(p -> {
-                    p.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() +ChatColor.RED + " was killed by " + e.getDamager().getCustomName());
+                    if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
+                        p.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " was killed by " + e.getDamager().getCustomName());
+                    }else {
+                        p.sendMessage(ChatColor.AQUA + "FINAL KILL! " + (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " was killed by " + e.getDamager().getCustomName());
+                    }
+
                 });
 
                 Material bootsMaterial = null;
@@ -239,7 +268,10 @@ public class PlayerFakeDeathEvent implements Listener {
 
                 if (!Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
                     playerDied.sendTitle(ChatColor.RED + "You Died", ChatColor.YELLOW + ("Your bed is broken, you will not respawn."));
+                    Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(e.getEntity()).lastHit).finals += 1;
                     return;
+                }else {
+                    Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(e.getEntity()).lastHit).kills += 1;
                 }
                 Player finalPlayerDied = playerDied;
                 new BukkitRunnable() {
@@ -297,7 +329,11 @@ public class PlayerFakeDeathEvent implements Listener {
 //            Arenas.getArena(playerDied.getWorld()).world.sendPluginMessage(bedwars.getMainInstance(), playerDied.getName() + " was killed by " + damager );
             Player finalDamager = damager;
             playerDied.getWorld().getPlayers().forEach(p -> {
-                p.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() +ChatColor.RED + " was killed by " + (Arenas.getArena(finalDamager.getWorld()).bedwarsPlayers.get(finalDamager).team.chatColor)+ finalDamager.getName());
+                if (Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
+                    p.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " was killed by " + (Arenas.getArena(finalDamager.getWorld()).bedwarsPlayers.get(finalDamager).team.chatColor) + finalDamager.getName());
+                }else {
+                    p.sendMessage(ChatColor.AQUA + "FINAL KILL! " + (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " was killed by " + (Arenas.getArena(finalDamager.getWorld()).bedwarsPlayers.get(finalDamager).team.chatColor) + finalDamager.getName());
+                }
             });
 
             Material bootsMaterial = null;
@@ -358,7 +394,10 @@ public class PlayerFakeDeathEvent implements Listener {
 
             if (!Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
                 playerDied.sendTitle(ChatColor.RED + "You Died", ChatColor.YELLOW + ("Your bed is broken, you will not respawn."));
+                Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(e.getEntity()).lastHit).finals += 1;
                 return;
+            } else {
+                Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(e.getEntity()).lastHit).kills += 1;
             }
             Player finalPlayerDied = playerDied;
             new BukkitRunnable() {

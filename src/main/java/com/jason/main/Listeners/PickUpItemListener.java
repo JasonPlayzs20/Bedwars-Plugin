@@ -12,14 +12,14 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Objects;
 
 public class PickUpItemListener implements Listener {
-    private static final double SPLIT_DIST = 1;
+    private static final double SPLIT_DIST = 3;
 
     @EventHandler
     public void onPickUpItem(PlayerPickupItemEvent event) {
         Player picker = event.getPlayer();
         BedwarsPlayer bwPicker = Arenas.getPlayer(picker);
         if (bwPicker == null) return;
-
+        if (Arenas.getArena(picker.getWorld()).droppedItems.contains(event.getItem())){return;}
         ItemStack is = event.getItem().getItemStack();
         if (is.getType().equals(Material.IRON_INGOT) || is.getType().equals(Material.GOLD_INGOT))
             picker.getNearbyEntities(SPLIT_DIST, SPLIT_DIST, SPLIT_DIST).stream()
