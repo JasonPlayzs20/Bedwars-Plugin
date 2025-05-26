@@ -40,7 +40,7 @@ public class BridgeEgg extends BedwarsItem {
         new BukkitRunnable() {
             @Override
             public void run() {
-//                if (egg.isDead()) this.cancel();
+                if (egg.isDead()) this.cancel();
 
                 World w = spawner.getWorld();
 

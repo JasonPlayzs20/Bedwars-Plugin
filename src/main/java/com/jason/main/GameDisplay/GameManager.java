@@ -8,10 +8,10 @@ import com.jason.main.bedwars;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.material.MaterialData;
@@ -24,16 +24,13 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.jason.main.Commands.EndCommand.removeFile;
 import static com.jason.main.bedwars.*;
 import static org.bukkit.Material.SPONGE;
 
-public class GameManager {
+public class GameManager  {
     public World world;
     public State state;
     public List<Item> droppedItems = new ArrayList<>();
@@ -41,6 +38,11 @@ public class GameManager {
     public HashMap<Player, BedwarsPlayer> bedwarsPlayers = new HashMap<>();
     public  int countdownID;
     Countdown countdown;
+
+    public Countdown getCountdown() {
+        return countdown;
+    }
+
     GeneratorManager generatorManager;
     Dragon dragon;
     ShopManager shopManager;
@@ -57,7 +59,7 @@ public class GameManager {
     int team_players = Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml", "teamPlayers"));
 
 
-    public GameManager(World world, Player player) {
+    public GameManager(World world) {
         this.world = world;
 //        this.player = Bukkit.getPlayer("IamSorry_");
         this.state = State.RECRUITING;
@@ -147,15 +149,19 @@ public class GameManager {
         player.setDisplayName(player.getName());
         players.add(player);
     }
+
+
+
     public void startArena() {
         scan(world);
 
         state = State.RECRUITING;
         this.players = world.getPlayers();
+        countdown = new Countdown(bedwars.getMainInstance(), this, Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml","countdownSeconds")));
         if (this.players.size() == max_players) {
-            countdown = new Countdown(bedwars.getMainInstance(), this, Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml","countdownSeconds")));
-            countdown.start();
-            state = State.PLAYING;
+
+//            countdown.start();
+//            state = State.PLAYING;
         }
         if (this.players.size() == 0) {
 //            Bukkit.getPlayer("IamSorry_").sendMessage(countdown.toString());
@@ -173,8 +179,10 @@ public class GameManager {
     }
     public void setTeams() {
 //        Player golbal = Bukkit.getPlayer("IamSOrry_");
+        players.sort(Comparator.comparing(HumanEntity::getName));
         for (Player player :  players) {
 //            player.sendMessage("you");
+            if (player.getGameMode() == GameMode.SPECTATOR) {continue;}
             player.getInventory().setItem(0,new ItemStack(Material.WOOD_SWORD));
             TeamColors teamColors = bedwarsPlayers.get(player).team.teamColors;
             if (teamColors == TeamColors.NA) {
@@ -223,11 +231,12 @@ public class GameManager {
 
     public void startGame() {
 //
-        setTeams();
+
 
         state = State.PLAYING;
         generatorManager = new GeneratorManager(world, diamondLoc, genLoc, emLoc, shopLoc, diaShopLoc);
         generatorManager.start();
+        setTeams();
         dragon = new Dragon(bedwars.getMainInstance(),this,Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml","suddenDeath"))*60);
         dragon.start();
         for (Player player : players) {
@@ -344,4 +353,7 @@ public class GameManager {
 
         }
     }
+
+
+
 }

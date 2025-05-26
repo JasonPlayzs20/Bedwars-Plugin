@@ -5,10 +5,7 @@ import com.jason.main.Emums.TeamColors;
 import com.jason.main.PlayerEntities.BedwarsPlayer;
 import com.jason.main.PlayerEntities.Teams;
 import com.jason.main.bedwars;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -57,11 +54,12 @@ public class Dragon implements Runnable{
             gameManager.world.getWorldBorder().setSize(15,120);
 // Step 1: Loop through players, collect their alive teams
             for (Player players : gameManager.world.getPlayers()) {
+                if (players.getGameMode() == GameMode.SPECTATOR) {continue;}
                 BedwarsPlayer bwPlayer = Arenas.getPlayer(players);
                 if (bwPlayer == null) continue;
 
                 TeamColors team = bwPlayer.team.teamColors;
-                if (team != null && !aliveTeams.contains(team)) {
+                if (team != TeamColors.NA && !aliveTeams.contains(team)) {
                     aliveTeams.add(team);
                 }
             }

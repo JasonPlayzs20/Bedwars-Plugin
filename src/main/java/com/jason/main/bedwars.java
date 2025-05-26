@@ -60,6 +60,7 @@ public final class bedwars extends JavaPlugin {
         this.getCommand("end").setExecutor(new EndCommand());
         this.getCommand("scan").setExecutor(new ScanCommand());
         this.getCommand("npc").setExecutor(new NpcCommand());
+//        this.getCommand("start").setExecutor(new startCommand());
 
         Bukkit.getPluginManager().registerEvents(new BlockSelection(mainInstance), this);
         Bukkit.getPluginManager().registerEvents(new InventoryListener(), this);

@@ -4,18 +4,18 @@ main: com.jason.main.bedwars
 commands:
   join:
     description: a
-  addGen:
-  addShop:
-  addShopDiamond:
-  addSpawnColor:
-  addSpawnTotal:
-  addDiamondGen:
-  addEmeraldGen:
+#  addGen:
+#  addShop:
+#  addShopDiamond:
+#  addSpawnColor:
+#  addSpawnTotal:
+#  addDiamondGen:
+#  addEmeraldGen:
   start:
-  addArea:
+#  addArea:
   end:
-  scan:
-  npc:
-  jerry:
-  leave:
+#  scan:
+#  npc:
+#  jerry:
+#  leave:
   l:

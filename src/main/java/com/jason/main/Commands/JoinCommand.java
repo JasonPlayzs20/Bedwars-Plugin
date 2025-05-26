@@ -175,7 +175,7 @@ public class JoinCommand implements CommandExecutor {
             new WorldCreator("." + nameWorld).createWorld();
             World tpWorld = Bukkit.getWorld("." + nameWorld);
             if (!(Arenas.getArenas().containsKey(tpWorld))) {
-                Arenas.addArena(tpWorld,new GameManager(tpWorld,player));
+                Arenas.addArena(tpWorld,new GameManager(tpWorld));
             }
         }
         World tpWorld = Bukkit.getWorld("." + nameWorld);
