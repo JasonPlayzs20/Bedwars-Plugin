@@ -3,6 +3,7 @@ package com.jason.main.inventory.shops.quick;
 import com.jason.main.GameDisplay.Arenas;
 import com.jason.main.Util;
 import com.jason.main.items.BedbugItem;
+import com.jason.main.items.BridgeEgg;
 import com.jason.main.items.GolemItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -67,11 +68,11 @@ public class ShopItem {
             WOOD = new ShopItem(new ItemStack(Material.WOOD, 16), Material.GOLD_INGOT, 4),
             ENDER_STONE = new ShopItem(new ItemStack(Material.ENDER_STONE, 12), Material.IRON_INGOT, 24),
             OBSIDIAN = new ShopItem(new ItemStack(Material.OBSIDIAN, 4), Material.EMERALD, 4),
-            GLASS = new ShopItem(Util.namedItemStack(new ItemStack(Material.STAINED_GLASS, 4), "Blast-Proof Glass(NOT WORKING)"), Material.IRON_INGOT, 12),
+            GLASS = new ShopItem(Util.namedItemStack(new ItemStack(Material.STAINED_GLASS, 4), "Blast-Proof Glass"), Material.IRON_INGOT, 12),
             CLAY = new ShopItem(new ItemStack(Material.HARD_CLAY, 16), Material.IRON_INGOT, 12),
             LADDERS = new ShopItem(new ItemStack(Material.LADDER, 16), Material.IRON_INGOT, 4),
 
-            BRIDGE_EGG = new ShopItem(Util.namedItemStack(new ItemStack(Material.EGG), "Bridge Egg(NOT WORKING)"), Material.EMERALD, 1),
+            BRIDGE_EGG = new ShopItem(new BridgeEgg().getItemStack(), Material.EMERALD, 1),
             FIREBALL = new ShopItem(Util.namedItemStack(new ItemStack(Material.FIREBALL), "Fireball"), Material.IRON_INGOT, 40), // TODO BedwarsItem implementation
             TNT = new ShopItem(new ItemStack(Material.TNT), Material.GOLD_INGOT, 4),//ssihodigsoighsoighosihgoisdhgoudsihgoidsuhgoiusdhgoiusdhgiosdhgiosdhgoishdgoihsdgiohsdioghdsiuoghsdiopghdsiogh
             SILVERFISH = new ShopItem(new BedbugItem().getItemStack(), Material.IRON_INGOT, 24),
