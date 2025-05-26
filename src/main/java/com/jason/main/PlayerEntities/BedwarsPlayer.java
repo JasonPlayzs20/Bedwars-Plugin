@@ -88,6 +88,7 @@ public class BedwarsPlayer {
     }
 
     public Location baseLoc() {
+        player.sendMessage(String.valueOf(baseSpawn));
         return baseSpawn;
     }
 
@@ -152,7 +153,7 @@ public class BedwarsPlayer {
             if (enemy == null || enemy.getTeam().equals(this.getTeam())) continue;
 
             // out of range
-            if (player.getLocation().distance(enemy.baseLoc()) > BASE_RADIUS) continue;
+            if (player.getLocation().distance(enemy.baseSpawn) > BASE_RADIUS) continue;
 
             Teams enemyTeam = enemy.getTeam();
             DiamondUpgrade enemyTrap = enemyTeam.getTrap();

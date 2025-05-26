@@ -47,7 +47,8 @@ public class PlayerFakeDeathEvent implements Listener {
                 return;
             }
 //            playerDied.sendMessage("sriughfo");
-            if ((playerDied.getHealth() - e.getFinalDamage()) < 1) {
+            if ((playerDied.getHealth() - e.getDamage()) < 1) {
+                e.setCancelled(true);
                 playerDied.getActivePotionEffects().forEach(potionEffect -> {playerDied.removePotionEffect(potionEffect.getType());});
 //                playerDied.sendMessage("Died"
                 if (e.getCause().equals(EntityDamageEvent.DamageCause.FIRE)) {
@@ -160,7 +161,7 @@ public class PlayerFakeDeathEvent implements Listener {
                 }
                 playerDied.teleport(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).mainSpawn);
                 playerDied.getInventory().clear();
-                playerDied.sendMessage(String.valueOf(shear));
+//                playerDied.sendMessage(String.valueOf(shear));
                 if (axe != null) {
                     playerDied.getInventory().addItem(new ItemStack(Material.AIR));
                     playerDied.getInventory().addItem(new ItemStack(axe));
@@ -291,7 +292,7 @@ public class PlayerFakeDeathEvent implements Listener {
             });
 
 //            playerDied.sendMessage("sriughfo");
-            if ((playerDied.getHealth() - e.getFinalDamage()) < 1) {
+            if ((playerDied.getHealth() - e.getDamage()) < 1) {
                 playerDied.getActivePotionEffects().forEach(potionEffect -> {playerDied.removePotionEffect(potionEffect.getType());});
 //                playerDied.sendMessage("Died"
                 e.setCancelled(true);
@@ -640,7 +641,7 @@ public class PlayerFakeDeathEvent implements Listener {
                 event.getPlayer().getInventory().getItemInHand().setType(Material.AIR);
                 event.getPlayer().getInventory().clear(event.getPlayer().getInventory().getHeldItemSlot());
             }
-            event.getPlayer().sendMessage("a");
+//            event.getPlayer().sendMessage("a");
             itemStack.setAmount(itemStack.getAmount() - 1);
             event.getPlayer().updateInventory();
         }

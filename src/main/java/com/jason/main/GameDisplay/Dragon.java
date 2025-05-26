@@ -66,7 +66,7 @@ public class Dragon implements Runnable{
             int i = 0;
 // Step 2: Spawn a dragon for each alive team
             for (TeamColors team : aliveTeams) {
-                Bukkit.getPlayer("IamSorry_").sendMessage(String.valueOf(team));
+//                Bukkit.getPlayer("IamSorry_").sendMessage(String.valueOf(team));
                 Location spawnLoc = new Location(gameManager.world, 0,i, 0); // Or wherever you want the dragon to appear
                 EnderDragon enderDragon = (EnderDragon) gameManager.world.spawnEntity(spawnLoc, EntityType.ENDER_DRAGON);
                 i+= 40;

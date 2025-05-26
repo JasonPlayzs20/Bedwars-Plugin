@@ -8,5 +8,6 @@ public enum State {
     EMERALD1,
     DIAMOND2,
     EMERALD2,
-    SUDDENDEATH
+    SUDDENDEATH,
+    FULL
 }

@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ItemSpawnEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
 
@@ -23,8 +24,11 @@ public class BlockBreakEvent implements Listener {
     @EventHandler
     public static void onBlockBreak(org.bukkit.event.block.BlockBreakEvent e) {
         Player p = e.getPlayer();
-        p.getInventory().getItemInHand().setDurability((short) -1);
 //        p.sendMessage(p.getWorld().getName());
+        ItemStack heldItem = p.getInventory().getItemInHand();
+        if (heldItem.getType().getMaxDurability() > 0) {
+            heldItem.setDurability((short) -1);
+        }
         if (Objects.equals(p.getWorld().getName(), "world")) {
 //            p.sendMessage("broken");
             e.setCancelled(true);
@@ -49,9 +53,9 @@ public class BlockBreakEvent implements Listener {
                     gameManager.bedLoc.keySet().forEach(location -> {
 //                        p.sendMessage(String.valueOf(location.getX() - e.getBlock().getX()));
 //                        p.sendMessage(String.valueOf(location.getZ() - e.getBlock().getZ()));
-                        if ((location.getX() - e.getBlock().getX()) < 3 && (location.getZ() - e.getBlock().getZ()) < 3  && (location.getX() - e.getBlock().getX()) > -3 && (location.getZ() - e.getBlock().getZ()) > -3) {
+                        if ((location.getX() - e.getBlock().getX()) < 3 && (location.getZ() - e.getBlock().getZ()) < 3 && (location.getX() - e.getBlock().getX()) > -3 && (location.getZ() - e.getBlock().getZ()) > -3) {
 //                            p.sendMessage(gameManager.bedwarsPlayers.get(p).team.teamColors.name().toLowerCase().substring(0,1));
-                            if (gameManager.bedLoc.get(location).equals(gameManager.bedwarsPlayers.get(p).team.teamColors.name().toLowerCase().substring(0,1))) {
+                            if (gameManager.bedLoc.get(location).equals(gameManager.bedwarsPlayers.get(p).team.teamColors.name().toLowerCase().substring(0, 1))) {
                                 e.setCancelled(true);
 
                                 bed[0] = false;
@@ -62,7 +66,7 @@ public class BlockBreakEvent implements Listener {
 
                         }
                     });
-                    Bukkit.getWorld(player.getWorld().getName()).playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL, 1,1);
+                    Bukkit.getWorld(player.getWorld().getName()).playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 1);
 //                    player.sendMessage();
                     String teamName = gameManager.bedwarsPlayers.get(player).team.teamColors.name();
 //                    player.sendMessage(ChatColor.RED + teamName + "'s bed is broken!");
@@ -76,7 +80,7 @@ public class BlockBreakEvent implements Listener {
                         player.getWorld().getPlayers().forEach(player1 -> {
                             Arenas.getArena(player1.getWorld()).updateScoreBoard();
                         });
-                    }else {
+                    } else {
                         player.sendMessage(ChatColor.RED + "You cannot break your own bed!!!");
                     }
                 }

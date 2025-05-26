@@ -15,7 +15,7 @@ public class startCommand implements CommandExecutor {
         Player player = (Player) commandSender;
         GameManager gameManager = Arenas.getArena(player.getWorld());
         gameManager.getCountdown().start();
-        gameManager.state = State.PLAYING;
+        gameManager.state = State.COUNTDOWN;
         return false;
     }
 }

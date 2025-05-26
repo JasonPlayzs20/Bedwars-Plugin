@@ -111,7 +111,7 @@ public class GameManager  {
             // Static headers
             Score bar = obj.getScore(ChatColor.DARK_GRAY + "----------------------");
             bar.setScore(1);
-            Score commtech = obj.getScore(ChatColor.GOLD.toString() + "Commtech Bedwars Tournament");
+            Score commtech = obj.getScore(ChatColor.GOLD.toString() + "Commtech Tournament");
             commtech.setScore(0);
 
             // Dynamic player stats
@@ -144,9 +144,11 @@ public class GameManager  {
     }
 
     public void addPlayer(Player player) {
+        world.setPVP(false);
         bedwarsPlayers.put(player, new BedwarsPlayer(player,this, new Teams(TeamColors.NA, ChatColor.GREEN)));
         addTeam(player, TeamColors.NA, ChatColor.GREEN);
         player.setDisplayName(player.getName());
+
         players.add(player);
     }
 
@@ -161,7 +163,7 @@ public class GameManager  {
         if (this.players.size() == max_players) {
 
 //            countdown.start();
-//            state = State.PLAYING;
+            state = State.FULL;
         }
         if (this.players.size() == 0) {
 //            Bukkit.getPlayer("IamSorry_").sendMessage(countdown.toString());
@@ -229,10 +231,39 @@ public class GameManager  {
         player.getInventory().setBoots(boot);
     }
 
+    public void findWin() {
+        Set<TeamColors> available = new HashSet<>();
+        Set<Player> playerInGame = new HashSet<>();
+        if (state != State.RECRUITING && state != State.COUNTDOWN && state != State.FULL) {
+            players.forEach(player -> {
+                if (player.getGameMode() == GameMode.SPECTATOR && !Arenas.getPlayer(player).hasBed) {
+                    return;
+                } else {
+                    available.add(Arenas.getPlayer(player).getTeam().teamColors);
+                    playerInGame.add(player);
+                }
+            });
+            if (available.size() == 1) {
+                world.setPVP(false);
+                players.forEach(player -> {
+                    if (available.contains(Arenas.getPlayer(player).team.teamColors)) {
+                        player.sendTitle(ChatColor.GOLD + "VICTORY", ChatColor.YELLOW + "You Won!");
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 50, false, false));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 50, false, false));
+                        player.setAllowFlight(true);
+                        player.setFlying(true);
+
+                        player.setGameMode(GameMode.SPECTATOR);
+                    }
+                });
+            }
+        }
+    }
+
     public void startGame() {
 //
 
-
+        world.setPVP(true);
         state = State.PLAYING;
         generatorManager = new GeneratorManager(world, diamondLoc, genLoc, emLoc, shopLoc, diaShopLoc);
         generatorManager.start();

@@ -1,6 +1,8 @@
 package com.jason.main.Commands;
 
-import org.bukkit.Bukkit;
+import com.jason.main.Emums.TeamColors;
+import com.jason.main.GameDisplay.Arenas;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,6 +16,8 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import static com.jason.main.bedwars.serverpath;
 
@@ -21,6 +25,28 @@ import static com.jason.main.bedwars.serverpath;
 public class EndCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        World world = ((Player) sender).getWorld();
+        world.getPlayers().forEach(player -> {
+            TeamColors teamColors = Arenas.getArena(world).bedwarsPlayers.get(player).team.teamColors;
+            Arenas.getArena(world).teamCount.put(Arenas.getArena(world).bedwarsPlayers.get(player).team.teamColors, Arenas.getArena(world).teamCount.get(Arenas.getArena(world).bedwarsPlayers.get(player).team.teamColors)-1);
+            Arenas.getArena(world).teamCount.put(teamColors, Arenas.getArena(world).teamCount.get(teamColors) - 1 );
+            player.teleport(new Location(Bukkit.getWorld("world"), -41, 73, 0).setDirection(new Vector(90,0,0)));
+//            try {
+//                removeFile(serverpath, world.getName());
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+            Arenas.getArena(world).startArena();
+            player.setGameMode(GameMode.SURVIVAL);
+            player.getInventory().clear();
+            player.getInventory().setBoots(new ItemStack(Material.AIR));
+            player.getInventory().setLeggings(new ItemStack(Material.AIR));
+            player.getInventory().setHelmet(new ItemStack(Material.AIR));
+            player.getInventory().setChestplate(new ItemStack(Material.AIR));
+            player.setAllowFlight(true);
+            player.getEnderChest().clear();
+
+        });
         try {
             removeFile(serverpath + ".", args[0]);
         } catch (IOException e) {

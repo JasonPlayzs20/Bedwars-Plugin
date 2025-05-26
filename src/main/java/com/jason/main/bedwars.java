@@ -48,27 +48,27 @@ public final class bedwars extends JavaPlugin {
 
         // Plugin startup logic
         this.getCommand("join").setExecutor(new JoinCommand());
-        this.getCommand("addGen").setExecutor(new addGen());
-        this.getCommand("addShop").setExecutor(new addShop());
-        this.getCommand("addShopDiamond").setExecutor(new addShopDiamond());
-        this.getCommand("addSpawnColor").setExecutor(new addSpawnColor());
-        this.getCommand("addSpawnTotal").setExecutor(new addSpawnTotal());
-        this.getCommand("addDiamondGen").setExecutor(new addDiamondGen());
-        this.getCommand("addEmeraldGen").setExecutor(new addEmeraldGen());
-        this.getCommand("addArea").setExecutor(new BlockSelection(mainInstance));
+//        this.getCommand("addGen").setExecutor(new addGen());
+//        this.getCommand("addShop").setExecutor(new addShop());
+//        this.getCommand("addShopDiamond").setExecutor(new addShopDiamond());
+//        this.getCommand("addSpawnColor").setExecutor(new addSpawnColor());
+//        this.getCommand("addSpawnTotal").setExecutor(new addSpawnTotal());
+//        this.getCommand("addDiamondGen").setExecutor(new addDiamondGen());
+//        this.getCommand("addEmeraldGen").setExecutor(new addEmeraldGen());
+//        this.getCommand("addArea").setExecutor(new BlockSelection(mainInstance));
         this.getCommand("start").setExecutor(new startCommand());
         this.getCommand("end").setExecutor(new EndCommand());
-        this.getCommand("scan").setExecutor(new ScanCommand());
-        this.getCommand("npc").setExecutor(new NpcCommand());
+//        this.getCommand("scan").setExecutor(new ScanCommand());
+//        this.getCommand("npc").setExecutor(new NpcCommand());
 //        this.getCommand("start").setExecutor(new startCommand());
-
+//
         Bukkit.getPluginManager().registerEvents(new BlockSelection(mainInstance), this);
         Bukkit.getPluginManager().registerEvents(new InventoryListener(), this);
         Bukkit.getPluginManager().registerEvents(new ProjectileListener(), this);
 //        Bukkit.getPlayer("IamSorry_").sendMessage(getDataFolder().getParentFile().getAbsolutePath());
 //        System.out.println(getDataFolder().getParentFile().getAbsolutePath());
 
-        this.getCommand("jerry").setExecutor(new LobbyJerry());
+//        this.getCommand("jerry").setExecutor(new LobbyJerry());
         this.getCommand("l").setExecutor(new LeaveCommand());
 
         Bukkit.getPluginManager().registerEvents(new BlockSelection(mainInstance), this);

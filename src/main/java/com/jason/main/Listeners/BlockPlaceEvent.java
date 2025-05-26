@@ -37,6 +37,8 @@ public class BlockPlaceEvent implements Listener {
         World world = player.getWorld();
         Block block = event.getBlockPlaced();
         Location blockLoc = block.getLocation();
+        GameManager gameManager = Arenas.getArena(world);
+        gameManager.blockList.add(block);
         if (blockLoc.getY() > Integer.parseInt(getData("plugins/BedwarsInfo", world.getName().substring(1) + ".yml", "lobbySpawn.y"))-40) {
             event.setCancelled(true);
             player.sendMessage(ChatColor.RED + "You cannot build here!!");
@@ -117,8 +119,7 @@ public class BlockPlaceEvent implements Listener {
             }
         }
 
-        GameManager gameManager = Arenas.getArena(world);
-        gameManager.blockList.add(block);
+
     }
     private static BlockFace getPlacedFace(Block against, Block placed) {
         for (BlockFace face : BlockFace.values()) {
@@ -163,6 +164,11 @@ public class BlockPlaceEvent implements Listener {
     @EventHandler
     public static void saturationEvent(PlayerMoveEvent event) {
 //        event.getPlayer().sendMessage("saturation");
+        try {
+            Arenas.getArena(event.getPlayer().getWorld()).findWin();
+        }catch (NullPointerException e) {
+
+        }
         event.getPlayer().setSaturation(25);
         event.getPlayer().setFoodLevel(20);
         event.getPlayer().getWorld().setTime(1000);
