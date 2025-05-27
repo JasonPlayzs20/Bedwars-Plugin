@@ -38,6 +38,7 @@ public class GameManager  {
     public HashMap<Player, BedwarsPlayer> bedwarsPlayers = new HashMap<>();
     public  int countdownID;
     Countdown countdown = null;
+    String won = null;
 
     public Countdown getCountdown() {
         return countdown;
@@ -133,6 +134,10 @@ public class GameManager  {
             if (dragon.timer() < 60) {
                 Score timer = obj.getScore(ChatColor.RED + "Sudden Death in: " + String.valueOf(dragon.timer()));
                 timer.setScore(i++);
+            }
+            if (won != null) {
+                Score win = obj.getScore(ChatColor.GOLD.toString() + won + " has won the match!");
+                win.setScore(i++);
             }
             player.setScoreboard(bedwarsScoreboard);
         }
@@ -256,11 +261,13 @@ public class GameManager  {
                         player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 50, false, false));
                         player.setAllowFlight(true);
                         player.setFlying(true);
+                        won = available.toArray()[0].toString();
 
                         player.setGameMode(GameMode.SPECTATOR);
+                        updateScoreBoard();
                     }
                     else {
-                        player.sendTitle(ChatColor.RED + "You Lost", ChatColor.YELLOW.toString() + available.toArray()[0] + " Won.");
+                        player.sendTitle(ChatColor.RED + "You Lost", ChatColor.YELLOW.toString() + available.toArray()[0].toString() + " Won.");
                     }
                 });
             }
