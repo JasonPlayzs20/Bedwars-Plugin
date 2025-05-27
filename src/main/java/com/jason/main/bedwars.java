@@ -58,6 +58,7 @@ public final class bedwars extends JavaPlugin {
 //        this.getCommand("addArea").setExecutor(new BlockSelection(mainInstance));
         this.getCommand("start").setExecutor(new startCommand());
         this.getCommand("end").setExecutor(new EndCommand());
+        this.getCommand("shut").setExecutor(new EndCommand());
 //        this.getCommand("scan").setExecutor(new ScanCommand());
 //        this.getCommand("npc").setExecutor(new NpcCommand());
 //        this.getCommand("start").setExecutor(new startCommand());

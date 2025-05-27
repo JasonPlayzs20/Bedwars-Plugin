@@ -1,6 +1,7 @@
 package com.jason.main.PlayerEntities;
 
 import com.jason.main.Emums.DiamondUpgrade;
+import com.jason.main.Emums.TeamColors;
 import com.jason.main.GameDisplay.Arenas;
 import com.jason.main.GameDisplay.GameManager;
 import org.bukkit.ChatColor;
@@ -153,6 +154,7 @@ public class BedwarsPlayer {
             if (enemy == null || enemy.getTeam().equals(this.getTeam())) continue;
 
             // out of range
+            if (enemy.team.teamColors == TeamColors.NA) continue;
             if (player.getLocation().distance(enemy.baseSpawn) > BASE_RADIUS) continue;
 
             Teams enemyTeam = enemy.getTeam();

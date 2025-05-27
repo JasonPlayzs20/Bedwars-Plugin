@@ -253,7 +253,11 @@ public class PlayerFakeDeathEvent implements Listener {
             }
         }
         if (e.getEntity() instanceof Player) {
-            ((Player) e.getDamager()).getInventory().getItemInHand().setDurability((short) -1);
+            ItemStack heldItem = ((Player)e.getDamager()).getInventory().getItemInHand();
+            if (heldItem.getType().getMaxDurability() > 0) {
+                heldItem.setDurability((short) -1);
+            }
+//            ((Player) e.getDamager()).getInventory().getItemInHand().setDurability((short) -1);
             ((Player) e.getDamager()).updateInventory();
             if (e.getDamager() instanceof Arrow) {
                 Arrow arrow = (Arrow) e.getDamager();
@@ -284,7 +288,11 @@ public class PlayerFakeDeathEvent implements Listener {
             damager.getInventory().getChestplate().setDurability((short) (-1));
             damager.getInventory().getLeggings().setDurability((short) (-1));
             damager.getInventory().getBoots().setDurability((short) (-1));
-            damager.getInventory().getItemInHand().setDurability((short)-1);
+            ItemStack heldItem = damager.getInventory().getItemInHand();
+            if (heldItem.getType().getMaxDurability() > 0) {
+                heldItem.setDurability((short) -1);
+            }
+//            damager.getInventory().getItemInHand().setDurability((short)-1);
             if (playerDied.hasPotionEffect(PotionEffectType.INVISIBILITY))
                 playerDied.removePotionEffect(PotionEffectType.INVISIBILITY);
             playerDied.getWorld().getPlayers().forEach(player -> {

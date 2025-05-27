@@ -37,7 +37,7 @@ public class GameManager  {
     List<Player> players;
     public HashMap<Player, BedwarsPlayer> bedwarsPlayers = new HashMap<>();
     public  int countdownID;
-    Countdown countdown;
+    Countdown countdown = null;
 
     public Countdown getCountdown() {
         return countdown;
@@ -109,7 +109,7 @@ public class GameManager  {
             }
 
             // Static headers
-            Score bar = obj.getScore(ChatColor.DARK_GRAY + "----------------------");
+            Score bar = obj.getScore(ChatColor.DARK_GRAY + "------------------");
             bar.setScore(1);
             Score commtech = obj.getScore(ChatColor.GOLD.toString() + "Commtech Tournament");
             commtech.setScore(0);
@@ -117,7 +117,7 @@ public class GameManager  {
             // Dynamic player stats
             Score teams = obj.getScore(ChatColor.WHITE + "Teams: ");
             teams.setScore(i++);
-            Score space = obj.getScore(ChatColor.DARK_GRAY + "----------------------" + ChatColor.GOLD);
+            Score space = obj.getScore(ChatColor.DARK_GRAY + "------------------" + ChatColor.GOLD);
             space.setScore(i++);
 
             BedwarsPlayer current = Arenas.getArena(world).bedwarsPlayers.get(player);
@@ -159,7 +159,11 @@ public class GameManager  {
 
         state = State.RECRUITING;
         this.players = world.getPlayers();
-        countdown = new Countdown(bedwars.getMainInstance(), this, Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml","countdownSeconds")));
+        if (countdown == null) {
+            countdown = new Countdown(bedwars.getMainInstance(), this, Integer.parseInt(getData("plugins/BedwarsInfo", "serverpath.yml", "countdownSeconds")));
+        }else {
+            System.out.println("There is 2 countdowns, please restart the server!!");
+        }
         if (this.players.size() == max_players) {
 
 //            countdown.start();
@@ -254,6 +258,9 @@ public class GameManager  {
                         player.setFlying(true);
 
                         player.setGameMode(GameMode.SPECTATOR);
+                    }
+                    else {
+                        player.sendTitle(ChatColor.RED + "You Lost", ChatColor.YELLOW.toString() + available.toArray()[0] + " Won.");
                     }
                 });
             }

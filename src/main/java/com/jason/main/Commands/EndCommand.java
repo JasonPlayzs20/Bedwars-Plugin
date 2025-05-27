@@ -26,6 +26,7 @@ public class EndCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         World world = ((Player) sender).getWorld();
+        if (!((Player)sender).isOp()) return false;
         world.getPlayers().forEach(player -> {
             TeamColors teamColors = Arenas.getArena(world).bedwarsPlayers.get(player).team.teamColors;
             Arenas.getArena(world).teamCount.put(Arenas.getArena(world).bedwarsPlayers.get(player).team.teamColors, Arenas.getArena(world).teamCount.get(Arenas.getArena(world).bedwarsPlayers.get(player).team.teamColors)-1);

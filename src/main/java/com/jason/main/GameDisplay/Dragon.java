@@ -72,11 +72,19 @@ public class Dragon implements Runnable{
                 i+= 40;
                 enderDragon.setCustomName(ChatColor.valueOf(team.name()) + team.name() + " Dragon");
             }
+            gameManager.bedLoc.keySet().forEach(loc -> {
+                loc.add(0,-1,0).getBlock().setType(Material.AIR);
+            });
+
             Bukkit.getScheduler().cancelTask(gameManager.countdownID);
 //            gameManager.startGame();
             return;
         }
-
+        if (countdownSeconds == 60) {
+            gameManager.world.getPlayers().forEach(player -> {
+                player.sendMessage(ChatColor.RED + "Sudden Death will be in 1 minute!");
+            });
+        }
         countdownSeconds--;
     }
 }

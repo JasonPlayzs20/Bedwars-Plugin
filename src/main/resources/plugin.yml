@@ -3,10 +3,19 @@ version: '${project.version}'
 main: com.jason.main.bedwars
 commands:
   join:
-    description: a
+    description: join a world without specific join methods that start game
   end:
-    description: a
+    description: end a game and a world
   start:
-    description: a
+    description: start a game that you are in
   l:
-    description: a
+    description: Leave the current game.
+  shut:
+    description: shuts the game
+permissions:
+  bedwars.join:
+    default: op
+  bedwars.end:
+    default: op
+  bedwars.start:
+    default: op

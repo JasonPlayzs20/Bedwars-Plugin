@@ -23,6 +23,7 @@ public class JoinCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
+        if (!player.isOp()) return false;
 //        player.sendMessage("yes");
         if (Objects.equals(args[0], "a")) {
             Location tpLoc = new Location(Bukkit.getWorld("fang"), 0, 100, 0, 3, 0);

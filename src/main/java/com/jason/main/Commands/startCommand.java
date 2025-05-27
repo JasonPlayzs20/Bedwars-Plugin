@@ -13,6 +13,7 @@ public class startCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         Player player = (Player) commandSender;
+        if (!player.isOp()) return false;
         GameManager gameManager = Arenas.getArena(player.getWorld());
         gameManager.getCountdown().start();
         gameManager.state = State.COUNTDOWN;
