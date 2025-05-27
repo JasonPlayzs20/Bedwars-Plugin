@@ -56,6 +56,7 @@ public class PlayerFakeDeathEvent implements Listener {
                         if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
                             player.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " died from fire.");
                         }else {
+                            Arenas.getPlayer(player).isEliminated = true;
                             player.sendMessage(ChatColor.BLUE + "FINAL KILL! " +(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " died from fire.");
 //                            player.sendMessage(ChatColor.BLUE + "FINAL KILL! " + (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " was killed by " + e.getDamager().getCustomName());
                         }
@@ -67,6 +68,7 @@ public class PlayerFakeDeathEvent implements Listener {
                         if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
                             player.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " broke their ankles.");
                         }else {
+                            Arenas.getPlayer(player).isEliminated = true;
                             player.sendMessage(ChatColor.AQUA + "FINAL KILL! " +(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " broke their ankles.");
                         }
                     });
@@ -77,6 +79,7 @@ public class PlayerFakeDeathEvent implements Listener {
                         if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
                             player.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " died... smh");
                         }else {
+                            Arenas.getPlayer(player).isEliminated = true;
                             player.sendMessage(ChatColor.AQUA + "FINAL KILL! " +(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " died... smh");
                         }
                     });
@@ -312,6 +315,7 @@ public class PlayerFakeDeathEvent implements Listener {
                     if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
                         p.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " was killed by " + e.getDamager().getCustomName());
                     }else {
+                        Arenas.getPlayer(playerDied).isEliminated = true;
                         p.sendMessage(ChatColor.AQUA + "FINAL KILL! " + (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " was killed by " + e.getDamager().getCustomName());
                     }
 
@@ -478,6 +482,7 @@ public class PlayerFakeDeathEvent implements Listener {
                 if (Arenas.getArena(((Player) e.getEntity()).getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
                     p.sendMessage((Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " was killed by " + (Arenas.getArena(finalDamager.getWorld()).bedwarsPlayers.get(finalDamager).team.chatColor) + finalDamager.getName());
                 }else {
+                    Arenas.getPlayer(playerDied).isEliminated = true;
                     p.sendMessage(ChatColor.AQUA + "FINAL KILL! " + (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).team.chatColor) + playerDied.getName() + ChatColor.RED + " was killed by " + (Arenas.getArena(finalDamager.getWorld()).bedwarsPlayers.get(finalDamager).team.chatColor) + finalDamager.getName());
                 }
             });

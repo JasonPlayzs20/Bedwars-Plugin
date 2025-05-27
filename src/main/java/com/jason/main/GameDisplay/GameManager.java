@@ -241,39 +241,66 @@ public class GameManager  {
     }
 
     public void findWin() {
-        Set<TeamColors> available = new HashSet<>();
-        Set<Player> playerInGame = new HashSet<>();
-        if (state != State.RECRUITING && state != State.COUNTDOWN && state != State.FULL) {
-            players.forEach(player -> {
-                if (player.getGameMode() == GameMode.SPECTATOR && !Arenas.getPlayer(player).hasBed) {
-                    return;
-                } else {
-                    available.add(Arenas.getPlayer(player).getTeam().teamColors);
-                    playerInGame.add(player);
-                }
-            });
-            if (available.size() == 1) {
-                world.setPVP(false);
-                players.forEach(player -> {
-                    if (available.contains(Arenas.getPlayer(player).team.teamColors)) {
-                        player.sendTitle(ChatColor.GOLD + "VICTORY", ChatColor.YELLOW + "You Won!");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 50, false, false));
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 50, false, false));
-                        player.setAllowFlight(true);
-                        player.setFlying(true);
-                        won = available.toArray()[0].toString();
+        if (state != State.PLAYING) {
+            Bukkit.getLogger().info("[Bedwars] Skipping findWin check: Not in PLAYING state.");
+            return;
+        }
 
-                        player.setGameMode(GameMode.SPECTATOR);
-                        updateScoreBoard();
-                    }
-                    else {
-                        player.sendTitle(ChatColor.RED + "You Lost", ChatColor.YELLOW.toString() + available.toArray()[0].toString() + " Won.");
-                    }
-                });
+        Bukkit.getLogger().info("[Bedwars] Running findWin check...");
+
+        Set<TeamColors> aliveTeams = new HashSet<>();
+        int alivePlayerCount = 0;
+
+        for (Player player : players) {
+            BedwarsPlayer bwPlayer = Arenas.getPlayer(player);
+            TeamColors team = bwPlayer.getTeam().teamColors;
+
+            // Skip unassigned players
+            if (team == TeamColors.NA) {
+                Bukkit.getLogger().info("[Bedwars] Skipping " + player.getName() + ": TeamColors.NA");
+                continue;
+            }
+
+            if (!bwPlayer.isEliminated) {
+                aliveTeams.add(team);
+                alivePlayerCount++;
+                Bukkit.getLogger().info("[Bedwars] Alive: " + player.getName() + " from team " + team);
+            } else {
+                Bukkit.getLogger().info("[Bedwars] Dead: " + player.getName() + " from team " + team);
             }
         }
-    }
 
+        Bukkit.getLogger().info("[Bedwars] Alive teams: " + aliveTeams);
+        Bukkit.getLogger().info("[Bedwars] Alive players: " + alivePlayerCount);
+
+        if (aliveTeams.size() == 1) {
+            TeamColors winningTeam = aliveTeams.iterator().next();
+            won = winningTeam.toString();
+            world.setPVP(false);
+
+            Bukkit.getLogger().info("[Bedwars] Winning team detected: " + winningTeam);
+
+            for (Player player : players) {
+                TeamColors playerTeam = Arenas.getPlayer(player).team.teamColors;
+
+                if (playerTeam == winningTeam) {
+                    player.sendTitle(ChatColor.GOLD + "VICTORY", ChatColor.YELLOW + "You Won!");
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 50, false, false));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 50, false, false));
+                    player.setAllowFlight(true);
+                    player.setFlying(true);
+                } else {
+                    player.sendTitle(ChatColor.RED + "You Lost", ChatColor.YELLOW.toString() + winningTeam + " Won.");
+                }
+
+                player.setGameMode(GameMode.SPECTATOR);
+            }
+
+            updateScoreBoard();
+        } else {
+            Bukkit.getLogger().info("[Bedwars] No winner yet.");
+        }
+    }
     public void startGame() {
 //
 

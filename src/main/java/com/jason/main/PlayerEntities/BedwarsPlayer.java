@@ -43,6 +43,7 @@ public class BedwarsPlayer {
     String teamName;
     public boolean hasBed = true;
     public Player lastHit = null;
+    public boolean isEliminated = false;
 
 
     public BedwarsPlayer(Player player, GameManager gameManager, Teams teams) {

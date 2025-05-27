@@ -164,11 +164,10 @@ public class BlockPlaceEvent implements Listener {
     @EventHandler
     public static void saturationEvent(PlayerMoveEvent event) {
 //        event.getPlayer().sendMessage("saturation");
-        try {
+        if (Arenas.getArena(event.getPlayer().getWorld()) != null) {
             Arenas.getArena(event.getPlayer().getWorld()).findWin();
-        }catch (NullPointerException e) {
-
         }
+
         event.getPlayer().setSaturation(25);
         event.getPlayer().setFoodLevel(20);
         event.getPlayer().getWorld().setTime(1000);
@@ -190,15 +189,17 @@ public class BlockPlaceEvent implements Listener {
                     if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
                         player.sendMessage(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).team.chatColor + playerDied.getName().toString() + ChatColor.RED + " has died in the void.");
                     }else {
+                        Arenas.getPlayer(player).isEliminated = true;
                         player.sendMessage(ChatColor.AQUA + "FINAL KILL! " +Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).team.chatColor + playerDied.getName().toString() + ChatColor.RED + " has died in the void.");
                     }
                 });
             }else {
                 playerDied.getWorld().getPlayers().forEach(player -> {
                     if (Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).hasBed) {
-                        player.sendMessage(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).team.chatColor + playerDied.getName().toString() + ChatColor.RED + " has been knocked into the void by " + Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit.getDisplayName());
+                        player.sendMessage(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).team.chatColor + playerDied.getName().toString() + ChatColor.RED + " has been knocked into the void by " + Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit).team.chatColor +Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit.getDisplayName());
                     }else {
-                        player.sendMessage(ChatColor.AQUA + "FINAL KILL! " +Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).team.chatColor + playerDied.getName().toString() + ChatColor.RED + " has been knocked into the void by " + Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit.getDisplayName());
+                        Arenas.getPlayer(player).isEliminated = true;
+                        player.sendMessage(ChatColor.AQUA + "FINAL KILL! " +Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Bukkit.getPlayer(playerDied.getName())).team.chatColor + playerDied.getName().toString() + ChatColor.RED + " has been knocked into the void by " + Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit).team.chatColor + Arenas.getArena(playerDied.getWorld()).bedwarsPlayers.get(playerDied).lastHit.getDisplayName());
                     }
                 });
                 for (ItemStack itemStack : playerDied.getInventory().getContents()) {
